@@ -1,0 +1,19 @@
+{
+  "name": "TechNode",
+  "version": "0.0.0",
+  "authors": [
+    "Constandine <xiumushenzuo@126.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "angular": "~1.3.15"
+  }
+}
