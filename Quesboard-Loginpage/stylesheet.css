@@ -1,0 +1,234 @@
+
+/**
+body {
+    background-image:url(img/home_bg.png);
+	background-repeat:no-repeat;
+	background-position:top;
+
+}
+**/
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  text-align: center;
+ }
+
+.homebg{ 
+position:fixed; 
+top:0; 
+left:0; 
+bottom:0; 
+right:0; 
+z-index:-1; 
+} 
+
+.homebg > img { 
+width:100%;
+min-width: 1024px;
+border:0; 
+} 
+
+.logobox{
+	position:relative;
+	max-width: 300px;
+	margin: 10% auto 30px;
+}
+
+.logobox > img {
+	max-width:300px
+	
+}
+
+
+.midbox {
+	position:relative;
+
+	width:420px;
+	/**height:250px;**/
+	margin: 0 auto;
+}
+
+.midbox .upperbox{
+	height: 50px;
+	max-width: 420px;
+	position: relative;
+}
+
+#audit-tab{
+	background-color: #fff;
+	color: #000;
+	opacity: 1.0;
+}
+
+.midbox .upperbox .choosebtn{
+	width: 140px;
+	height:50px;
+	float: left;
+	background-color: #aaa;
+	color: #fff;
+	letter-spacing: 1px;
+	line-height: 16px;
+	text-decoration: none;
+	opacity: 0.5;
+}
+
+#signupbox{display: none;}
+#loginbox{display: none;}
+#auditbox{display: block;}
+
+.midbox .lowerbox{
+	position: relative;
+	width:420px;
+	height:190px;
+	background-color: #fff;
+	/**margin:0 0 0 0;**/
+}
+
+.midbox .lowermiddlebox{
+	width:320px;
+	height:80px;
+	position: absolute;
+	top: 20px;
+	left:50px;
+}
+
+.midbox .lowerbox .longinput{
+	position: relative;
+	width: 320px;
+	height: 40px;
+	outline: none;
+	border-width: 1px;
+	border-color: #dddddd;
+	border-style: solid;
+	text-indent:10px;
+	font-size: 10pt;
+	
+}
+
+#signuppwd{top:-1px;}
+#loginpwd{top:-1px;}
+
+.midbox .lowerbox #forgetpwd{
+	text-align: right;
+	position: relative;
+	left:110px;
+	top:140px;
+	text-decoration: none;
+	font-size: 8px;
+	color: #999;
+}
+
+.midbox .lowerbox #rememberpwd{
+	text-align: left;
+	position: relative;
+	top: 160px;
+	left:46px;
+	width: 120px;
+	font-size: 8px;
+	color: #999;
+}
+
+.midbox .lowerbox .homecheck{
+	color: #eee;
+}
+
+.midbox .bigbtn {
+	position: absolute;
+	top:110px;
+	left: 50px;
+	width: 320px;
+	height: 40px;
+	border:0;
+	color:#fff;
+	background-color: #6ECF68;
+	cursor: pointer;
+	outline: none;
+}
+
+#signupbtn{
+	top:120px;
+}
+
+.midbox .lowerleftbox {
+	position: relative;
+	float:left;
+	background-color: #fff;
+	width:60%;
+	height:190px;
+}
+
+.midbox .lowerleftmidbox{
+	width:210px;
+	height:40px;
+	margin: 60px auto 0px;
+}
+
+.midbox .lowerleftbox .shortinput{
+	float: left;
+	width: 140px;
+	height: 40px;
+	outline: none;
+	border-width: 1px;
+	border-color: #dddddd;
+	border-style: solid;
+	text-indent:10px;
+	font-size: 10pt;
+
+}
+
+.midbox .lowerleftbox .gobtn{
+	float:left;
+	width: 60px;
+	height:40px;
+	margin-left: 10px;
+	color:#fff;
+	border:none;
+	background-color: #6ECF68;
+	cursor: pointer;
+	outline: none;
+	padding: 0;
+}
+
+.midbox .lowerleftbox #audit-info{
+	margin-top:30px;
+	font-size:10px;
+}
+
+
+.midbox .lowermidbox {
+	position: relative;
+	float:left;
+	background-color: #fff;
+	width:5%;
+	height:180px;
+}
+
+.midbox .lowermidbox img{
+	position: absolute;
+	top: 30px;
+	left:30%;
+	width:12px;
+}
+
+.midbox .lowerrightbox {
+	position: relative;
+	float: left;
+	background-color: #fff;
+	width:35%;
+	height:180px;
+}
+
+.midbox .lowerrightbox .qrcode {
+	width:90px;
+	margin-top: 30px;
+}
+
+.midbox .lowerrightbox #qrcode-info{
+	margin-top:10px;
+	font-size:10px;
+}

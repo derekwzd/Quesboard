@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>QuesBoard</title>
+        <link rel='stylesheet' type='text/css' href='stylesheet.css'/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
+</script>
+        <script type='text/javascript' src='script.js'></script>
+	</head>
+	<body>
+	
+		<div class="homebg"> <img src = "img/home_bg.png"/> </div> 
+
+		<div class = "logobox">
+			<img src = "img/logo.png"/>
+		</div>
+
+        <div class ='midbox'>
+	        <div class='upperbox'>    	
+	        	<a href="#" class="choosebtn" id="signup-tab"> <br/> SIGN UP  </a>
+	        	<a href="#" class="choosebtn" id="login-tab"> <br/> LOG IN  </a>
+	        	<a href="#" class="choosebtn" id="audit-tab"> <br/> AUDIT </a>
+	        </div>
+	        	     
+           <!--注册页面-->
+
+	        <div class="lowerbox" id="signupbox">
+	        	<div class ="lowermiddlebox"> 
+		        	<input class="longinput" id="signupemail" type="text" autocomplete="off" placeholder="Email" ><br>
+		        	<input class="longinput" id="signuppwd" type="password" autocomplete="off" placeholder="Password" >
+	        	</div>
+	        	<button  class="bigbtn" id="signupbtn" type="submit">SIGN UP</button>	       
+	        </div>
+
+			<!--登陆页面-->
+
+			<div class="lowerbox" id="loginbox">
+	        	<div class ="lowermiddlebox"> 
+		        	<input class="longinput" id="loginemail" type="text" autocomplete="off" value="wanyilun@hku.hk" placeholder="Email"><br>
+		        	<input class="longinput" id="loginpwd" type="password" autocomplete="off" value="12345678" placeholder="Password">
+	        	</div>
+	        	<div id="rememberpwd"><input class="homecheck" type="checkbox" value="remember-pwd">Remember me</div>
+	        	<a href="#" id ="forgetpwd">Forget Password</a>
+	        	<button  class="bigbtn" id="loginbtn" type="submit">LOG IN</button>
+	        </div>
+
+			<!--旁听页面-->
+
+			<div class="lowerbox" id="auditbox">
+	        	<div class ="lowerleftbox">
+		        	<div class = "lowerleftmidbox">
+		        		<input class="shortinput" type="text" autocomplete="off" value="visitor 007" placeholder="Name">
+		        		<button class="gobtn" type="submit">Go!</button>
+	        		</div>
+
+	        		<p id="audit-info">Pick a name and look around as a temporary visitor</p>
+	        	</div>
+
+	        	<div class ="lowermidbox">
+	        		<img src="img/home_or.png"/>
+	        	</div>
+
+	        	<div class ="lowerrightbox">
+		        	<img class ="qrcode" src="img/home_qrcode.png"/>
+		        	<p id="qrcode-info">Scan QR Code to Visit from mobile</p>
+	        	
+
+	        	</div>
+
+	        </div>
+
+
+	        	
+
+
+        </div>
+
+        
+
+
+
+	</body>
+</html>
