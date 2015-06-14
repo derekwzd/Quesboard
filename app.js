@@ -13,7 +13,7 @@ var io = require('socket.io').listen(app.listen(port));
 console.log('quesboard is on port '+port+'!');
 
 //Message Send
-var messages = ["fdsafdsa"];
+var messages = ["第一条消息"];
 
 io.sockets.on('connection', function(socket){
 	socket.emit('connected');
@@ -48,6 +48,8 @@ io.sockets.on('connection', function(socket){
 // 	resave:true,
 // 	saveUninitialized:true
 // }))
+
+
 
 // app.get('/api/validate', function(req, res){
 // 	_userId = req.session._userId;
