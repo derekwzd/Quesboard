@@ -24,6 +24,5 @@ io.sockets.on('connection', function(socket){
 		messages.push(message);
 		io.sockets.emit('messageAdded', message)
 	})
-	// console.log("yes");
 });
 //End of Message Send
