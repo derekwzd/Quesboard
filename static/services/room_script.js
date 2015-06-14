@@ -39,45 +39,45 @@ var main = function() {
         }
     });
 
-    // post click
-    $(".postbtn").click(function() {
-        var asktext = $(".inputbox").val();
-        if (asktext === '') {
-            return
-        }
-        var askername = $(".username").text();
-        var askerimgsrc = $(".userimg").attr("src");
-        socket.emit('createMessage', {
-            content: asktext, 
-            img:askerimgsrc,
-            name:askername, 
-            votenum : 0
-        })
-        asktext = ''
-        $(".ask-popout").fadeOut(200);
+    // // post click
+    // $(".postbtn").click(function() {
+    //     var asktext = $(".inputbox").val();
+    //     if (asktext === '') {
+    //         return
+    //     }
+    //     var askername = $(".username").text();
+    //     var askerimgsrc = $(".userimg").attr("src");
+    //     socket.emit('createMessage', {
+    //         content: asktext, 
+    //         img:askerimgsrc,
+    //         name:askername, 
+    //         votenum : 0
+    //     })
+    //     asktext = ''
+    //     $(".ask-popout").fadeOut(200);
 
-        //alan's part
-        // console.log("postbtn clicked");
-        // var newquestioncontent = $(".questionframe").html();
-        // var newquestion = $("<div>").html(newquestioncontent);
-        // newquestion.addClass("questionframe");
-        // $(".questionlist").append(newquestion);
+    //     //alan's part
+    //     // console.log("postbtn clicked");
+    //     // var newquestioncontent = $(".questionframe").html();
+    //     // var newquestion = $("<div>").html(newquestioncontent);
+    //     // newquestion.addClass("questionframe");
+    //     // $(".questionlist").append(newquestion);
 
-        // console.log(askername);
+    //     // console.log(askername);
 
-        // //customize question frame
-        // var asktext = $(".inputbox").val();
-        // $(".questionframe").last().find(".ques-userimg").attr("src", askerimgsrc);
-        // $(".questionframe").last().find(".questiontext").text(asktext).prepend('<span class="ques-username">Host: </span>');
-        // $(".questionframe").last().find(".ques-username").text(askername + ": ");
-        // $(".questionframe").last().find(".votenum").text("0");
-        // //clear input box
-        // $(".inputbox").val("");
-        // $('.postbtn').addClass('uni-disabled');
-        // $('.postbtn').attr("disabled", "disabled");
+    //     // //customize question frame
+    //     // var asktext = $(".inputbox").val();
+    //     // $(".questionframe").last().find(".ques-userimg").attr("src", askerimgsrc);
+    //     // $(".questionframe").last().find(".questiontext").text(asktext).prepend('<span class="ques-username">Host: </span>');
+    //     // $(".questionframe").last().find(".ques-username").text(askername + ": ");
+    //     // $(".questionframe").last().find(".votenum").text("0");
+    //     // //clear input box
+    //     // $(".inputbox").val("");
+    //     // $('.postbtn').addClass('uni-disabled');
+    //     // $('.postbtn').attr("disabled", "disabled");
 
-        // $(".ask-popout").fadeOut(200);
-    })
+    //     // $(".ask-popout").fadeOut(200);
+    // })
 
     $(document).on('click', ".votebtn", voteevent);
     $(document).on('click', ".questiontext", unfoldevent);
