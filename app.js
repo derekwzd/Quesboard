@@ -13,7 +13,7 @@ var io = require('socket.io').listen(app.listen(port));
 console.log('quesboard is on port ' + port + '!');
 
 //Message Send
-var messages = [{
+var orign_messages = [{
     content: "We are now openning to new questions content",
     img: "img/profile100px/opensign.png",
     name: "Host",
@@ -30,6 +30,9 @@ var messages = [{
     votenum: 8
 }];
 
+
+var messages = orign_messages.concat()
+
 io.sockets.on('connection', function(socket) {
     socket.emit('connected');
     socket.on('getAllMessages', function() {
@@ -38,6 +41,10 @@ io.sockets.on('connection', function(socket) {
     socket.on('createMessage', function(message) {
         messages.push(message);
         io.sockets.emit('messageAdded', message)
+    })
+    socket.on('resetMessages', function() {
+        messages = orign_messages.concat()
+        socket.emit('orignMessages', messages)
     })
 });
 //End of Message Send
@@ -54,50 +61,50 @@ io.sockets.on('connection', function(socket) {
 
 // var session = require('express-session')
 // app.use(session({
-// 	secret:'technode',
-// 	cookie:{
-// 		maxAge:60*1000
-// 	},
-// 	resave:true,
-// 	saveUninitialized:true
+//  secret:'technode',
+//  cookie:{
+//      maxAge:60*1000
+//  },
+//  resave:true,
+//  saveUninitialized:true
 // }))
 
 
 
 // app.get('/api/validate', function(req, res){
-// 	_userId = req.session._userId;
-// 	if(_userId){
-// 		Controllers.User.findUserById(_userId, function(err, user){
-// 			if(err){
-// 				res.json(401, {msg:err})
-// 			}else{
-// 				res.json(user)
-// 			}
-// 		})
-// 	}else{
-// 		res.json(401, null)
-// 	}
+//  _userId = req.session._userId;
+//  if(_userId){
+//      Controllers.User.findUserById(_userId, function(err, user){
+//          if(err){
+//              res.json(401, {msg:err})
+//          }else{
+//              res.json(user)
+//          }
+//      })
+//  }else{
+//      res.json(401, null)
+//  }
 // })
 
 
 // app.post('/api/login', function(req, res){
-// 	email = req.body.email
-// 	if(email){
-// 		Controllers.User.findByEmailOrCreate(email, function(err, user){
-// 			if(err){
-// 				res.json(500, {msg:err})
-// 			}else{
-// 				req.session._userId = user._id
-// 				res.json(user)
-// 			}
-// 		})
-// 	}else{
-// 		res.json(403)
-// 	}
+//  email = req.body.email
+//  if(email){
+//      Controllers.User.findByEmailOrCreate(email, function(err, user){
+//          if(err){
+//              res.json(500, {msg:err})
+//          }else{
+//              req.session._userId = user._id
+//              res.json(user)
+//          }
+//      })
+//  }else{
+//      res.json(403)
+//  }
 // })
 
 
 // app.get('/api/logout', function(req, res){
-// 	req.session._userId = null
-// 	req.json(401)
+//  req.session._userId = null
+//  req.json(401)
 // })

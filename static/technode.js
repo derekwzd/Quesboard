@@ -69,6 +69,8 @@ angular.module('techNodeApp').controller('MessageCreatorCtrl', function($scope, 
     }
 })
 
+
+
 angular.module('techNodeApp').controller('RoomCtrl', function($scope, socket) {
     $scope.messages = [];
     socket.emit('getAllMessages')
@@ -77,6 +79,9 @@ angular.module('techNodeApp').controller('RoomCtrl', function($scope, socket) {
     })
     socket.on('messageAdded', function(message) {
         $scope.messages.push(message);
+    })
+    socket.on('orignMessages', function(messages){
+        $scope.messages = messages;
     })
 })
 
@@ -96,7 +101,6 @@ angular.module('techNodeApp').directive('autoScrollToBottom', function() {
         }
     };
 });
-
 
 angular.module('techNodeApp').directive('ctrlEnterBreakLine', function() {
     return function(scope, element, attrs) {
@@ -125,6 +129,9 @@ angular.module('techNodeApp').directive('ctrlEnterBreakLine', function() {
 angular.module('techNodeApp').directive('postClick', function(socket) {
     return function(scope, element, attrs) {
         element.bind("click", function(evt){
+            //reset interface
+            // socket.emit('resetMessages')
+
             var asktext = $(".inputbox").val();
             if (asktext === '') {
                 return
@@ -137,14 +144,11 @@ angular.module('techNodeApp').directive('postClick', function(socket) {
                 name:askername, 
                 votenum : 0
             })
-            asktext = ''
+            $(".inputbox").val("");
             $(".ask-popout").fadeOut(200);
         })
     }
 })
-
-
-
 
 angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $location) {
     $scope.login = function() {
@@ -162,3 +166,28 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
         })
     }
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
