@@ -1,0 +1,6 @@
+var mongoose = require('mongoose')
+console.log(1)
+mongoose.connect('mongodb:localhost/test')
+console.log(2)
+exports.User = mongoose.model('User', require('./user'))
+console.log(3)

@@ -1,4 +1,29 @@
-angular.module('techNodeApp', ['ngRoute']);
+angular.module('techNodeApp', ['ngRoute']).
+run(function ($window, $rootScope, $http, $location){
+	$http({
+		url:'/api/validate',
+		method: 'GET'
+	}).success(function(user){
+		$rootScope.me = user
+		$location.path('/')
+		console.log('login success')
+	}).error(function(data){
+		console.log("not login in")
+		$location.path('/login')
+	})
+	$rootScope.logout = function(){
+		$http({
+			url : '/ajax/logout',
+			method:'GET'
+		}).success(function(){
+			$rootScope.me = null
+			$location.path('/login')
+		})
+	}
+	$rootScope.$on('login', function(evt, me){
+		$rootScope.me = me
+	})
+})
 
 angular.module('techNodeApp').factory('socket', function($rootScope) {
     var socket = io.connect('/')
@@ -39,7 +64,6 @@ angular.module('techNodeApp').controller('MessageCreatorCtrl', function($scope, 
 angular.module('techNodeApp').controller('RoomCtrl', function($scope, socket) {
     $scope.messages = [];
     socket.emit('getAllMessages')
-    console.log('here')
     socket.on('allMessages', function(messages) {
         $scope.messages = messages;
     })
@@ -88,3 +112,32 @@ angular.module('techNodeApp').directive('ctrlEnterBreakLine', function() {
         });
     };
 });
+
+angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $location){
+	$scope.login = function(){
+		$http({
+			url:'/api/login',
+			method : 'POST',
+			data:{
+				email:$scope.email
+			}
+		}).success(function(user){
+			$scope.$emit('login',user)
+			$location.path('/')
+		}).error(function(data){
+			$location.path('/login')
+		})
+	}
+})
+
+
+
+
+
+
+
+
+
+
+
+
