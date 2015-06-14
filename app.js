@@ -2,32 +2,45 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 80;
 
-app.use(express.static(__dirname+'/static'));
+app.use(express.static(__dirname + '/static'));
 
-app.use(function (req, res){
-	res.sendfile('./static/index.html');
+app.use(function(req, res) {
+    res.sendfile('./static/index.html');
 });
 
 var io = require('socket.io').listen(app.listen(port));
 
-console.log('quesboard is on port '+port+'!');
+console.log('quesboard is on port ' + port + '!');
 
 //Message Send
-var messages = ["第一条消息"];
+var messages = [{
+    content: "We are now openning to new questions content",
+    img: "img/profile100px/opensign.png",
+    name: "Host",
+    votenum: 192
+}, {
+    content: "Mr. Gates, I wonder why do you choose to hold this lecture in the University of Hong Kong, rather than Hong kong university of science and Technology? Is there any reason behind this? Is it because of HKU's commercial enviornment or is there any other reasons? blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah",
+    img: "img/profile100px/profile18.png",
+    name: "Visitor 007",
+    votenum: 16
+}, {
+    content: "Mr. Gates, will You Sponser any Hong Kong Students to start a new IT company? Why?",
+    img: "img/profile100px/profile24.png",
+    name: "Popfido",
+    votenum: 8
+}];
 
-io.sockets.on('connection', function(socket){
-	socket.emit('connected');
-	socket.on('getAllMessages', function(){
-		socket.emit('allMessages', messages)
-	})
-	socket.on('createMessage', function(message){
-		messages.push(message);
-		io.sockets.emit('messageAdded', message)
-	})
+io.sockets.on('connection', function(socket) {
+    socket.emit('connected');
+    socket.on('getAllMessages', function() {
+        socket.emit('allMessages', messages)
+    })
+    socket.on('createMessage', function(message) {
+        messages.push(message);
+        io.sockets.emit('messageAdded', message)
+    })
 });
 //End of Message Send
-
-
 
 // //Modify
 // var Controllers = require('./controllers');
@@ -88,29 +101,3 @@ io.sockets.on('connection', function(socket){
 // 	req.session._userId = null
 // 	req.json(401)
 // })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

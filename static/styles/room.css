@@ -1,0 +1,594 @@
+*{
+  font-family: times, sans-serif;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          padding: 0;
+          margin: 0;
+}
+ul{
+  list-style: none;
+}
+body{
+  background-color: #eee;
+　font: normal 100% Helvetica, Arial, sans-serif;
+}
+a{
+  text-decoration: none;
+  font-family: avenir;
+}
+img { max-width: 100%;}
+
+
+/* Unified Css*/
+.uni-green{
+  height: 40px;
+  width: 150px;
+  color: #fff;
+  background-color:#6ecf68;
+  font-size: 18px;
+  font-family: avenir;
+  text-align: center; 
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+
+.uni-greenpressed{
+  height: 40px;
+  width: 150px;
+  color: #6ecf68;
+  border: 1px solid #6ecf68;
+  background:none;
+  font-size: 1.125em;
+  font-family: avenir;
+  text-align: center; 
+  outline: none;
+  cursor: pointer;
+}
+
+.uni-disabled{
+  border:none;
+  color: #fff;
+  background-color:#ddd; 
+  cursor: default;
+}
+
+.blackbg {
+  position: absolute;
+  top:0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.8;
+}
+
+
+
+
+/*header*/
+
+.header{
+  position: fixed;
+  top:0;
+  width: 100%;
+  background-color: #2f2f2f;
+  z-index: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.header .wrapper{
+  padding:5px 0;
+  height:40px;
+  width: 920px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.header .logo img{
+  float: left;
+  width: 150px;
+  margin-left: 10px;
+}
+.header a{
+  color: #000;
+}
+
+.header .backbtn{
+  display: none;
+  float: left;
+  margin-top: 5px;
+  margin-left:10px;
+}
+
+.header .backbtn span {
+  position: relative;
+  margin-left: 10px;
+  top: -3px;
+  color: #fff;
+  font-family: avenir;
+}
+
+.header .user {
+  float:right;
+}
+.header .user .userimg {
+  float: right;
+  width: 30px;
+}
+.header .user .username{
+  float: right;
+  margin-top: 5px;
+  margin-left: 10px;
+  font-size:16px;
+  color: #fff;
+  font-family: avenir;
+}
+.header .user .list-icon{
+  float: right;
+  margin-top: 12px;
+  margin-left: 10px;
+  width: 10px;
+}
+
+/*Navigation*/
+
+.nav{
+  margin-top: 40px;
+  width: 100%;
+  background-color:#f6f6f6;
+}
+
+.nav .wrapper{
+    width: 920px;
+    height:80px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.nav .backbtn{
+  float: left;
+  margin-top: 30px;
+  margin-left:20px;
+}
+
+.nav .backbtn span {
+  position: relative;
+  margin-left: 10px;
+  top: -3px;
+  color: #747474;
+  font-family: avenir;
+}
+
+.nav .newquest-btn{
+  display: block;
+  float: right;
+  position: relative;
+  margin-top: 20px;
+  height:40px;
+  width:180px;
+}
+
+
+/*Question board*/
+
+.qboard{
+  background-color: #eee;
+}
+.qboard .container{
+  position: relative;
+  overflow: hidden; 
+  margin: 30px auto 30px; 
+  width: 920px;
+  height: auto;
+  min-height: 300px;
+  background-color: #fff;
+  padding-bottom: 30px;
+}
+
+.container .time{
+  float: right;
+  margin-top: 40px;
+  margin-right: 60px;
+  font-size: 1.2em;
+  font-family: avenir;
+  color: #747474;
+}
+
+ .container .lec-title{
+  position: relative;
+  margin-top: 40px;
+  margin-left: 60px;
+
+}
+
+.lec-title img{
+  height: 30px;
+}
+
+.lec-title .lecname{
+  font-size: 2.2em;
+  vertical-align: bottom;
+}
+
+.questionlist{
+  position: relative;
+  margin:20px auto 0;
+  width: 820px;
+ /* border: solid 1px; */
+}
+
+.questionlist .section{
+  position: relative;
+  margin-left: 10px;
+  font-size: 1.15em;
+}
+
+.questionframe{
+  display: block;
+  position: relative;
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+
+  background: #f6f6f6;
+  overflow: hidden; 
+}
+.questionframe .ques-userimg{
+  float: left;
+  width: 100px;
+}
+.questionframe .questiontext{
+  float:left;
+  margin-left: 10px;
+  height: 100px;
+  width: 70%;
+  font-size: 1.3em;
+  cursor: pointer;
+
+  overflow: hidden;  
+  text-overflow: ellipsis;  
+  display: -webkit-box;  
+  -webkit-line-clamp: 4;  
+  -webkit-box-orient: vertical;
+}
+.questionframe .ques-username{
+  font-weight: bold;
+}
+
+.questionframe .vote{
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+}
+.questionframe .votenum{
+  display: block;
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2.5em;
+}
+.questionframe .votebtn{
+  display: block;
+  position: relative;
+  margin:0 auto 0px;
+  height: 30px;
+  width: 80px;
+  text-align: center; 
+}
+
+
+/* Ask Input */
+
+.ask-popout {
+  position: fixed;
+  top:0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.ask-popout .askcontainer{
+  overflow: hidden;
+  position: relative;
+  margin: 160px auto;
+  min-height:400px;
+  width: 760px;
+}
+.askcontainer .askerimg{
+  float: left;
+  width: 80px;
+}
+
+.askcontainer .speak-triangle{
+  float:left;
+  margin-left:20px;
+  border-top: 40px solid #fff; 
+  border-left: 40px solid transparent; 
+  width: 0; 
+  height: 0; 
+}
+
+.askcontainer .askframe{
+  float: left;
+  width: 620px;
+
+  padding: 20px;
+  background-color: #fff;
+}
+
+.askcontainer .askerimg-mobile{
+  float: left;
+  width: 30px;
+  display: none;
+}
+
+.askcontainer .askername{
+  float: left;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.askcontainer .askclosebtn{
+  float: right;
+  padding: none;
+  color: #fff;
+  background: none;
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+.askcontainer .inputbox{
+  display: block;
+  clear:both;
+  width: 100%;
+  height:210px;
+  margin: 60px auto 0;
+  resize:none;
+  padding: 10px;
+  font-size: 18px;
+  outline: none;
+}
+
+.askcontainer .postbtn{
+  float: right;
+  margin-top: 20px;
+}
+
+.askcontainer .anonybox{
+  float: left;
+  margin-top: 30px;
+  font-size: 1.2em;
+}
+
+
+
+/* Show QR Page */
+
+.qr-popout {
+  position: fixed;
+  top:0;
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.qr-popout .qrcontainer{
+  position: relative;
+  padding: 10px;
+  margin: 60px auto;
+  min-height:400px;
+  width: 320px;
+  background-color: #fff;
+}
+
+.qr-popout .qrtitle{
+  font-family: avenir;
+  font-size: 1.6em;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.qrcontainer .qrclosebtn{
+  position: absolute;
+  top:10px;
+  right:10px;
+  color: #fff;
+  background: none;
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+
+.qr-popout .qr-lectitle{
+  font-size: 1em;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.qr-popout .qrimg{
+  width: 180px;
+  margin: 0 auto;
+}
+
+
+
+/* Bottom New Questbtn*/
+.newquest-btn{
+  display: none;
+}
+
+/* Mobile End */
+
+
+@media all and (max-width:920px){
+  .header .wrapper{
+    padding:10px;
+    width: 100%;
+    height: 50px;
+  }
+
+  .header .logo {
+    display: none;
+  }
+
+  .header .backbtn{
+    display: block;
+  }
+
+  .header .user{
+    margin-right: 0;
+  }
+
+  .header .username{
+    display: none;
+  }
+
+  .header .list-icon{
+    display: none;
+  }
+
+  .nav{
+    display: none;
+  }
+  
+  .newquest-btn{
+    display: block;
+    position: fixed;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+  }
+
+  .qboard .container{
+    margin-top: 50px;
+    width: 100%;
+  }
+
+  .container .time{
+    display: none;
+  }
+  
+  .container .lec-title{
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+
+  .lec-title img{
+    height: 16px;
+  }
+  
+  .lec-title .lecname{
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .questionlist{
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    width: 100%;
+
+  }
+
+  .questionframe{
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .questionframe .ques-userimg{
+    width: 80px;
+  }
+
+  .questionframe .questiontext{
+    font-size: 15px;
+    width: 55%;
+    height: 80px;
+  }
+
+  .questionframe .vote{
+    right: 10px;
+    bottom: 10px;
+  }
+  .questionframe .votenum{
+    font-size: 1.6em;
+  }
+
+  .questionframe .votebtn{
+    font-size: 1em;
+    width: 60%;
+    min-width: 50px;
+    margin-top: 5px;
+  }
+
+  .ask-popout .askcontainer{
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .askcontainer .askerimg{
+    display: none;
+  }
+
+  .askcontainer .speak-triangle{
+    display: none;
+  }
+
+  .askcontainer .askframe{
+    width: 100%;
+    padding: 10px;
+  }
+
+  .askcontainer .askerimg-mobile{
+    display: block;
+  }
+
+  .askcontainer .askername{
+    margin-left: 10px;
+    margin-top: 5px;
+    font-size: 1.2em;
+  }
+
+  .askcontainer .inputbox{
+    margin-top: 40px;
+    height: 160px;
+    width: 100%;
+  }
+
+  .askcontainer .postbtn{
+    margin-top: 10px;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .askcontainer .anonybox{
+    display: none;
+  }
+
+
+}
+
+/* super small screen*/
+
+@media all and (max-width:319px){
+  .questionframe .ques-userimg{
+    display: none;
+  }
+
+  .questionframe .questiontext{
+    font-size: 0.8em;
+    width: 70%;
+  }
+
+  .questionframe .vote{
+    right: 10px;
+    bottom: 10px;
+  }
+
+    .ask-popout frame .askerimg-mobile{
+    display: none;
+  }
+
+
+}

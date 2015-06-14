@@ -1,3 +1,4 @@
+// TODO
 // angular.module('techNodeApp', ['ngRoute']).
 // run(function ($window, $rootScope, $http, $location){
 // 	$http({
@@ -55,12 +56,18 @@ angular.module('techNodeApp').controller('MessageCreatorCtrl', function($scope, 
         if ($scope.newMessage === '') {
             return
         }
-        socket.emit('createMessage', $scope.newMessage)
+        var askername = $(".username").text();
+        var askerimgsrc = $(".userimg").attr("src");
+        socket.emit('createMessage', {
+            content:$scope.newMessage, 
+            img:askerimgsrc,
+            name:askername, 
+            votenum : 0
+        })
         $scope.newMessage = ''
+        $(".ask-popout").fadeOut(200);
     }
 })
-
-
 
 angular.module('techNodeApp').controller('RoomCtrl', function($scope, socket) {
     $scope.messages = [];
@@ -90,6 +97,7 @@ angular.module('techNodeApp').directive('autoScrollToBottom', function(){
 	};
 });
 
+
 angular.module('techNodeApp').directive('ctrlEnterBreakLine', function() {
     return function(scope, element, attrs) {
         var ctrlDown = false;
@@ -113,6 +121,9 @@ angular.module('techNodeApp').directive('ctrlEnterBreakLine', function() {
         });
     };
 });
+
+
+
 
 angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $location){
 	$scope.login = function(){

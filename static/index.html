@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html ng-app= 'techNodeApp'>
+<html ng-app='techNodeApp'>
 
 <head>
     <title>Quesboard</title>
     <base href="/">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    
+    <link rel="shortcut icon" href="img/icon.ico">
+    <link rel="stylesheet" href="/styles/room.css">
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" type="text/css" href="/components/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/styles/room.css">
-    <script type="text/javascript" src='/components/jquery/dist/jquery.js'></script>
-    <script type="text/javascript" src='/components/bootstrap/dist/js/bootstrap.js'></script>
     <script type="text/javascript" src="/components/angular/angular.js"></script>
     <script type="text/javascript" src="/components/angular-route/angular-route.js"></script>
 </head>
-
 <body>
-    <p>test content</p>
-    <nav class="colloapse navbar-collapse" role = "navigation">
+    <!--  <nav class="colloapse navbar-collapse" role = "navigation">
         <ul class="nav navbar-nav navbar-right" ng-show='me'>
             <li>
                 <img ng-src="{{me.avatarUrl}}" title="{{me.name}}" class="img-rounded">
@@ -24,11 +25,10 @@
                 <a href="" ng-click="logout()">Log out</a>
             </li>
         </ul>
-    </nav>
-    <div class="container" style="margin-top: 100px">
+    </nav> -->
+    <div>
         <div class="row" ng-view></div>
     </div>
-
     <script type="text/javascript" src="/technode.js"></script>
     <script type="text/javascript" src="router.js"></script>
     <!-- <script type="text/javascript">
