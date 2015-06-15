@@ -39,26 +39,8 @@ var main = function() {
         }
     });
 
-    // $(document).on('click', ".votebtn", voteevent);
     $(document).on('click', ".questiontext", unfoldevent);
-    //question unfold control
 };
-
-// vote event control
-
-// var voteevent = function() {
-//     $(this).toggleClass("uni-greenpressed")
-
-//     if ($(this).text() === "Vote") {
-//         $(this).text("Undo");
-//         var addcount = parseInt($(this).prev().text()) + 1;
-//         $(this).prev().text(addcount.toString());
-//     } else {
-//         $(this).text("Vote");
-//         var cutcount = parseInt($(this).prev().text()) - 1;
-//         $(this).prev().text(cutcount.toString());
-//     };
-// }
 
 var unfoldevent = function() {
     foldheight = $(".questiontext").innerHeight();
@@ -77,6 +59,5 @@ var unfoldevent = function() {
         $(this).innerHeight(this.scrollHeight);
     }
 }
-
 
 $(document).ready(main);

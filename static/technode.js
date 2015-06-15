@@ -73,7 +73,7 @@ angular.module('techNodeApp').controller('VoteControl', function($scope, socket)
     $scope.voteIt = function(quesid) {
         socket.emit('vote', quesid);
     }
-    $scope.unVoteIt = function(quesid){
+    $scope.unVoteIt = function(quesid) {
         socket.emit('unvote', quesid)
     }
 })
@@ -141,16 +141,19 @@ angular.module('techNodeApp').directive('vote', function(socket) {
         element.bind("click", function() {
             $(this).toggleClass("uni-greenpressed")
             if ($(this).text() === "Vote") {
+                $(this).text("Undo");
+                // var addcount = parseInt($(this).prev().text()) + 1;
+                // $(this).prev().text(addcount.toString());
                 scope.$apply(function() {
                     scope.$eval(attrs.vote);
                 })
-                $(this).text("Undo");
             } else {
-                console.log('teseing')
+                $(this).text("Vote");
+                // var cutcount = parseInt($(this).prev().text()) - 1;
+                // $(this).prev().text(cutcount.toString());
                 scope.$apply(function() {
                     scope.$eval(attrs.unvote);
                 })
-                $(this).text("Vote");
             };
         })
     };
