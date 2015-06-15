@@ -69,7 +69,14 @@ angular.module('techNodeApp').controller('MessageCreatorCtrl', function($scope, 
     }
 })
 
-
+angular.module('techNodeApp').controller('VoteControl', function($scope, socket) {
+    $scope.voteIt = function(quesid) {
+        socket.emit('vote', quesid);
+    }
+    $scope.unVoteIt = function(quesid){
+        socket.emit('unvote', quesid)
+    }
+})
 
 angular.module('techNodeApp').controller('RoomCtrl', function($scope, socket) {
     $scope.messages = [];
@@ -80,7 +87,10 @@ angular.module('techNodeApp').controller('RoomCtrl', function($scope, socket) {
     socket.on('messageAdded', function(message) {
         $scope.messages.push(message);
     })
-    socket.on('orignMessages', function(messages){
+    socket.on('orignMessages', function(messages) {
+        $scope.messages = messages;
+    })
+    socket.on('triggervote', function(messages) {
         $scope.messages = messages;
     })
 })
@@ -126,23 +136,46 @@ angular.module('techNodeApp').directive('ctrlEnterBreakLine', function() {
     };
 });
 
+angular.module('techNodeApp').directive('vote', function(socket) {
+    return function(scope, element, attrs) {
+        element.bind("click", function() {
+            $(this).toggleClass("uni-greenpressed")
+            if ($(this).text() === "Vote") {
+                scope.$apply(function() {
+                    scope.$eval(attrs.vote);
+                })
+                $(this).text("Undo");
+            } else {
+                console.log('teseing')
+                scope.$apply(function() {
+                    scope.$eval(attrs.unvote);
+                })
+                $(this).text("Vote");
+            };
+        })
+    };
+});
+
 angular.module('techNodeApp').directive('postClick', function(socket) {
     return function(scope, element, attrs) {
-        element.bind("click", function(evt){
-            //reset interface
-            // socket.emit('resetMessages')
-
+        element.bind("click", function(evt) {
             var asktext = $(".inputbox").val();
             if (asktext === '') {
+                return
+            }
+            if (asktext === 'reset') {
+                socket.emit('resetMessages')
+                $(".inputbox").val("");
+                $(".ask-popout").fadeOut(200);
                 return
             }
             var askername = $(".username").text();
             var askerimgsrc = $(".userimg").attr("src");
             socket.emit('createMessage', {
-                content: asktext, 
-                img:askerimgsrc,
-                name:askername, 
-                votenum : 0
+                content: asktext,
+                img: askerimgsrc,
+                name: askername,
+                votenum: 0
             })
             $(".inputbox").val("");
             $(".ask-popout").fadeOut(200);
@@ -166,28 +199,3 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
         })
     }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
