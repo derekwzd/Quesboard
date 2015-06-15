@@ -1,12 +1,27 @@
 var foldheight = 80;
 
 var main = function(){
-	
+
+	//show hide control
+	$(".showhidecontrol").bind("click",function () {
+		$(".header").toggle();
+		$(".nav").toggle();
+	})
+
+	//QR Open Control
+	$(".lec-qr").bind("click",function(){
+		$(".qr-popout").fadeIn(400);
+	})
+
+	$(".qrclosebtn").bind("click",function(){
+		$(".qr-popout").fadeOut(200);
+	})
 
 	//post frame control
 
 	$(".newquest-btn").click(function(){
 		$(".ask-popout").fadeIn(400);
+
 	})
 
 	$(".askclosebtn").click(function(){
@@ -70,6 +85,7 @@ var main = function(){
 		$('.postbtn').addClass('uni-disabled');
 	    $('.postbtn').attr("disabled","disabled");
 
+	    $(document.body).animate({scrollTop:$(".questionframe").last().offset().top}, 600 );
 		$(".ask-popout").fadeOut(200);
 
 	})
@@ -119,9 +135,6 @@ var unfoldevent= function(){
 		$(this).innerHeight(this.scrollHeight);
 	}
 
-	
-		
-	
 }
 
 
