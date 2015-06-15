@@ -1,60 +1,60 @@
-
-
-<img class="homebg" src="img/home_bg.png" />
-<img class="logoimg" src="img/logo2.png" />
-<div class='midbox'>
-    <div class='upperbox'>
-        <a href="#" class="choosebtn" id="signup-tab">
-            <br/> SIGN UP </a>
-        <a href="#" class="choosebtn" id="login-tab">
-            <br/> LOG IN </a>
-        <a href="#" class="choosebtn" id="audit-tab">
-            <br/> AUDIT </a>
-    </div>
-    <div class="lowerbox" id="signupbox">
-        <div class="lowermiddlebox">
-            <input class="longinput" id="signupemail" type="text" autocomplete="off" placeholder="Email">
-            <br>
-            <input class="longinput" id="signuppwd" type="password" autocomplete="off" placeholder="Password">
-            <button class="bigbtn" id="signupbtn" type="submit">SIGN UP</button>
+<div class="loginbody">
+    <img class="homebg" src="img/home_bg.png" />
+    <img class="logoimg" src="img/logo2.png" />
+    <div class='midbox'>
+        <div class='upperbox'>
+            <a href="#" class="choosebtn" id="signup-tab">
+                <br/> SIGN UP </a>
+            <a href="#" class="choosebtn" id="login-tab">
+                <br/> LOG IN </a>
+            <a href="#" class="choosebtn" id="audit-tab">
+                <br/> AUDIT </a>
         </div>
-    </div>
-    <div class="lowerbox" id="loginbox">
-        <div class="lowermiddlebox">
-            <input class="longinput" id="loginemail" type="text" autocomplete="off" value="wanyilun@hku.hk" placeholder="Email">
-            <br>
-            <input class="longinput" id="loginpwd" type="password" autocomplete="off" value="12345678" placeholder="Password">
-            <button class="bigbtn" id="loginbtn" type="submit">LOG IN</button>
-            <div id="rememberpwd">
-                <input class="remembercheck" type="checkbox" value="remember-pwd"> Remember me</div>
-            <a href="#" id="forgetpwd">Forget Password</a>
-        </div>
-    </div>
-    <div class="lowerbox" id="auditbox">
-        <div class="lowerleftbox">
-            <div class="lowerleftmidbox">
-                <img class="randomimg" src="img/profile100px/opensign.png" />
-                <input class="shortinput" type="text" autocomplete="off" value="visitor 007" placeholder="Name">
-                <button class="gobtn" type="submit">Go!</button>
+        <div class="lowerbox" id="signupbox">
+            <div class="lowermiddlebox">
+                <input class="longinput" id="signupemail" type="text" autocomplete="off" placeholder="Email">
+                <br>
+                <input class="longinput" id="signuppwd" type="password" autocomplete="off" placeholder="Password">
+                <button class="bigbtn" id="signupbtn" type="submit">SIGN UP</button>
             </div>
-            <p id="audit-info">Pick a name and post questions on board as a visitor</p>
         </div>
-        <div class="lowermidbox">
-            <img src="img/home_or.png" />
+        <div class="lowerbox" id="loginbox">
+            <div class="lowermiddlebox">
+                <input class="longinput" id="loginemail" type="text" autocomplete="off" value="wanyilun@hku.hk" placeholder="Email">
+                <br>
+                <input class="longinput" id="loginpwd" type="password" autocomplete="off" value="12345678" placeholder="Password">
+                <button class="bigbtn" id="loginbtn" type="submit">LOG IN</button>
+                <div id="rememberpwd">
+                    <input class="remembercheck" type="checkbox" value="remember-pwd"> Remember me</div>
+                <a href="#" id="forgetpwd">Forget Password</a>
+            </div>
         </div>
-        <div class="lowerrightbox">
-            <img class="qrcode" src="img/home_qrcode.png" />
-            <p id="qrcode-info">Scan QR Code to Visit from mobile</p>
+        <div class="lowerbox" id="auditbox">
+            <div class="lowerleftbox">
+                <form class="lowerleftmidbox" action="/room" method='post'>
+                    <img name = "imgurl" class="randomimg" src="img/profile100px/opensign.png" />
+                    <input class="shortinput" type="text" autocomplete="off" value="visitor 007" placeholder="Name" name="name">
+                    <button class="gobtn" type="submit">Go!</button>
+                </form>
+                <p id="audit-info">Pick a name and post questions on board as a visitor</p>
+            </div>
+            <div class="lowermidbox">
+                <img src="img/home_or.png" />
+            </div>
+            <div class="lowerrightbox">
+                <img class="qrcode" src="img/home_qrcode.png" />
+                <p id="qrcode-info">Scan QR Code to Visit from mobile</p>
+            </div>
         </div>
     </div>
-</div>
-<div class="head-popout">
-    <div class="blackbg">
-    </div>
-    <div class="chooseframe">
-        <span class="picktitle">Pick Avatar</span>
-        <button class="chooseclosebtn" type="button"><img src="img/closebtn.png"></button>
-        <div class="imgcontainer">
+    <div class="head-popout">
+        <div class="blackbg">
+        </div>
+        <div class="chooseframe">
+            <span class="picktitle">Pick Avatar</span>
+            <button class="chooseclosebtn" type="button"><img src="img/closebtn.png"></button>
+            <div class="imgcontainer">
+            </div>
         </div>
     </div>
 </div>
@@ -66,4 +66,3 @@
     </div>
     <button type="submit" class="btn btn-primary btn-enter">Enter</button>
 </div> -->
-

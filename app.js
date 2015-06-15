@@ -15,15 +15,15 @@ console.log('quesboard is on port ' + port + '!');
 //Message Send
 var orign_messages = [{
     quesid: 1,
-    content: "We are now openning to new questions content",
-    img: "img/profile100px/opensign.png",
-    name: "Host",
+    content: "Mr. Gates, I wonder why do you choose to hold this lecture in the University of Hong Kong, rather than Hong kong university of science and Technology? Is there any reason behind this? Is it because of HKU's commercial enviornment or is there any other reasons?",
+    img: "img/profile100px/profile8.png",
+    name: "Derek",
     votenum: 192
 }, {
     quesid: 2,
     content: "Mr. Gates, I wonder why do you choose to hold this lecture in the University of Hong Kong, rather than Hong kong university of science and Technology? Is there any reason behind this? Is it because of HKU's commercial enviornment or is there any other reasons? blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah",
-    img: "img/profile100px/profile18.png",
-    name: "Visitor 007",
+    img: "img/profile100px/profile1.png",
+    name: "007",
     votenum: 16
 }, {
     quesid: 3,

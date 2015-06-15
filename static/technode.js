@@ -201,4 +201,10 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
             $location.path('/login')
         })
     }
+    
+    $scope.onFormSubmit = function() {
+        console.log("test")
+        $state.href('/room');
+    }
+
 })
