@@ -31,9 +31,9 @@
         </div>
         <div class="lowerbox" id="auditbox">
             <div class="lowerleftbox">
-                <form class="lowerleftmidbox" action="/room" method='post'>
-                    <img name = "imgurl" class="randomimg" src="img/profile100px/opensign.png" />
-                    <input class="shortinput" type="text" autocomplete="off" value="visitor 007" placeholder="Name" name="name">
+                <form class="lowerleftmidbox" ng-submit="login()">
+                    <img id='chooseimg' class="randomimg" src="img/profile100px/opensign.png"/>
+                    <input class="shortinput" type="text" autocomplete="off" value="visitor 007" placeholder="Name" ng-model='username'>
                     <button class="gobtn" type="submit">Go!</button>
                 </form>
                 <p id="audit-info">Pick a name and post questions on board as a visitor</p>
@@ -58,7 +58,7 @@
         </div>
     </div>
 </div>
-<script type='text/javascript' src='services/login_script.js'></script>
+<!-- <script type='text/javascript' src='services/login_script.js'></script> -->
 <!-- <div class="form-inline" ng-submit = "login()">
     <div class="form-group">
         <label class="sr-only">Gmail</label>

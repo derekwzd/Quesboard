@@ -2,11 +2,41 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 80;
 
-app.use(express.static(__dirname + '/static'));
 
+app.use(express.static(__dirname + '/static'));
 app.use(function(req, res) {
     res.sendfile('./static/index.html');
 });
+// //Modify
+// var Controllers = require('./controllers');
+// var bodyParser = require('body-parser')
+// app.use(bodyParser)
+
+// app.use(express.cookieParser())
+// var cookieParser = require('cookie-parser')
+// app.use(cookieParser)
+// var session = require('express-session')
+// app.use(session({
+//  secret:'technode',
+//  cookie:{
+//      maxAge:60*1000
+//  },
+//  resave:true,
+//  saveUninitialized:true
+// }))
+
+
+app.get('/api/validate', function(req, res){
+})
+
+
+app.post('/api/login', function(req, res){
+    username = req.body.username;
+    res.json(username)
+    console.log('test here');
+})
+
+
 
 var io = require('socket.io').listen(app.listen(port));
 
@@ -60,25 +90,6 @@ io.sockets.on('connection', function(socket) {
 });
 //End of Message Send
 
-// //Modify
-// var Controllers = require('./controllers');
-// // app.use(express.bodyParser())
-// var bodyParser = require('body-parser')
-// app.use(bodyParser)
-
-// // app.use(express.cookieParser())
-// var cookieParser = require('cookie-parser')
-// app.use(cookieParser)
-
-// var session = require('express-session')
-// app.use(session({
-//  secret:'technode',
-//  cookie:{
-//      maxAge:60*1000
-//  },
-//  resave:true,
-//  saveUninitialized:true
-// }))
 
 
 
