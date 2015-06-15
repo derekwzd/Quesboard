@@ -19,6 +19,13 @@ a{
 }
 img { max-width: 100%;}
 
+button{
+  background: none;
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+
 
 /* Unified Css*/
 .uni-green{
@@ -314,7 +321,7 @@ img { max-width: 100%;}
   float: left;
   width: 620px;
 
-  padding: 20px;
+  padding: 30px;
   background-color: #fff;
 }
 
@@ -378,9 +385,9 @@ img { max-width: 100%;}
 .qr-popout .qrcontainer{
   position: relative;
   padding: 10px;
-  margin: 60px auto;
-  min-height:400px;
-  width: 320px;
+  margin: 80px auto;
+  min-height:380px;
+  max-width: 300px;
   background-color: #fff;
 }
 
@@ -403,22 +410,78 @@ img { max-width: 100%;}
 }
 
 .qr-popout .qr-lectitle{
-  font-size: 1em;
+  font-size: 1.2em;
   text-align: center;
   margin-top: 20px;
 }
 
 .qr-popout .qrimg{
-  width: 180px;
-  margin: 0 auto;
+  display: block;
+  float: none;
+  width: 65%;
+  border:4px solid #000;
+  margin:10px auto;
 }
 
+.qr-popout .qr-explain{
+  margin-top: 20px;
+  font-size: 1em;
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.qr-popout .qrsavebtn{
+  margin-left: 55px;
+  margin-top: 30px;
+  display: inline-block;
+  background:none;
+  border:none;
+  font-size: 1.2em;
+  color: #747474;
+  font-family: avenir;
+}
+.qr-popout .qrprintbtn{
+  margin-left: 30px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  display: inline-block;
+  background:none;
+  border:none;
+  font-size: 1.2em;
+  color: #747474;
+  font-family: avenir;
+}
+
+
+
+
+.qr-popout button img{
+  width: 25px;
+  vertical-align: text-top;
+  margin-right: 5px;
+}
 
 
 /* Bottom New Questbtn*/
 .newquest-btn{
   display: none;
 }
+
+
+/*show hide control*/
+.showhidecontrol{
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  color: #979797;
+  font-size: 0.8em;
+}
+
+
+
+
+
 
 /* Mobile End */
 
@@ -567,6 +630,19 @@ img { max-width: 100%;}
   }
 
 
+  .qr-popout .qrsavebtn{
+    display: none;
+  }
+
+  .qr-popout .qrprintbtn{
+    display: none;
+  }
+
+  .showhidecontrol{
+  display: none;
+}
+
+
 }
 
 /* super small screen*/
@@ -589,6 +665,8 @@ img { max-width: 100%;}
     .ask-popout frame .askerimg-mobile{
     display: none;
   }
+
+
 
 
 }

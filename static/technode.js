@@ -64,6 +64,7 @@ angular.module('techNodeApp').controller('MessageCreatorCtrl', function($scope, 
             votenum: 0
         })
         $scope.newMessage = ''
+        $(document.body).animate({scrollTop:$(".questionframe").last().offset().top}, 600 );
         $(".ask-popout").fadeOut(200);
     }
 })
@@ -326,6 +327,7 @@ angular.module('techNodeApp').directive('postClick', function(socket) {
                 votenum: 0
             })
             $(".inputbox").val("");
+            $(document.body).animate({scrollTop:$(".questionframe").last().offset().top}, 600 );
             $(".ask-popout").fadeOut(200);
         })
     }

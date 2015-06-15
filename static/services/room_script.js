@@ -1,6 +1,23 @@
 var foldheight = 80;
 
 var main = function() {
+    //show hide control
+    $(".showhidecontrol").bind("click",function () {
+        $(".header").toggle();
+        $(".nav").toggle();
+    })
+
+    //QR Open Control
+    $(".lec-qr").bind("click",function(){
+        $(".qr-popout").fadeIn(400);
+    })
+
+    $(".qrclosebtn").bind("click",function(){
+        $(".qr-popout").fadeOut(200);
+    })
+
+
+    
     //post frame control
     $(".newquest-btn").click(function() {
         $(".ask-popout").fadeIn(400);
