@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+	    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 		<title>QuesBoard</title>
         <link rel='stylesheet' type='text/css' href='stylesheet.css'/>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
@@ -9,11 +10,9 @@
 	</head>
 	<body>
 	
-		<div class="homebg"> <img src = "img/home_bg.png"/> </div> 
+		<img class="homebg" src = "img/home_bg.png"/> 
 
-		<div class = "logobox">
-			<img src = "img/logo.png"/>
-		</div>
+			<img class="logoimg" src = "img/logo.png"/>
 
         <div class ='midbox'>
 	        <div class='upperbox'>    	
@@ -28,8 +27,8 @@
 	        	<div class ="lowermiddlebox"> 
 		        	<input class="longinput" id="signupemail" type="text" autocomplete="off" placeholder="Email" ><br>
 		        	<input class="longinput" id="signuppwd" type="password" autocomplete="off" placeholder="Password" >
-	        	</div>
-	        	<button  class="bigbtn" id="signupbtn" type="submit">SIGN UP</button>	       
+		        	<button  class="bigbtn" id="signupbtn" type="submit">SIGN UP</button>	
+	        	</div>	        	     
 	        </div>
 
 			<!--登陆页面-->
@@ -38,22 +37,26 @@
 	        	<div class ="lowermiddlebox"> 
 		        	<input class="longinput" id="loginemail" type="text" autocomplete="off" value="wanyilun@hku.hk" placeholder="Email"><br>
 		        	<input class="longinput" id="loginpwd" type="password" autocomplete="off" value="12345678" placeholder="Password">
+	        	    <button  class="bigbtn" id="loginbtn" type="submit">LOG IN</button>
+	        	    <div id="rememberpwd"><input class="remembercheck" type="checkbox" value="remember-pwd"> Remember me</div>
+	        	    <a href="#" id ="forgetpwd">Forget Password</a>
+
 	        	</div>
-	        	<div id="rememberpwd"><input class="homecheck" type="checkbox" value="remember-pwd">Remember me</div>
-	        	<a href="#" id ="forgetpwd">Forget Password</a>
-	        	<button  class="bigbtn" id="loginbtn" type="submit">LOG IN</button>
+	        	
 	        </div>
 
 			<!--旁听页面-->
 
 			<div class="lowerbox" id="auditbox">
 	        	<div class ="lowerleftbox">
+		        	
 		        	<div class = "lowerleftmidbox">
+			        	<img class="randomimg" src="img/profile100px/opensign.png"/>
 		        		<input class="shortinput" type="text" autocomplete="off" value="visitor 007" placeholder="Name">
 		        		<button class="gobtn" type="submit">Go!</button>
 	        		</div>
 
-	        		<p id="audit-info">Pick a name and look around as a temporary visitor</p>
+	        		<p id="audit-info">Pick a name and post questions on board as a visitor</p>
 	        	</div>
 
 	        	<div class ="lowermidbox">
@@ -63,21 +66,20 @@
 	        	<div class ="lowerrightbox">
 		        	<img class ="qrcode" src="img/home_qrcode.png"/>
 		        	<p id="qrcode-info">Scan QR Code to Visit from mobile</p>
-	        	
-
 	        	</div>
-
 	        </div>
-
-
-	        	
-
-
+        </div> 
+        <div class="head-popout">
+            <div class="blackbg">
+        	</div>
+        	<div class="chooseframe">
+			    <span class="picktitle">Pick Avatar</span>
+			    <button class="chooseclosebtn" type="button"><img src="img/closebtn.png"></button>
+	        	<div class="imgcontainer">
+	        		
+	        	</div>
+        	</div>
+        	
         </div>
-
-        
-
-
-
 	</body>
 </html>

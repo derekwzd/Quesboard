@@ -1,4 +1,76 @@
 $(document).ready(function(){
+    //random picture and name
+    $(".randomimg").click(function(){
+        $(".head-popout").fadeIn(400);
+    })
+
+    $(".chooseclosebtn").click(function(){
+        $(".head-popout").fadeOut(400);
+    })
+    $(".blackbg").click(function(){
+        $(".head-popout").fadeOut(400);
+    })
+
+    //src generator function
+    var gensrc = function(cate){
+        var srcarray = new Array();
+        for (var i = cate[1] - 1; i >= 0; i--) {
+        
+        srcarray[i]= "img/profile100px/"+cate[0]+(i+1)+".png";
+        };
+        return srcarray;
+    }
+
+    //pic control. first is category name, second is num of pic
+    var sciencecate = ["science",17];
+    var artcate = ["art",7];
+    var comiccate = ["comic",8];
+    
+    //add up all the pic src array
+    var allcate = new Array();
+    allcate = allcate.concat(gensrc(sciencecate),gensrc(artcate),gensrc(comiccate));
+    console.log("allcate.length is "+allcate.length);
+
+    //load all the pic into head selection page
+    for(i=0; i<allcate.length; i++){
+        var newimg = $("<img>").attr("src",allcate[i]);
+        $(".imgcontainer").append(newimg);
+    }
+    $(".imgcontainer img").click(chooseevent);
+
+    //generate initial random pic
+    var ranpicnum= Math.ceil(Math.random()*31);
+    console.log("ranpicnum is "+ranpicnum);
+    var ranpicsrc = allcate[ranpicnum];
+    $(".randomimg").attr("src",ranpicsrc);
+
+
+    //name array
+    var sciencename = new Array("Albert","Alan","Ampere","Watt","Edison","Isaac","Leonardo","Maxwell","Newton","Pascal","Ohm","Hertz","Joule","Henry","Faraday","Planck","Gauss","Orsted","Coulomb","Thomson","Bell","Marconi","Candela","Mol");
+    var artname = new Array("Michelangelo","Leonardo","Raffaello","Cézanne","Dante","Petrarca","Boccaccio","Monet","Van Gogh","Acacia","Amaryllis","Aster","Azalea","Blossom","Bluebell","Bryony","Calla","Camellia","Clover","Daffodil","Dahlia","Daisy","Delphine","Fleur","Flora","Gardenia","Garland","Heather","Hyacinth","Ianthe","Iris","Ivy","Jacinta","Jasmine","Jonquil","Lavender","Leilani","Lilac","Lily","Linnea","Lotus","Magnolia","Marguerite","Marigold","Orchid","Pansy","Peony","Petal","Petunia","Poppy","Posey","Primrose","Rose","Senna","Tulip","Violet","Xochitl","Zahara","Zinnia");
+    var comicname = new Array("Shalanda","Macie","Shirely","Jeannine","Divina","Darryl","Alla","Crista","Ollie","Muoi","Jolene","Helga","Francoise","Josefina","Myrtis","Jo","Sixta","Laurie","Tiara","Johana","Dania","Trisha","Kerry","Remedios","Martha","Emmanuel","Caitlin","Rema","Bettye","Palma","Kristina","Lawanda","Elodia","Hank","Deonna","Scot","Dion","Arminda","Tayna","Paulita","Magnolia","Mittie","Jude","Maximina","Thaddeus","Bernardine","Lovetta","Tracey","Jewel","Amie");
+
+    //pick name and change name according to the pic category
+    var randomname = function(namearray){
+        var randomnum = Math.floor(Math.random()*namearray.length);
+        return namearray[randomnum];
+    }
+
+    var pickname = "";
+    if(allcate[ranpicnum].toString().indexOf("science")>0){
+        pickname = randomname(sciencename);
+    }
+    else if(allcate[ranpicnum].toString().indexOf("art")>0){
+        pickname = randomname(artname);
+    }
+    else if(allcate[ranpicnum].toString().indexOf("comic")>0){
+        pickname = randomname(comicname);
+    }
+
+    $(".shortinput").val("Visitor "+pickname);
+
+
+    //buttun hover effect function
 
     var signup = function(){
             $('.choosebtn').css('color','#fff')
@@ -34,8 +106,6 @@ $(document).ready(function(){
         }
 
 
-
-
     $('#signup-tab').hover(function(){
         signup();
     })
@@ -56,3 +126,8 @@ $(document).ready(function(){
     })
     
 })
+
+var chooseevent = function(){
+    $(".randomimg").attr("src",$(this).attr("src"));
+    $(".head-popout").fadeOut(400);
+}
