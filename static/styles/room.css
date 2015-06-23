@@ -17,6 +17,7 @@ a{
   text-decoration: none;
   font-family: avenir;
 }
+
 img { max-width: 100%;}
 
 button{
@@ -25,7 +26,6 @@ button{
   outline: none;
   cursor: pointer;
 }
-
 
 /* Unified Css*/
 .uni-green{

@@ -90,9 +90,6 @@ io.sockets.on('connection', function(socket) {
 });
 //End of Message Send
 
-
-
-
 // app.get('/api/validate', function(req, res){
 //  _userId = req.session._userId;
 //  if(_userId){
