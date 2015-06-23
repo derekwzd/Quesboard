@@ -25,6 +25,10 @@ angular.module('techNodeApp').config(function($routeProvider, $locationProvider)
         templateUrl: '/pages/login.html',
         controller: 'LoginCtrl'
     }).
+    when('/section', {
+        templateUrl: '/pages/section.html',
+        controller : 'SectionCtrl'
+    }).
     otherwise({
         redirecTo: '/login'
     })

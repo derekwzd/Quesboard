@@ -1,0 +1,737 @@
+*{
+  font-family: times, sans-serif;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          padding: 0;
+          margin: 0;
+}
+ul{
+  list-style: none;
+}
+body{
+  background-color: #eee;
+　font: normal 100% Helvetica, Arial, sans-serif;
+}
+a{
+  text-decoration: none;
+  font-family: avenir;
+}
+img { max-width: 100%;}
+
+button{
+  background: none;
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+
+
+/* Unified Css*/
+.uni-green{
+  height: 40px;
+  width: 150px;
+  color: #fff;
+  background-color:#6ecf68;
+  font-size: 18px;
+  font-family: avenir;
+  text-align: center; 
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+
+.uni-greenpressed{
+  height: 40px;
+  width: 150px;
+  color: #6ecf68;
+  border: 1px solid #6ecf68;
+  background:none;
+  font-size: 1.125em;
+  font-family: avenir;
+  text-align: center; 
+  outline: none;
+  cursor: pointer;
+}
+
+.uni-disabled{
+  border:none;
+  color: #fff;
+  background-color:#ddd; 
+  cursor: default;
+}
+
+.blackbg {
+  position: absolute;
+  top:0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.8;
+}
+
+
+
+
+/*header*/
+
+.header{
+  position: fixed;
+  top:0;
+  width: 100%;
+  background-color: #2f2f2f;
+  z-index: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.header .wrapper{
+  padding:5px 0;
+  height:40px;
+  width: 920px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.header .logo img{
+  float: left;
+  width: 150px;
+  margin-left: 10px;
+}
+.header a{
+  color: #000;
+}
+
+.header .backbtn{
+  display: none;
+  float: left;
+  margin-top: 5px;
+  margin-left:10px;
+}
+
+.header .backbtn span {
+  position: relative;
+  margin-left: 10px;
+  top: -3px;
+  color: #fff;
+  font-family: avenir;
+}
+
+.header .user {
+  float:right;
+}
+.header .user .userimg {
+  float: right;
+  width: 30px;
+}
+.header .user .username{
+  float: right;
+  margin-top: 5px;
+  margin-left: 10px;
+  font-size:16px;
+  color: #fff;
+  font-family: avenir;
+}
+.header .user .list-icon{
+  float: right;
+  margin-top: 12px;
+  margin-left: 10px;
+  width: 10px;
+}
+
+/*Navigation*/
+
+.nav{
+  margin-top: 40px;
+  width: 100%;
+  background-color:#f6f6f6;
+}
+
+.nav .wrapper{
+    width: 920px;
+    height:80px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.nav .backbtn{
+  float: left;
+  margin-top: 30px;
+  margin-left:20px;
+}
+
+.nav .backbtn span {
+  position: relative;
+  margin-left: 10px;
+  top: -3px;
+  color: #747474;
+  font-family: avenir;
+}
+
+.nav .newsec-btn{
+  display: block;
+  float: right;
+  position: relative;
+  margin-top: 20px;
+  height:40px;
+  width:180px;
+}
+
+
+/*Question board*/
+
+.qboard{
+  background-color: #eee;
+}
+.qboard .container{
+  position: relative;
+  overflow: hidden; 
+  margin: 30px auto 30px; 
+  width: 920px;
+  height: auto;
+  min-height: 300px;
+  background-color: #fff;
+  padding-bottom: 30px;
+}
+
+.container .time{
+  float: right;
+  margin-top: 40px;
+  margin-right: 60px;
+  font-size: 1.2em;
+  font-family: avenir;
+  color: #747474;
+}
+
+ .container .lec-title{
+  position: relative;
+  margin-top: 40px;
+  margin-left: 60px;
+
+}
+
+.lec-title img{
+  height: 30px;
+}
+
+.lec-title .lecname{
+  font-size: 2.2em;
+  vertical-align: bottom;
+}
+
+.container .sec-lec-description{
+  position: relative;
+  margin-top: 20px;
+  margin-left: 60px;
+  margin-right: 60px;
+  font-size: 1.15em;
+}
+
+.container .sec-lec-stat{
+  position: relative;
+  margin-top: 10px;
+  margin-left: 60px;
+  font-size: 1em;
+  font-family: avenir;
+  color: #747474;
+}
+
+.container .sectionlist{
+  position: relative;
+  margin:40px auto 0;
+  max-width: 820px;
+}
+
+.container .sectionframe{
+  position: relative;
+  width: 100%;
+  min-height: 70px;
+  margin-bottom: 20px;
+  border: solid 1px #747474;
+  cursor: pointer;
+}
+
+.container .sectionframe:hover{
+  border:solid 2px #747474;
+}
+
+.sectionframe .sec-editbtn{
+  position: absolute;
+  display: inline-block;
+  top: 22px;
+  left: 20px;
+  width: 20px;
+}
+
+.sectionframe .sectionname{
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 60px;
+  width: 75%;
+  font-size: 1.2em;
+}
+
+.opencheck {
+  width: 80px;
+  height: 25px;
+  position: absolute;
+  right: 60px;
+  top:20px;
+  border:1px #949494  solid;
+  background-color: #fff;
+}
+
+#opencheckInput{
+  display: none;
+}
+
+/* Create the text for the On position */
+.opencheck:before {
+  content: 'ON';
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  height: 2px;
+  color: #6ecf68;
+  font-family: avenir;
+  font-size: 0.6em;
+}
+/* Create the label for the off position */
+.opencheck:after {
+  content: 'OFF';
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  height: 2px;
+  color: #ccc;
+  font-family: avenir;
+  font-size: 0.8em;
+}
+
+/* Create the pill to click */
+.opencheck label {
+  display: block;
+  width: 40px;
+  height: 23px;
+  top: 0;
+  left: 0;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  -ms-transition: all .5s ease;
+  transition: all .5s ease;
+  cursor: pointer;
+  position: absolute;
+  z-index: 1;
+  background: #ff5252;
+}
+ 
+/* Create the checkbox event for the label */
+.opencheck input[type=checkbox]:checked + label {
+  left: 38px;
+  background: #6ecf68;
+}
+
+
+.sectionframe .sec-deletebtn{
+  position: absolute;
+  top: 22px;
+  right: 20px;
+  width: 20px;
+}
+
+
+/* Delete Confirm Bubble */
+.bubblecontainer{
+	position: absolute;
+	top:-40px;
+	right:-15px;
+  display: none;
+	/**border: 1px solid #000**/;
+}
+
+.bubblecontainer .bubbletop{
+  min-height: 30px;
+  min-width: 300px;
+  margin-bottom: 5px;
+  background-color: #fff;
+  border: 1px solid #747474;
+}
+
+.bubbletop .confirm-info{
+  float: right;
+  margin-top: 7px;
+  margin-right: 15px;
+  font-size: 0.8em;
+}
+
+.bubbletop .delete-confirm{
+  float: right;
+  margin-top: 4px;
+  margin-right: 5px;
+  width: 50px;
+  height: 20px;
+  padding:3px; 
+  color: #fff;
+  font-family:avenir; 
+  background-color: #ff5252;
+}
+
+.bubblecontainer .bubbletriangle-outer{
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #747474;
+}
+
+.bubblecontainer .bubbletriangle-inner{
+    position: absolute;
+    top:-6px;
+    right:-5px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #fff;
+}
+
+
+/* New Section popout */
+
+.sec-popout {
+  position: fixed;
+  top:0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.sec-popout .newseccontainer{
+  overflow: hidden;
+  position: relative;
+  margin: 140px auto;
+  min-height:400px;
+  max-width: 620px;
+}
+
+.newseccontainer .newsecframe{
+  float: left;
+  width: 100%;	
+  padding: 10px;
+  background-color: #fff;
+}
+
+
+.newseccontainer .newsectitle{
+  position: relative;
+  width: auto;
+  margin-top: 10px;
+  margin-left: 2px;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.newseccontainer .newsecclosebtn{
+  float: right;
+  padding: none;
+  color: #fff;
+  background: none;
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+.newseccontainer .inputbox{
+  display: block;
+  clear:both;
+  width: 100%;
+  height:80px;
+  margin: 10px auto 0;
+  resize:none;
+  padding: 10px;
+  font-size: 18px;
+  outline: none;
+}
+
+.newseccontainer .confirmbtn{
+  float: right;
+  margin-top: 10px;
+  height: 40px;
+}
+
+
+
+
+/* Show QR Page */
+
+.qr-popout {
+  position: fixed;
+  top:0;
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.qr-popout .qrcontainer{
+  position: relative;
+  padding: 10px;
+  margin: 80px auto;
+  min-height:380px;
+  max-width: 300px;
+  background-color: #fff;
+}
+
+.qr-popout .qrtitle{
+  font-family: avenir;
+  font-size: 1.6em;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.qrcontainer .qrclosebtn{
+  position: absolute;
+  top:10px;
+  right:10px;
+  color: #fff;
+  background: none;
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+
+.qr-popout .qr-lectitle{
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.qr-popout .qrimg{
+  display: block;
+  float: none;
+  width: 65%;
+  border:4px solid #000;
+  margin:10px auto;
+}
+
+.qr-popout .qr-explain{
+  margin-top: 20px;
+  font-size: 1em;
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.qr-popout .qrsavebtn{
+  margin-left: 55px;
+  margin-top: 30px;
+  display: inline-block;
+  background:none;
+  border:none;
+  font-size: 1.2em;
+  color: #747474;
+  font-family: avenir;
+}
+.qr-popout .qrprintbtn{
+  margin-left: 30px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  display: inline-block;
+  background:none;
+  border:none;
+  font-size: 1.2em;
+  color: #747474;
+  font-family: avenir;
+}
+
+
+
+
+.qr-popout button img{
+  width: 25px;
+  vertical-align: text-top;
+  margin-right: 5px;
+}
+
+
+/* Bottom New Questbtn*/
+.newsec-btn{
+  display: none;
+}
+
+
+/*show hide control*/
+.showhidecontrol{
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  color: #979797;
+  font-size: 0.8em;
+}
+
+
+
+
+
+
+/* Mobile End */
+
+
+@media all and (max-width:920px){
+  .header .wrapper{
+    padding:10px;
+    width: 100%;
+    height: 50px;
+  }
+
+  .header .logo {
+    display: none;
+  }
+
+  .header .backbtn{
+    display: block;
+  }
+
+  .header .user{
+    margin-right: 0;
+  }
+
+  .header .username{
+    display: none;
+  }
+
+  .header .list-icon{
+    display: none;
+  }
+
+  body .nav{
+    display: none !important; 
+  }
+  
+  .newsec-btn{
+    display: block;
+    position: fixed;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+  }
+
+  .qboard .container{
+    margin-top: 50px;
+    width: 100%;
+  }
+
+  .container .time{
+    display: none;
+  }
+  
+  .container .lec-title{
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+
+  .lec-title img{
+    height: 16px;
+  }
+  
+  .lec-title .lecname{
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .questionlist{
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    width: 100%;
+
+  }
+
+  .questionframe{
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .questionframe .ques-userimg{
+    width: 80px;
+  }
+
+  .questionframe .questiontext{
+    font-size: 15px;
+    width: 55%;
+    height: 80px;
+  }
+
+  .questionframe .vote{
+    right: 10px;
+    bottom: 10px;
+  }
+  .questionframe .votenum{
+    font-size: 1.6em;
+  }
+
+  .questionframe .votebtn{
+    font-size: 1em;
+    width: 60%;
+    min-width: 50px;
+    margin-top: 5px;
+  }
+
+  .sec-popout .newseccontainer{
+    width: 100%;
+    margin-top: 0;
+  }
+
+
+  .newseccontainer .newsecframe{
+    width: 100%;
+    padding: 10px;
+  }
+
+  .newseccontainer .newsectitle{
+    margin-left: 10px;
+    margin-top: 5px;
+    font-size: 1.2em;
+  }
+
+  .newseccontainer .inputbox{
+    margin-top: 40px;
+    height: 160px;
+    width: 100%;
+  }
+
+  .newseccontainer .confirmbtn{
+    margin-top: 10px;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .newseccontainer .anonybox{
+    display: none;
+  }
+
+
+  .qr-popout .qrsavebtn{
+    display: none;
+  }
+
+  .qr-popout .qrprintbtn{
+    display: none;
+  }
+
+  .showhidecontrol{
+    display: none;
+  }
+
+
+}
+
+/* super small screen*/
+
+@media all and (max-width:319px){
+
+
+}
