@@ -248,6 +248,8 @@ button{
   margin-bottom: 20px;
   border: solid 1px #747474;
   cursor: pointer;
+  overflow: auto;
+  zoom:1;
 }
 
 .container .sectionframe:hover{
@@ -255,82 +257,79 @@ button{
 }
 
 .sectionframe .sec-editbtn{
-  position: absolute;
-  display: inline-block;
-  top: 22px;
-  left: 20px;
+  float: left;
+  margin-top: 22px;
+  margin-left: 20px;
   width: 20px;
 }
 
 .sectionframe .sectionname{
-  position: relative;
+  float: left;
   margin-top: 20px;
   margin-bottom: 20px;
-  margin-left: 60px;
+  margin-left: 20px;
   width: 75%;
   font-size: 1.2em;
 }
 
 .opencheck {
-  width: 80px;
-  height: 25px;
+  width: 50px;
+  height: 20px;
   position: absolute;
   right: 60px;
-  top:20px;
-  border:1px #949494  solid;
-  background-color: #fff;
+  top:23px;
+  background-color: #6ecf68;
 }
 
 #opencheckInput{
-  display: none;
+	display: none;
 }
 
 /* Create the text for the On position */
-.opencheck:before {
-  content: 'ON';
-  position: absolute;
-  top: 4px;
-  left: 8px;
-  height: 2px;
-  color: #6ecf68;
-  font-family: avenir;
-  font-size: 0.6em;
+.opencheck .checkOff {
+	opacity: 0;
+	position: absolute;
+	top: 3px;
+	left: 4px;
+	height: 2px;
+	color: #fff;
+	font-family: arial;
+	font-size: 0.8em;
 }
 /* Create the label for the off position */
-.opencheck:after {
-  content: 'OFF';
-  position: absolute;
-  top: 4px;
-  right: 8px;
-  height: 2px;
-  color: #ccc;
-  font-family: avenir;
-  font-size: 0.8em;
+.opencheck .checkOn {
+	position: absolute;
+	top: 3px;
+	right: 6px;
+	height: 2px;
+	color: #fff;
+	font-family: arial;
+	font-size: 0.8em;
 }
 
 /* Create the pill to click */
 .opencheck label {
   display: block;
-  width: 40px;
-  height: 23px;
-  top: 0;
-  left: 0;
-  -webkit-transition: all .5s ease;
-  -moz-transition: all .5s ease;
-  -o-transition: all .5s ease;
-  -ms-transition: all .5s ease;
-  transition: all .5s ease;
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  left: 2px;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  -ms-transition: all .3s ease;
+  transition: all .3s ease;
   cursor: pointer;
   position: absolute;
-  z-index: 1;
-  background: #ff5252;
+  
+  background: #ffF;
 }
  
-/* Create the checkbox event for the label */
+/* Create the checkbox event for the label 
 .opencheck input[type=checkbox]:checked + label {
-  left: 38px;
-  background: #6ecf68;
-}
+  left: 32px;
+}*/
+
 
 
 .sectionframe .sec-deletebtn{
@@ -344,15 +343,16 @@ button{
 /* Delete Confirm Bubble */
 .bubblecontainer{
 	position: absolute;
-	top:-40px;
-	right:-15px;
-  display: none;
+	max-width: 240px;
+	top:-5px;
+	right:0px;
+    display: none;
+    z-index: 1;
 	/**border: 1px solid #000**/;
 }
 
 .bubblecontainer .bubbletop{
   min-height: 30px;
-  min-width: 300px;
   margin-bottom: 5px;
   background-color: #fff;
   border: 1px solid #747474;
@@ -557,6 +557,11 @@ button{
   margin-right: 5px;
 }
 
+/* Module hide*/
+.modules {
+	display: none;
+}
+
 
 /* Bottom New Questbtn*/
 .newsec-btn{
@@ -643,42 +648,36 @@ button{
     font-weight: bold;
   }
 
-  .questionlist{
-    border-top: 1px solid #eee;
-    padding-top: 10px;
-    width: 100%;
-
+  .container .sec-lec-description{
+    margin-left: 10px;
+    margin-right: 10px;
   }
 
-  .questionframe{
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .questionframe .ques-userimg{
-    width: 80px;
-  }
-
-  .questionframe .questiontext{
-    font-size: 15px;
-    width: 55%;
-    height: 80px;
-  }
-
-  .questionframe .vote{
-    right: 10px;
-    bottom: 10px;
-  }
-  .questionframe .votenum{
-    font-size: 1.6em;
-  }
-
-  .questionframe .votebtn{
+  .container .sec-lec-stat{
+    margin-left: 10px;
     font-size: 1em;
-    width: 60%;
-    min-width: 50px;
-    margin-top: 5px;
   }
+
+  .container .sectionlist{
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+    padding: 10px;
+    max-width: none;
+  }
+
+  .container .sectionframe{
+    margin-bottom: 10px;
+  }
+
+  .sectionframe .sectionname{
+  	/*float: none;
+  	clear:both;
+  	margin-top: 60px;*/
+  	width: 55%;
+  	font-size: 1em;
+  	margin-top: 22px;
+  }
+
 
   .sec-popout .newseccontainer{
     width: 100%;
@@ -698,7 +697,7 @@ button{
   }
 
   .newseccontainer .inputbox{
-    margin-top: 40px;
+    margin-top: 10px;
     height: 160px;
     width: 100%;
   }
@@ -731,7 +730,8 @@ button{
 
 /* super small screen*/
 
-@media all and (max-width:319px){
-
-
+@media all and (max-width:329px){
+	.opencheck{
+		display: none;
+	}
 }

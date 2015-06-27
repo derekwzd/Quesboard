@@ -18,7 +18,7 @@ var main = function(){
 		$(".qr-popout").fadeOut(200);
 	})
 
-	//Section Mouseover Effect
+	//Btn Mouseover Effect
 	$(document).on('mouseover',".sec-editbtn",function(){
 		$(this).children().attr('src','img/editimg3-black.png');
 	})
@@ -35,47 +35,59 @@ var main = function(){
 		$(this).children().attr('src','img/deleteimg.png');
 	})
 
+	//On/Off transition
+	$(document).on('click',".opencheck",function(){
+		if($(this).children("#opencheckInput").is(":checked") == false){
+			$(this).children("#opencheckInput").attr("checked",true);
+			console.log("check=true");
+			$(this).css({"background-color":"#979797"});
+			$(this).children("label").css({"left":"32px"});
+			$(this).children(".checkOn").animate({"opacity":"0"},100)
+			$(this).children(".checkOff").animate({"opacity":"100"},100)
+		}
+		else{
+			$(this).children("#opencheckInput").attr("checked",false);
+			$(this).css({"background-color":"#6ecf68"});
+			$(this).children("label").css({"left":"2px"});
+			$(this).children(".checkOn").animate({"opacity":"100"},100)
+			$(this).children(".checkOff").animate({"opacity":"0"},100)
+		}
+		
+	});
+
 
 
 	// delete section btn click
-	$(document).on('click',".sec-deletebtn",function(){
-		//if($(this).children(".bubblecontainer").css("display")=="none"){
-		if($(this).children(".bubblecontainer").is(".bubblecontainer")==false){	
-			console.log("false");
-			$(this).prepend($(".bubblecontainer").clone());
-			$(this).children(".bubblecontainer").fadeIn(100);
+	$(document).on('click',".sec-deletebtn",function(e){
 
+		if($("body").children(".bubblecontainer").is(".bubblecontainer")==false){	
+			console.log("bubble=false");
+			var newbubble = $("#defaultbubble").clone().removeAttr("id");
+			var selectsection = $(e.target).parents(".sectionframe");
+
+			$("body").prepend(newbubble);
+			var bubblex = $(e.target).closest(".sec-deletebtn").offset().left - 203;
+			var bubbley = $(e.target).closest(".sec-deletebtn").offset().top -23;
+			newbubble.css({"display":"block","opacity":"0","left":bubblex,"top":bubbley}).animate({opacity:"1","top":(bubbley-20)},200);
+			
 			//bind delete-confirm event
-			$(this).find(".delete-confirm").bind('click',function(){
-				console.log("delete confirmed");
-				$(this).parents(".sectionframe").remove();
-			});
-
-			//all screen fadeout event
-			var bubblefade = function(){		
-				$(".bubblecontainer").fadeOut(100);
-				console.log("fadeOut by func")
-				$(".sec-deletebtn").children(".bubblecontainer").remove();
-			}
-			$("body").one('click', bubblefade);//bind one-time event to all element
-			//$(".bubblecontainer").unbind(); //avoid bug when clicking same btn
+			newbubble.find(".delete-confirm").bind('click',function(){
+			 	console.log("delete confirmed");
+			    selectsection.children().andSelf().animate({minHeight:"0",height:"0",opacity:"0"},function(){
+			 		$(this).remove();
+			 	})		
+				
+			 });
+ 
+			//bind one-time fullscreen fadeout event to clear the btnwithbubble
+			$(document).one('click', function(e){
+				newbubble.animate({"top":bubbley,opacity:"0"},100,function(){
+				$(this).remove();
+				console.log("bubble removed");
+				});
+			});	
 	    }
-
-	    else{
-		    $(this).children(".bubblecontainer").remove();
-		    console.log("fadeout by else")
-	    }
-		
-		
-
 	})
-
-	// $(document).on('click',".delete-confirm",function(){
-	// 	console.log("delete confirmed");
-	// 	console.log($(this).parents(".sectionframe"));
-	// 	$(this).parents(".sectionframe").remove();
-	// })
-
 
 
 	// common Close btn click
@@ -116,7 +128,6 @@ var main = function(){
     	$(".newsectitle").text("Edit Section")
     	//add confirm type
 		$(".confirmbtn").addClass("editsec-confirm");
-		console.log($(this).siblings(".sectionname"));
 		$(this).siblings(".sectionname").addClass("editing-secname");
 		$('.inputbox').val($(".editing-secname").text());
 		console.log("sec-editbtn clicked");
@@ -148,7 +159,7 @@ var main = function(){
 		//add confirm type
 		$(".confirmbtn").addClass("newsec-confirm")
 		//set up default text
-		$('.inputbox').val("Section "+($('.sectionframe').length+1)+". Q&A Section");
+		$('.inputbox').val("Section "+($('.sectionlist').children().size()+1)+". Q&A Section");
 		console.log("newsec-btn clicked");
 	})
 
@@ -156,21 +167,19 @@ var main = function(){
 	$(document).on('click',".newsec-confirm",function(){
 		console.log("newsec-confirm clicked");
 		
-		var newseccontent= $(".sectionframe").html();
-		var newsec = $("<div>").html(newseccontent);
-		newsec.addClass("sectionframe");
+	
+		var newsec = $("#defaultsection").clone().removeAttr("id");
 		$(".sectionlist").append(newsec);
-
 
 		//customize section frame
 		var sectext = $(".inputbox").val();
-		$(".sectionframe").last().find(".sectionname").text(sectext);
+		$(".sectionlist").children(".sectionframe").last().find(".sectionname").text(sectext);
 
 	    //clear newsec-confirm class
 	    $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
 
 	    //scroll to the new section part
-	    $(document.body).animate({scrollTop:$(".sectionframe").last().offset().top}, 600 );
+	    $(document.body).animate({scrollTop:$(".sectionlist").children(".sectionframe").last().offset().top}, 600 );
 		$(".sec-popout").fadeOut(200);
 	})
 
