@@ -1,31 +1,38 @@
-// TODO
-// angular.module('techNodeApp', ['ngRoute']).
-// run(function ($window, $rootScope, $http, $location){
-//  $http({
-//      url:'/api/validate',
-//      method: 'GET'
-//  }).success(function(user){
-//      $rootScope.me = user
-//      $location.path('/')
-//      console.log('login success')
-//  }).error(function(data){
-//      console.log("not login in")
-//      $location.path('/login')
-//  })
-//  $rootScope.logout = function(){
-//      $http({
-//          url : '/ajax/logout',
-//          method:'GET'
-//      }).success(function(){
-//          $rootScope.me = null
-//          $location.path('/login')
-//      })
-//  }
-//  $rootScope.$on('login', function(evt, me){
-//      $rootScope.me = me
-//  })
-// })
-angular.module('techNodeApp', ['ngRoute'])
+//TODO: login and authentication
+
+angular.module('techNodeApp', ['ngRoute']).
+run(function($window, $rootScope, $http, $location) {
+    $http({
+            url: '/api/validate',
+            method: 'GET'
+        }).success(function(user) {
+            console.log(user)
+            $rootScope.me = user
+                // TODO: auto trigger
+            $location.path('/section')
+            console.log('login success')
+        }).error(function(data) {
+            console.log("not login in")
+            $location.path('/')
+        })
+        //method 
+    $rootScope.logout = function() {
+            $http({
+                url: '/ajax/logout',
+                method: 'GET'
+            }).success(function() {
+                //clear the user info
+                $rootScope.me = null
+                $location.path('/')
+            })
+        }
+        //listen the login event from LoginCtrl
+    $rootScope.$on('login', function(evt, me) {
+        $rootScope.me = me
+    })
+})
+
+//socket message
 angular.module('techNodeApp').factory('socket', function($rootScope) {
     var socket = io.connect('/')
     return {
@@ -82,6 +89,7 @@ angular.module('techNodeApp').controller('VoteControl', function($scope, socket)
 })
 
 angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $location) {
+
     //random picture and name
     $(".randomimg").click(function() {
         $(".head-popout").fadeIn(400);
@@ -207,26 +215,56 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
         audit();
     })
 
+    //login 
     $scope.login = function() {
-        console.log($('#chooseimg').attr('src'))
-        console.log($scope.username)
+        // console.log($('#chooseimg').attr('src'))
+        // console.log($scope.username)
         $http({
             url: '/api/login',
             method: 'POST',
             data: {
-                username: $scope.username
+                email: $scope.email
+                // email:'ttttt'
             }
         }).success(function(user) {
             console.log(user)
-            console.log('test')
+            $scope.$emit('login', user)
+            $location.path('/section', $scope.email)
         }).error(function(data) {
             console.log('error')
+            $location.path('/')
         })
 
-        $scope.$emit('login', $scope.username, $('#chooseimg').attr('src'))
-        $location.path('/section', $scope.username)
+        // $scope.$emit('login', $scope.username, $('#chooseimg').attr('src'))
+        // $location.path('/section', $scope.username)
     }
+
+    //6.30reg
+    // $scope.reg = function() {
+    //         console.log($('#chooseimg').attr('src'))
+    //         // console.log($scope.username)
+    //         $http({
+    //             url: '/api/reg',
+    //             method: 'POST',
+    //             data: {
+    //                 email: $scope.email,
+    //                 password:$scope.password
+    //             }
+    //         }).success(function(user) {
+    //             console.log(user)
+    //             console.log('reg')
+    //         }).error(function(data) {
+    //             console.log('error_reg')
+    //         })
+
+    //         $scope.$emit('reg', $scope.email, $('#chooseimg').attr('src'))
+    //         $location.path('/section', $scope.username)
+    //     }
+
+
 })
+
+
 angular.module('techNodeApp').controller('RoomCtrl', function($scope, socket) {
     $scope.messages = [];
     socket.emit('getAllMessages')
@@ -319,11 +357,11 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, socket)
     // });
     $(document).on('click', '.sectionframe', function() {
         window.location = "/room"
-        
+
     })
 
     // common Close btn click
-    $(".newsecclosebtn").click(function(){
+    $(".newsecclosebtn").click(function() {
         $(".sec-popout").fadeOut(200);
         $(".inputbox").val("");
         $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
@@ -511,29 +549,3 @@ angular.module('techNodeApp').directive('postClick', function(socket) {
         })
     }
 })
-
-
-
-
-// angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $location) {
-//     $scope.login = function() {
-//         $http({
-//             url: '/api/login',
-//             method: 'POST',
-//             data: {
-//                 email: $scope.email
-//             }
-//         }).success(function(user) {
-//             $scope.$emit('login', user)
-//             $location.path('/')
-//         }).error(function(data) {
-//             $location.path('/login')
-//         })
-//     }
-
-//     $scope.onFormSubmit = function() {
-//         console.log("test")
-//         $state.href('/room');
-//     }
-
-// })

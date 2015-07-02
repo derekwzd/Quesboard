@@ -11,28 +11,33 @@
                 <br/> AUDIT </a>
         </div>
         <div class="lowerbox" id="signupbox">
-            <div class="lowermiddlebox">
-                <input class="longinput" id="signupemail" type="text" autocomplete="off" placeholder="Email">
-                <br>
-                <input class="longinput" id="signuppwd" type="password" autocomplete="off" placeholder="Password">
-                <button class="bigbtn" id="signupbtn" type="submit">SIGN UP</button>
-            </div>
+            <form class="form-reg" ng-submit="reg()">
+                <div class="lowermiddlebox">
+                    <input class="longinput" id="signupemail" type="email" ng-model="email" autocomplete="off" placeholder="Email">
+                    <br>
+                    <input class="longinput" id="signuppwd" type="password" autocomplete="off" placeholder="Password">
+                    <button class="bigbtn" id="signupbtn" type="submit">SIGN UP</button>
+                </div>
+            </form>
         </div>
+        <!-- 6.30 changed -->
         <div class="lowerbox" id="loginbox">
-            <div class="lowermiddlebox">
-                <input class="longinput" id="loginemail" type="text" autocomplete="off" value="wanyilun@hku.hk" placeholder="Email">
-                <br>
-                <input class="longinput" id="loginpwd" type="password" autocomplete="off" value="12345678" placeholder="Password">
-                <button class="bigbtn" id="loginbtn" type="submit">LOG IN</button>
-                <div id="rememberpwd">
-                    <input class="remembercheck" type="checkbox" value="remember-pwd"> Remember me</div>
-                <a href="#" id="forgetpwd">Forget Password</a>
-            </div>
+            <form class="form-login" ng-submit="login()">
+                <div class="lowermiddlebox">
+                    <input class="longinput" id="loginemail" name="loginemail" type="email" required ng-model="email" autocomplete="off" value="wanyilun@hku.hk" placeholder="Email">
+                    <br>
+                    <input class="longinput" id="loginpwd" type="password" autocomplete="off" value="12345678" placeholder="Password">
+                    <button class="bigbtn" id="loginbtn">LOG IN</button>
+                    <div id="rememberpwd">
+                        <input class="remembercheck" type="checkbox" value="remember-pwd"> Remember me</div>
+                    <a href="#" id="forgetpwd">Forget Password</a>
+                </div>
+            </form>
         </div>
         <div class="lowerbox" id="auditbox">
             <div class="lowerleftbox">
                 <form class="lowerleftmidbox" ng-submit="login()">
-                    <img id='chooseimg' class="randomimg" src="img/profile100px/opensign.png"/>
+                    <img id='chooseimg' class="randomimg" src="img/profile100px/opensign.png" />
                     <input class="shortinput" type="text" autocomplete="off" value="visitor 007" placeholder="Name" ng-model='username'>
                     <button class="gobtn" type="submit">Go!</button>
                 </form>

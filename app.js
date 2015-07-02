@@ -1,40 +1,189 @@
 var express = require('express');
+// var MongoStore =require('connect-mongo')(express);
+//var settings =require('./settings');
+//var flash=require('connect-flash');
+var session = require('express-session');
 var app = express();
 var port = process.env.PORT || 80;
+//6.30 TODO:modify
+// login authentication interface
+var Controllers = require('./controllers')
+var bodyParser = require('body-parser')
+app.use(bodyParser())
+    // app.use(express.bodyParser())
+    // app.use(express.cookieParser())
+var cookieParser = require('cookie-parser')
+// app.use(cookieParser)
 
+//var crypto=require('crypto'),
+//User = require('./models/user.js');
+
+//app.post('/api/login',checkNotLogin);
+
+app.get('/api/validate', function(req, res) {
+    _userId = req.session._userId
+    if (_userId) {
+        Controllers.findUserById(_userId, function(err, user) {
+            if (err) {
+                res.json(401, {
+                    msg: err
+                })
+            } else {
+                res.json(user)
+            }
+        })
+    } else {
+        res.json(401, null)
+    }
+})
+
+app.post('/api/login', function(req, res) {
+        email = req.body.email
+        console.log('the email is:' + email)
+        console.log(Controllers)
+        // console.log(Controllers.User)
+        if (email) {
+            // Controllers.User.findByEmailOrCreate(email, function(err, user) {
+            Controllers.findByEmailOrCreate(email, function(err, user) {
+                if (err) {
+                    console.log('response err')
+                    res.json(500, {
+                        msg: err
+                    })
+                } else {
+                    // req.session._userId = user._id
+                    console.log('response user')
+                    res.json(user)
+                }
+            })
+        } else {
+            console.log('response 403')
+            res.json(403)
+        }
+    })
+
+    // var md5 =crypto.createHash('md5'),
+    // password=md5.update(req.body.password).digest('hex');
+    // User.get(req.body.name,function(err,user){
+    //     if(!user){
+    //         req.flash('error','the user is nor existed');
+    //         return res.redirect('/');
+    //     }
+    //     if (user.password!=password) {
+    //         req.flash('error','password incorrect');
+    //         return res.redirect('/');
+    //     }
+    //     res.session.user=user;
+    //     req.flash('success','login succeed');
+    //     res.redirect('/section');
+    // });
+    // });
+
+app.get('/api/logout', function(req, res) {
+    req.session._userId = null
+    req.json(401)
+        //  req.session.user=null;
+        //  req.flash('success','logout succeed');
+        //  res.redirect('/');
+})
 
 app.use(express.static(__dirname + '/static'));
 app.use(function(req, res) {
     res.sendfile('./static/index.html');
 });
-// //Modify
-// var Controllers = require('./controllers');
-// var bodyParser = require('body-parser')
-// app.use(bodyParser)
-
-// app.use(express.cookieParser())
-// var cookieParser = require('cookie-parser')
-// app.use(cookieParser)
-// var session = require('express-session')
-// app.use(session({
-//  secret:'technode',
-//  cookie:{
-//      maxAge:60*1000
-//  },
-//  resave:true,
-//  saveUninitialized:true
-// }))
+//app.use(flash());
 
 
-app.get('/api/validate', function(req, res){
-})
+app.use(session({
+    //secret:settings.cookieSecret,
+    secret: 'technnode',
+    //key:settings.db,
+    cookie: {
+        //1days TTL
+        maxAge: 60 * 1000 * 60 * 24
+    }
+    // ,
+    // store: new MongoStore({
+    //    db: settings.db
+    // })
+    // resave:true,
+    // saveUninitialized:true
+}))
 
 
-app.post('/api/login', function(req, res){
-    username = req.body.username;
-    res.json(username)
-    console.log('test here');
-})
+
+
+
+
+
+//7.1 registration 
+// app.post('/reg',checkNotLogin);
+// app.post('/api/reg', function(req,res){
+//     var email=req.body.email,
+//     password=req.body.password
+//     // password_re=req.body['password_repeat'];
+//     // if(password_re !=password){
+//     //     req.flash('error','The two password you inputed is not same!');
+//     //     return res.redirect('/reg');
+//     // }
+//     var md5=crypto.createHash('md5'),
+//     password=md5.update(req.body.password).digest('hex');
+//     var newUser=new User({
+//         email:req.body.email,
+//         name:req.body.name,
+//         password:req.body.password
+//     });
+//     //check if the email already exist
+//     User.get(newUser.email, function(err,user){
+//         if(user){
+//             req.flash('error','the email is already registrated!');
+//             return res.redirect('/');
+//         }
+//         //OR add user
+//         newUser.save(function(err,user){
+//             if (err){
+//                 req.flash('error',err);
+//                 return res.redirect('/');
+//             }
+//             req.session.user=user;
+//             req.flash('success','registration succeed!');
+//             res.redirect('/room');
+//         });
+//     });
+// });
+
+
+
+// app.get('/api/validate', function(req, res){
+// })
+
+
+// app.post('/api/login', function(req, res){
+//     username = req.body.username;
+//     res.json(username)
+//     console.log('test here');
+// })
+
+
+//7.2 TODO:MODIFY
+// function checkLogin(req,res,next){
+//     if (!res.session.user){
+//         req.flash('error','not login');
+//         res.redirect('/');
+//     }
+//     next();
+// }
+
+// function checkNotLogin(req,res,next){
+//     if(req.session.user){
+//         req.flash('error','You have loged in');
+//         res.redirect('back');
+//     }
+//     next();
+// }
+
+
+
 
 
 
@@ -90,40 +239,5 @@ io.sockets.on('connection', function(socket) {
 });
 //End of Message Send
 
-// app.get('/api/validate', function(req, res){
-//  _userId = req.session._userId;
-//  if(_userId){
-//      Controllers.User.findUserById(_userId, function(err, user){
-//          if(err){
-//              res.json(401, {msg:err})
-//          }else{
-//              res.json(user)
-//          }
-//      })
-//  }else{
-//      res.json(401, null)
-//  }
-// })
 
 
-// app.post('/api/login', function(req, res){
-//  email = req.body.email
-//  if(email){
-//      Controllers.User.findByEmailOrCreate(email, function(err, user){
-//          if(err){
-//              res.json(500, {msg:err})
-//          }else{
-//              req.session._userId = user._id
-//              res.json(user)
-//          }
-//      })
-//  }else{
-//      res.json(403)
-//  }
-// })
-
-
-// app.get('/api/logout', function(req, res){
-//  req.session._userId = null
-//  req.json(401)
-// })

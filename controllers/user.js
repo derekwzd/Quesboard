@@ -1,4 +1,5 @@
-var db = require('../models')
+// var db = require('../models/db')
+var db=require('../models')
 var async = require('async')
 var gravatar = require('gravatar')
 
@@ -23,8 +24,6 @@ exports.findByEmailOrCreate = function(email, callback){
 		}
 	})
 }
-
-
 
 
 
