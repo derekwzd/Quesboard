@@ -1,0 +1,769 @@
+*{
+  font-family: times, sans-serif;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          padding: 0;
+          margin: 0;
+}
+ul{
+  list-style: none;
+}
+body{
+  background-color: #eee;
+?€font: normal 100% Helvetica, Arial, sans-serif;
+}
+a{
+  text-decoration: none;
+  font-family: avenir;
+}
+img { max-width: 100%;}
+
+button{
+  background: none;
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+
+
+/* Unified Css*/
+.uni-green{
+  height: 40px;
+  width: 150px;
+  color: #fff;
+  background-color:#6ecf68;
+  font-size: 18px;
+  font-family: avenir;
+  text-align: center; 
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+
+.uni-greenpressed{
+  height: 40px;
+  width: 150px;
+  color: #6ecf68;
+  border: 1px solid #6ecf68;
+  background:none;
+  font-size: 1.125em;
+  font-family: avenir;
+  text-align: center; 
+  outline: none;
+  cursor: pointer;
+}
+
+.uni-disabled{
+  border:none;
+  color: #fff;
+  background-color:#ddd; 
+  cursor: default;
+}
+
+.blackbg {
+  position: absolute;
+  top:0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.8;
+}
+
+
+
+
+/*header*/
+
+.header{
+  position: fixed;
+  top:0;
+  width: 100%;
+  background-color: #2f2f2f;
+  z-index: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.header .wrapper{
+  padding:5px 0;
+  height:40px;
+  width: 920px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.header .logo img{
+  float: left;
+  width: 150px;
+  margin-left: 10px;
+}
+.header a{
+  color: #000;
+}
+
+.header .backbtn{
+  display: none;
+  float: left;
+  margin-top: 5px;
+  margin-left:10px;
+}
+
+.header .backbtn span {
+  position: relative;
+  margin-left: 10px;
+  top: -3px;
+  color: #fff;
+  font-family: avenir;
+}
+
+.header .user {
+  float:right;
+}
+.header .user .userimg {
+  float: right;
+  width: 30px;
+}
+.header .user .username{
+  float: right;
+  margin-top: 5px;
+  margin-left: 10px;
+  font-size:16px;
+  color: #fff;
+  font-family: avenir;
+}
+.header .user .list-icon{
+  float: right;
+  margin-top: 12px;
+  margin-left: 10px;
+  width: 10px;
+}
+
+/*Navigation*/
+
+.nav{
+  margin-top: 40px;
+  width: 100%;
+  background-color:#f6f6f6;
+}
+
+.nav .wrapper{
+    width: 920px;
+    height:80px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.nav .backbtn{
+  float: left;
+  margin-top: 30px;
+  margin-left:20px;
+}
+
+.nav .backbtn span {
+  position: relative;
+  margin-left: 10px;
+  top: -3px;
+  color: #747474;
+  font-family: avenir;
+}
+
+.nav .newboard-btn{
+  display: block;
+  float: right;
+  position: relative;
+  margin-top: 20px;
+  height:40px;
+  width:180px;
+}
+
+
+/*Question board*/
+
+.qboard{
+  background-color: #eee;
+}
+.qboard .boardcontainer{
+  position: relative;
+  overflow: hidden; 
+  margin: 20px auto 20px; 
+  width: 920px;
+  height: 170px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.qboard .boardcontainer:hover{
+  border: 1px solid #979797;
+}
+
+
+ .boardcontainer .lec-title{
+  position: relative;
+  margin-top: 20px;
+  margin-left: 30px;
+  width: 650px;
+  height: auto;
+  overflow: hidden;
+}
+
+.lec-title img{
+  float: left;
+  height: 25px;
+  margin-top: 5px;
+}
+
+.lec-title .lecname{
+  float: left;
+  white-space: nowrap;
+  margin-left: 10px;
+  width: 600px;
+  font-size: 2em;
+  overflow: hidden;
+  word-break:normal;
+  text-overflow:ellipsis;
+  /*display: -webkit-box;  
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;*/
+}
+
+.boardcontainer .lec-lecdescription{
+  clear: both;
+  position: relative;
+  margin-top: 10px;
+  margin-left: 30px;
+  margin-right: 60px;
+  font-size: 1em;
+  height: 38px;
+  width: 600px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  display: -webkit-box;  
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.boardcontainer .lec-lec-stat{
+  position: relative;
+  margin-top: 20px;
+  margin-left: 30px;
+  font-size: 1em;
+  font-family: avenir;
+  color: #747474;
+}
+
+.boardcontainer .toolbox{
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  width: auto;
+/*  border:  1px solid #000;*/
+}
+
+.boardcontainer .lec-deletebtn{
+  width: 20px;
+  float: right;
+}
+
+.boardcontainer .lec-editbtn{
+  float: right;
+  margin-right: 10px;
+  width: 20px;
+}
+
+.boardcontainer .lec-starbtn{
+  width: 20px;
+  margin-right: 12px;
+  float: right;
+}
+
+.opencheck {
+  margin-right:20px;
+  margin-top: 2px;
+  float: right;
+  width: 50px;
+  height: 20px;
+  position: relative;
+  background-color: #6ecf68;
+}
+
+#opencheckInput{
+	display: none;
+}
+
+/* Create the text for the On position */
+.opencheck .checkOff {
+	opacity: 0;
+	position: absolute;
+	top: 3px;
+	left: 4px;
+	height: 2px;
+	color: #fff;
+	font-family: arial;
+	font-size: 0.8em;
+}
+/* Create the label for the off position */
+.opencheck .checkOn {
+	position: absolute;
+	top: 3px;
+	right: 6px;
+	height: 2px;
+	color: #fff;
+	font-family: arial;
+	font-size: 0.8em;
+}
+
+/* Create the pill to click */
+.opencheck label {
+  display: block;
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  left: 2px;
+  -webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  -ms-transition: all .3s ease;
+  transition: all .3s ease;
+  cursor: pointer;
+  position: absolute;
+  background: #fff;
+}
+
+/* Create the checkbox event for the label 
+.opencheck input[type=checkbox]:checked + label {
+  left: 32px;
+}*/
+
+.boardcontainer .time{
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  font-size: 1.8em;
+  font-family: avenir;
+  color: #747474;
+}
+
+.boardcontainer .idbox{
+  position: absolute;
+  bottom: 20px;
+  right: 45px;
+  font-size: 0.8em;
+  font-family: avenir;
+  color: #747474;
+}
+ 
+
+/* Delete Confirm Bubble */
+.bubblecontainer{
+	position: absolute;
+	max-width: 240px;
+	top:-5px;
+	right:0px;
+    display: none;
+    z-index: 1;
+	/**border: 1px solid #000**/;
+}
+
+.bubblecontainer .bubbletop{
+  min-height: 30px;
+  margin-bottom: 5px;
+  background-color: #fff;
+  border: 1px solid #747474;
+}
+
+.bubbletop .confirm-info{
+  float: right;
+  margin-top: 7px;
+  margin-right: 15px;
+  font-size: 0.8em;
+}
+
+.bubbletop .delete-confirm{
+  float: right;
+  margin-top: 4px;
+  margin-right: 5px;
+  width: 50px;
+  height: 20px;
+  padding:3px; 
+  color: #fff;
+  font-family:avenir; 
+  background-color: #ff5252;
+}
+
+.bubblecontainer .bubbletriangle-outer{
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #747474;
+}
+
+.bubblecontainer .bubbletriangle-inner{
+    position: absolute;
+    top:-6px;
+    right:-5px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #fff;
+}
+
+
+/* New Section popout */
+
+.sec-popout {
+  position: fixed;
+  top:0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.sec-popout .newseccontainer{
+  overflow: hidden;
+  position: relative;
+  margin: 140px auto;
+  min-height:400px;
+  max-width: 620px;
+}
+
+.newseccontainer .newsecframe{
+  float: left;
+  width: 100%;	
+  padding: 10px;
+  background-color: #fff;
+}
+
+
+.newseccontainer .newsectitle{
+  position: relative;
+  width: auto;
+  margin-top: 10px;
+  margin-left: 2px;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.newseccontainer .newsecclosebtn{
+  float: right;
+  padding: none;
+  color: #fff;
+  background: none;
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+
+.newseccontainer .boardname{
+  display: block;
+  float:left;
+  width: 70%;
+  height:50px;
+  margin: 10px auto 0;
+  resize:none;
+  padding: 10px;
+  font-size: 18px;
+  font-weight:bold;
+  outline: none;
+}
+
+.newseccontainer .boarddescrip{
+  display: block;
+  clear:both;
+  width: 100%;
+  height:200px;
+  margin: 70px auto 0;
+  resize:none;
+  padding: 10px;
+  font-size: 18px;
+  outline: none;
+}
+
+.newseccontainer .confirmbtn{
+  float: right;
+  margin-top: 10px;
+  height: 40px;
+}
+
+
+
+
+/* Show QR Page */
+
+.qr-popout {
+  position: fixed;
+  top:0;
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.qr-popout .qrcontainer{
+  position: relative;
+  padding: 10px;
+  margin: 80px auto;
+  min-height:380px;
+  max-width: 300px;
+  background-color: #fff;
+}
+
+.qr-popout .qrtitle{
+  font-family: avenir;
+  font-size: 1.6em;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.qrcontainer .qrclosebtn{
+  position: absolute;
+  top:10px;
+  right:10px;
+  color: #fff;
+  background: none;
+  border:none;
+  outline: none;
+  cursor: pointer;
+}
+
+.qr-popout .qr-lectitle{
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.qr-popout .qrimg{
+  display: block;
+  float: none;
+  width: 65%;
+  border:4px solid #000;
+  margin:10px auto;
+}
+
+.qr-popout .qr-explain{
+  margin-top: 20px;
+  font-size: 1em;
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.qr-popout .qrsavebtn{
+  margin-left: 55px;
+  margin-top: 30px;
+  display: inline-block;
+  background:none;
+  border:none;
+  font-size: 1.2em;
+  color: #747474;
+  font-family: avenir;
+}
+.qr-popout .qrprintbtn{
+  margin-left: 30px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  display: inline-block;
+  background:none;
+  border:none;
+  font-size: 1.2em;
+  color: #747474;
+  font-family: avenir;
+}
+
+
+
+
+.qr-popout button img{
+  width: 25px;
+  vertical-align: text-top;
+  margin-right: 5px;
+}
+
+/* Module hide*/
+.modules {
+	display: none;
+}
+
+
+/* Bottom New Boardbtn*/
+.newboard-btn{
+  display: none;
+}
+
+
+/*show hide control*/
+.showhidecontrol{
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  color: #979797;
+  font-size: 0.8em;
+}
+
+
+
+
+
+
+/* Mobile End */
+
+
+@media all and (max-width:920px){
+  .header .wrapper{
+    padding:10px;
+    width: 100%;
+    height: 50px;
+  }
+
+  .header .logo {
+    display: none;
+  }
+
+  .header .backbtn{
+    display: block;
+  }
+
+  .header .user{
+    margin-right: 0;
+  }
+
+  .header .username{
+    display: none;
+  }
+
+  .header .list-icon{
+    display: none;
+  }
+
+  body .nav{
+    display: none !important; 
+  }
+  
+  .newboard-btn{
+    display: block;
+    position: fixed;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+  }
+
+  .qboard {
+    margin-top:50px;
+    }
+
+  .qboard .boardcontainer{
+    width: 100%;
+    margin:10px 0 10px; 
+  }
+
+  .boardcontainer .time{
+    font-size:1.4em;
+  }
+  
+  .boardcontainer .lec-title{
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+
+  .lec-title img{
+    height: 16px;
+  }
+  
+  .lec-title .lecname{
+    font-size: 1.5em;
+    width:80%;
+    font-weight: bold;
+  }
+
+  .boardcontainer .sec-lec-description{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .boardcontainer .sec-lec-stat{
+    margin-left: 10px;
+    font-size: 1em;
+  }
+
+  .boardcontainer .sectionlist{
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+    padding: 10px;
+    max-width: none;
+  }
+
+  .boardcontainer .sectionframe{
+    margin-bottom: 10px;
+  }
+
+  .sectionframe .sectionname{
+  	/*float: none;
+  	clear:both;
+  	margin-top: 60px;*/
+  	width: 55%;
+  	font-size: 1em;
+  	margin-top: 22px;
+  }
+
+
+  .sec-popout .newseccontainer{
+    width: 100%;
+    margin-top: 0;
+  }
+
+
+  .newseccontainer .newsecframe{
+    width: 100%;
+    padding: 10px;
+  }
+
+  .newseccontainer .newsectitle{
+    margin-left: 10px;
+    margin-top: 5px;
+    font-size: 1.2em;
+  }
+
+  .newseccontainer .boarddescrip{
+    margin-top: 10px;
+    height: 160px;
+    width: 100%;
+  }
+
+  .newseccontainer .confirmbtn{
+    margin-top: 10px;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .newseccontainer .anonybox{
+    display: none;
+  }
+
+
+  .qr-popout .qrsavebtn{
+    display: none;
+  }
+
+  .qr-popout .qrprintbtn{
+    display: none;
+  }
+
+  .showhidecontrol{
+    display: none;
+  }
+
+
+}
+
+/* super small screen*/
+
+@media all and (max-width:329px){
+	.opencheck{
+		display: none;
+	}
+}
