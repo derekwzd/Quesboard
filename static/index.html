@@ -7,39 +7,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script> -->
-   	<script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script> 
+    <script type="text/javascript" src="/components/jquery/dist/jquery.min.js"></script>
     <link rel="shortcut icon" href="img/icon.ico">
-    <link rel='stylesheet' type='text/css' href='styles/login.css'/>
+    <link rel='stylesheet' type='text/css' href='styles/login.css' />
     <link rel="stylesheet" href="/styles/room.css">
     <link rel="stylesheet" href="/styles/section.css">
+    <link rel="stylesheet" type="text/css" href="/styles/lecture.css">
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/components/angular/angular.js"></script>
     <script type="text/javascript" src="/components/angular-route/angular-route.js"></script>
 </head>
+
 <body>
-    <!--  <nav class="colloapse navbar-collapse" role = "navigation">
-        <ul class="nav navbar-nav navbar-right" ng-show='me'>
-            <li>
-                <img ng-src="{{me.avatarUrl}}" title="{{me.name}}" class="img-rounded">
-            </li>
-            <li>
-                <a href="" ng-click="logout()">Log out</a>
-            </li>
-        </ul>
-    </nav> -->
     <div>
         <div class="row" ng-view></div>
     </div>
     <script type="text/javascript" src="/technode.js"></script>
     <script type="text/javascript" src="router.js"></script>
-
-    <!-- <script type="text/javascript">
-    var socket = io.connect('/');
-    socket.on('connected', function() {
-        alert('connet to tech!');
-    })
-    </script> -->
 </body>
 
 </html>
