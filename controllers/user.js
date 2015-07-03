@@ -9,22 +9,38 @@ exports.findUserById = function (_userId, callback){
 	},callback)
 }
 
-exports.findByEmailOrCreate = function(email, callback){
+exports.findByEmail = function(email, callback){
 	db.User.findOne({
 		email:email
 	}, function(err, user){
 		if(user){
 			callback(null, user)
 		}else{
-			user = new db.User
-			user.name = email.split('@')[0]
-			user.email = email
-			user.avatarUrl = gravatar.url(email)
-			user.save(callback)
+			return callback("err") 
 		}
 	})
 }
 
-
+exports.createNewUser = function(email,password, callback){
+	db.User.findOne({
+		email:email,
+		password:password
+	},function(err,user){
+		if(user){
+			return callback("err")
+		}
+		else{
+			user =new db.User
+			user.name = email.split('@')[0]
+			user.email = email
+			user.password=password
+			//TODO:avatarurl
+			user.avatarUrl = gravatar.url(email)
+			user.save()
+			console.log("user is" + user)
+			callback(null,user)
+		}
+	})
+}
 
 

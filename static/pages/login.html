@@ -13,10 +13,10 @@
         <div class="lowerbox" id="signupbox">
             <form class="form-reg" ng-submit="reg()">
                 <div class="lowermiddlebox">
-                    <input class="longinput" id="signupemail" type="email" ng-model="email" autocomplete="off" placeholder="Email">
+                    <input class="longinput" id="signupemail" type="email" ng-model="signupEmail" autocomplete="off" placeholder="Email">
                     <br>
-                    <input class="longinput" id="signuppwd" type="password" autocomplete="off" placeholder="Password">
-                    <button class="bigbtn" id="signupbtn" type="submit">SIGN UP</button>
+                    <input class="longinput" id="signuppwd" type="password" requied ng-model="signupPassword" autocomplete="off" placeholder="Password">
+                    <button class="bigbtn" id="signupbtn" >SIGN UP</button>
                 </div>
             </form>
         </div>
@@ -24,9 +24,9 @@
         <div class="lowerbox" id="loginbox">
             <form class="form-login" ng-submit="login()">
                 <div class="lowermiddlebox">
-                    <input class="longinput" id="loginemail" name="loginemail" type="email" required ng-model="email" autocomplete="off" value="wanyilun@hku.hk" placeholder="Email">
+                    <input class="longinput" id="loginemail" name="loginemail" type="email" required ng-model="loginEmail" autocomplete="off" value="wanyilun@hku.hk" placeholder="Email">
                     <br>
-                    <input class="longinput" id="loginpwd" type="password" autocomplete="off" value="12345678" placeholder="Password">
+                    <input class="longinput" id="loginpwd" name="loginpassword" type="password" requied ng-model="loginPassword" autocomplete="off" value="12345678" placeholder="Password">
                     <button class="bigbtn" id="loginbtn">LOG IN</button>
                     <div id="rememberpwd">
                         <input class="remembercheck" type="checkbox" value="remember-pwd"> Remember me</div>

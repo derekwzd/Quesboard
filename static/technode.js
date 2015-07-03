@@ -8,7 +8,6 @@ run(function($window, $rootScope, $http, $location) {
         }).success(function(user) {
             console.log(user)
             $rootScope.me = user
-                // TODO: auto trigger
             $location.path('/section')
             console.log('login success')
         }).error(function(data) {
@@ -28,6 +27,9 @@ run(function($window, $rootScope, $http, $location) {
         }
         //listen the login event from LoginCtrl
     $rootScope.$on('login', function(evt, me) {
+        $rootScope.me = me
+    })
+    $rootScope.$on('reg', function(evt, me) {
         $rootScope.me = me
     })
 })
@@ -89,7 +91,6 @@ angular.module('techNodeApp').controller('VoteControl', function($scope, socket)
 })
 
 angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $location) {
-
     //random picture and name
     $(".randomimg").click(function() {
         $(".head-popout").fadeIn(400);
@@ -217,21 +218,17 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
 
     //login 
     $scope.login = function() {
-        // console.log($('#chooseimg').attr('src'))
-        // console.log($scope.username)
         $http({
             url: '/api/login',
             method: 'POST',
             data: {
-                email: $scope.email
-                // email:'ttttt'
+                email: $scope.loginEmail,
+                password: $scope.loginPassword
             }
         }).success(function(user) {
-            console.log(user)
             $scope.$emit('login', user)
-            $location.path('/section', $scope.email)
+            $location.path('/section', $scope.loginEmail)
         }).error(function(data) {
-            console.log('error')
             $location.path('/')
         })
 
@@ -240,28 +237,30 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
     }
 
     //6.30reg
-    // $scope.reg = function() {
-    //         console.log($('#chooseimg').attr('src'))
-    //         // console.log($scope.username)
-    //         $http({
-    //             url: '/api/reg',
-    //             method: 'POST',
-    //             data: {
-    //                 email: $scope.email,
-    //                 password:$scope.password
-    //             }
-    //         }).success(function(user) {
-    //             console.log(user)
-    //             console.log('reg')
-    //         }).error(function(data) {
-    //             console.log('error_reg')
-    //         })
+    $scope.reg = function() {
+        console.log($('#chooseimg').attr('src'))
+        console.log($scope.signupEmail)
+        $http({
+            url: '/api/reg',
+            method: 'POST',
+            data: {
+                email: $scope.signupEmail,
+                password: $scope.signupPassword
+            }
+        }).success(function(user) {
+            console.log(user)
+            console.log('reg')
+            $scope.$emit('reg', user)
+            $location.path('/section', $scope.signupEmail)
+        }).error(function(data) {
+            console.log(data)
+            console.log('error_reg')
+            $location.path('/')
+        })
 
-    //         $scope.$emit('reg', $scope.email, $('#chooseimg').attr('src'))
-    //         $location.path('/section', $scope.username)
-    //     }
-
-
+        // $scope.$emit('reg', $scope.email, $('#chooseimg').attr('src'))
+        // $location.path('/section', $scope.username)
+    }
 })
 
 

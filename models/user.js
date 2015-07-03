@@ -18,7 +18,7 @@
  var User = new Schema({
      email:String,
      avatarUrl: String,
-     pwd:String,
+     password:String,
      name : String
  });
  module.exports = User;
