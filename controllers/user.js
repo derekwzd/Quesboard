@@ -1,4 +1,3 @@
-// var db = require('../models/db')
 var db=require('../models')
 var async = require('async')
 var gravatar = require('gravatar')
@@ -27,6 +26,7 @@ exports.createNewUser = function(email,password, callback){
 		password:password
 	},function(err,user){
 		if(user){
+			//the email has registrated
 			return callback("err")
 		}
 		else{
@@ -37,7 +37,6 @@ exports.createNewUser = function(email,password, callback){
 			//TODO:avatarurl
 			user.avatarUrl = gravatar.url(email)
 			user.save()
-			console.log("user is" + user)
 			callback(null,user)
 		}
 	})
