@@ -1,28 +1,48 @@
 var db=require('../models')
 var async = require('async')
 
-
 exports.createNewSection = function(section, callback){
 	var section=new db.Section()
 	section.content=section.content
-	section.vote=0
-	section.qStatus=1
+	section.lectureId=section.lectureId
+	section.sStatus=1
 	section.save(callback)
 }
 
-exports.deleteQuestion=function(_questionId,callback){
+exports.deleteSection=function(_sectionId,callback){
 	db.Section.remove({
-		_id:_questionId
+		_id:_sectionId
 	},callback)
 }
 
-exports.getAllQuestions=function(_sectionId,callback){
-	db.Section.find({
-		sectionId:_sectionId
-	},null,{
-		sort:{
-			'vote':-1
-		},
-		limit:20
+
+exports.offSection=function(_sectionId,callback){
+	db.Section.findOneAndUpdate({
+		_id:_sectionId
+	},{
+		$set:{
+			sStatus:0
+		}
 	},callback)
 }
+
+exports.onSection=function(_sectionId,callback){
+	db.Section.findOneAndUpdate({
+		_id:_sectionId
+	},{
+		$set:{
+			sStatus:1
+		}
+	},callback)
+}
+
+exports.changeSection = function(_sectionId, content, callback){
+	db.Section.findOneAndUpdate({
+		_id:_sectionId
+	},{
+		$set:{
+			content:content
+		}
+	},callback)
+}
+

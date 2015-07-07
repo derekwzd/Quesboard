@@ -5,6 +5,11 @@
  var Section = new Schema({
      content:String,
      lectureId:ObjectId,
-     sStatus:Date,
+     //0:closed,1:active
+     sStatus:Number,
+     time:{
+     	type:Date,
+     	default:Date.now
+     }
  });
  module.exports = Section;
