@@ -42,12 +42,12 @@ exports.onLecture=function(_lectureId,callback){
 	},callback)
 }
 
-exports.changeLecture = function(_lectureId, content, callback){
+exports.changeLecture = function(_lectureId, name, content, callback){
 	db.Lecture.findOneAndUpdate({
 		_id:_lectureId
 	},{
 		$set:{
-			name:name
+			name:name,
 			content:content
 		}
 	},callback)
@@ -80,5 +80,17 @@ exports.increaseQuestion= function(_lectureId,callback){
 		$set:{
 			totalQuestion:+1
 		}
+	},callback)
+}
+
+//sort by totalvote
+exports.getAllLectures=function(callback){
+	db.Question.find({
+
+	},null,{
+		sort:{
+			'totalVote':-1
+		},
+		limit:20
 	},callback)
 }

@@ -7,7 +7,11 @@ var app = express();
 var port = process.env.PORT || 80;
 //6.30 TODO:modify
 // login authentication interface
-var Controllers = require('./controllers')
+var Controllers_user = require('./controllers/user.js')
+var Controllers_audituser = require('./controllers/audituser.js')
+var Controllers_section = require('./controllers/section.js')
+var Controllers_lecture = require('./controllers/lecture.js')
+var Controllers_question = require('./controllers/question.js')
 var bodyParser = require('body-parser')
 app.use(bodyParser())
 app.use(flash())
@@ -28,19 +32,13 @@ app.use(session({
         //1days TTL
         maxAge: 60 * 1000 * 60 * 24
     }
-    // ,
-    // store: new MongoStore({
-    //    db: settings.db
-    // })
-    // resave:true,
-    // saveUninitialized:true
 }))
 
 
 app.get('/api/validate', function(req, res) {
     _userId = req.session._userId
     if (_userId) {
-        Controllers.findUserById(_userId, function(err, user) {
+        Controllers_user.findUserById(_userId, function(err, user) {
             if (err) {
                 console.log('error')
                 res.json(401, {
@@ -62,11 +60,10 @@ app.post('/api/login', function(req, res) {
     password = req.body.password
     console.log('the loginemail is:' + email)
     console.log('the lohinpassword is:' + password)
-    console.log(Controllers)
         // console.log(Controllers.User)
     if (email && password) {
         // Controllers.User.findByEmailOrCreate(email, function(err, user) {
-        Controllers.findByEmail(email, function(err, user) {
+        Controllers_user.findByEmail(email, function(err, user) {
             if (err) {
                 console.log('the email have not registrated');
                 req.flash('error', 'the email have not registrated');
@@ -124,7 +121,7 @@ app.post('/api/reg', function(req, res) {
     console.log('the regpassword is:' + password)
     if (email && password) {
         // Controllers.User.findByEmailOrCreate(email, function(err, user) {
-        Controllers.createNewUser(email, password, function(err, user) {
+        Controllers_user.createNewUser(email, password, function(err, user) {
             if (err) {
                 console.log('the email have registrated please login');
                 req.flash('error', 'the email have registrated please login');
@@ -142,6 +139,25 @@ app.post('/api/reg', function(req, res) {
     }
 })
 
+app.post('/api/auditlogin', function(req, res) {
+    auditname = req.body.auditname
+    console.log(req.body)
+    console.log('the auditname is:' + auditname)
+    console.log(Controllers_audituser)
+    if (auditname) {
+        Controllers_audituser.createNewAudit(auditname, function(err, user){
+            if (err) {
+                res.json(401,{msg:err})
+            }else{
+                res.json(audituser)
+            }
+        })
+    } 
+    else {
+        console.log('response 403')
+        res.json(403,null)
+    }
+})
 
 
 app.get('/api/logout', function(req, res) {

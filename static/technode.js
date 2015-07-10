@@ -427,14 +427,23 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
     })
 
     //AUDIT
-    $scope.anonylogin = function() {
-        // $scope.$emit('login', $scope.username, $('#chooseimg').attr('src'))
-        $location.path('/lecture', $scope.username)
+    $scope.auditlogin = function() {
+        $http({
+            url: '/api/auditlogin',
+            method: 'POST',
+            data: {
+                auditname: $scope.auditname,
+            }
+        }).success(function(audituser) {
+            $scope.$emit('auditlogin', audituser)
+            $location.path('/lecture', $scope.auditname)
+        }).error(function(data) {
+            $location.path('/')
+        })
     }
 
     //login 
     $scope.login = function() {
-        console.log('tetdddd')
         $http({
             url: '/api/login',
             method: 'POST',

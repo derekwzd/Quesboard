@@ -46,3 +46,13 @@ exports.changeSection = function(_sectionId, content, callback){
 	},callback)
 }
 
+exports.getAllSections=function(_lectureId,callback){
+	db.Section.find({
+		lectureId:_letureId
+	},null,{
+		sort:{
+			'creatAt':-1
+		},
+		limit:20
+	},callback)
+}
