@@ -56,33 +56,11 @@ app.get('/api/validate', function(req, res) {
     }
 })
 
-app.post('/api/createSection', function(req, res) {
-    var user_Id = req.body.user_Id;
-    var lecture_Id = req.body.lecture_Id;
-    var content = req.body.content;
-    // if(user_Id === Controllers_lecture.findCreatorByID(lecture_Id))
-    if (lecture_Id) {
-        var newsection = {
-            content: content,
-            lectureId: lecture_Id,
-        }
-        Controllers_section.createNewSection(newsection, function(err, section){
-            if(err){
-                res.send(err)
-            }else{
-                // console.log(section)
-                res.send("create Success")
-            }
-        })
-    }
-})
+
 
 app.post('/api/login', function(req, res) {
     email = req.body.email
-    // console.log(req.body)
     password = req.body.password
-    // console.log('the loginemail is:' + email)
-    // console.log('the lohinpassword is:' + password)
         // console.log(Controllers.User)
     if (email && password) {
         // Controllers.User.findByEmailOrCreate(email, function(err, user) {
@@ -128,8 +106,7 @@ app.post('/api/login', function(req, res) {
 //     res.redirect('/section');
 // });
 // });
-//7.1 registration 
-// app.post('/reg',checkNotLogin);
+
 app.post('/api/reg', function(req, res) {
     var email = req.body.email,
         password = req.body.password
@@ -177,7 +154,7 @@ app.post('/api/getAllLectures', function(req, res) {
             }
         })
     } else {
-        Controllers_lecture.getAllLectures(function(err, lectures) {
+        Controllers_lecture.getAllLectures(data.user_Id, function(err, lectures) {
             if (err) {
                 res.send(err);
             } else {
@@ -191,15 +168,57 @@ app.post('/api/getAllSectionsByID',function(req, res){
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
     console.log("haha" + lecture_Id)
-    // if(Controllers_lecture.validSeeLectureContent(user_Id, lecture_Id)==='yse')
-    Controllers_section.getAllSections(lecture_Id, function(err, msg){
-        if(err){
-            res.send(err)
+    Controllers_lecture.findCreatorByID(lecture_Id,function(err, _id){
+        if(user_Id === _id){
+            Controllers_section.getAllSections(lecture_Id, function(err, msg){
+            if(err){
+                res.send(err)
+            }else{
+                res.send(msg)
+                }
+            })
         }else{
-            res.send(msg)
+            Controllers_section.getActiveSections(lecture_Id,function(err,msg){
+                if(err){
+                    console.log('getActiveSections failed')
+                    res.send(err)
+                }else{
+                    res.send(msg)
+                }
+            })
         }
-    })
+    }
+    // if(Controllers_lecture.validSeeLectureContent(user_Id, lecture_Id)==='yes')
+    
 })
+
+app.post('/api/getAllQuestionsByID',function(req, res){
+    var user_Id = req.body.user_Id;
+    var section_Id = req.body.section_Id;
+    var lecture_Id = req.body.lecture_Id;
+    console.log("section" + section_Id)
+    Controllers_lecture.findCreatorByID(lecture_Id,function(err, _id){
+        if(user_Id === _id){
+            Controllers_question.getAllQuestions(section_Id, function(err, msg){
+            if(err){
+                res.send(err)
+            }else{
+                res.send(msg)
+                }
+            })
+        }else{
+            Controllers_section.getActiveQuestions(lecture_Id,function(err,msg){
+                if(err){
+                    console.log('getActiveQuestions failed')
+                    res.send(err)
+                }else{
+                    res.send(msg)
+                }
+            })
+        }
+    }    
+})
+
 
 app.post('/api/creatlecture', function(req, res) {
     creator = req.body.creator;
@@ -221,7 +240,69 @@ app.post('/api/creatlecture', function(req, res) {
     }
 })
 
+app.post('/api/createSection', function(req, res) {
+    var user_Id = req.body.user_Id;
+    var lecture_Id = req.body.lecture_Id;
+    var content = req.body.content;
+    Controllers_lecture.findCreatorByID(lecture_Id,function(err, _id){
+        if(user_Id === _id){
+            console.log('You are the creator,access')
+            if (lecture_Id) {
+                var newsection = {
+                content: content,
+                lectureId: lecture_Id,
+                }
+                Controllers_section.createNewSection(newsection, function(err, section){
+                    if(err){
+                        res.send(err)
+                    }else{
+                    // console.log(section)
+                    res.send("create Success")
+                    }
+                })
+            }
+        }else{
+            console.log('not valid')
+        }
+    }
+    
+})
 
+
+app.post('/api/createQuestion', function(req, res) {
+    var name = req.body.name;
+    var avatarUrl = req.body.avatarUrl;
+    var user_Id = req.body.user_Id;
+    var section_Id = req.body.section_Id;
+    var lecture_Id = req.body.lecture_Id;
+    var content = req.body.content;
+    Controllers_lecture.findCreatorByID(lecture_Id,function(err, _id){
+        if(user_Id === _id){
+            console.log('You are the creator,access')
+            if (section_Id) {
+                var newquestion = {
+                content: content,
+                sectionId: section_Id,
+                creator:{
+                    _id:user_Id,
+                    name:name,
+                    avatarUrl: avatarUrl
+                }
+                Controllers_section.createNewSection(newsection, function(err, section){
+                    if(err){
+                        res.send(err)
+                    }else{
+                    // console.log(section)
+                    res.send("create Q Success")
+                    }
+                })
+            }
+        }else{
+            console.log('not valid')
+        }
+    }
+    
+})
 
 
 
@@ -229,18 +310,18 @@ app.post('/api/creatlecture', function(req, res) {
 
 
 app.post('/api/auditlogin', function(req, res) {
-    auditname = req.body.auditname
+    name = req.body.auditname
     console.log(req.body)
-    console.log('the auditname is:' + auditname)
+    console.log('the auditname is:' + name)
     console.log(Controllers_audituser)
-    if (auditname) {
-        Controllers_audituser.createNewAudit(auditname, function(err, user) {
+    if (name) {
+        Controllers_audituser.createNewAudit(name, function(err, user) {
             if (err) {
                 res.json(401, {
                     msg: err
                 })
             } else {
-                res.json(audituser)
+                res.json(user)
             }
         })
     } else {

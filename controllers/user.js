@@ -34,6 +34,7 @@ exports.createNewUser = function(email,password, callback){
 			user.name = email.split('@')[0]
 			user.email = email
 			user.password=password
+			user.flag = 1
 			//TODO:avatarurl
 			user.avatarUrl = gravatar.url(email)
 			user.save()

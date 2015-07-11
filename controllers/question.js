@@ -2,13 +2,13 @@ var db=require('../models')
 var async = require('async')
 
 exports.createNewQuestion = function(question, callback){
-	var question=new db.Question()
-	question.content=question.content
-	question.creator=question.creator
-	question.sectionId=question.sectionId
-	question.vote=0
-	question.qStatus=1
-	question.save(callback)
+	var newquestion=new db.Question()
+	newquestion.content=question.content
+	newquestion.creator=question.creator
+	newquestion.sectionId=question.sectionId
+	newquestion.vote=0
+	newquestion.qStatus=1
+	newquestion.save(callback)
 }
 
 exports.deleteQuestion=function(_questionId,callback){

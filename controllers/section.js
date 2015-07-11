@@ -53,7 +53,20 @@ exports.getAllSections=function(_lectureId,callback){
 		lectureId: _lectureId
 	},null,{
 		sort:{
-			'creatAt':-1
+			'time':-1
+		},
+		limit:20
+	},callback)
+}
+
+exports.getActiveSections=function(_lectureId,callback){
+	console.log(_lectureId)
+	db.Section.find({
+		lectureId: _lectureId,
+		sStatus:1
+	},null,{
+		sort:{
+			'time':-1
 		},
 		limit:20
 	},callback)

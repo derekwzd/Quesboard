@@ -5,7 +5,7 @@
      avatarUrl: String,
      password:String,
      name : String,
-     //0:student,1:teacher
+     //0:audit,1:signupuser
      flag:Number
  });
  module.exports = User;

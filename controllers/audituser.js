@@ -2,11 +2,12 @@ var db=require('../models')
 var async = require('async')
 var gravatar = require('gravatar')
 
-exports.createNewAudit = function(auditname, callback){
-			audituser =new db.Audituser
-			audituser.auditname = auditname
+exports.createNewAudit = function(name, callback){
+			user =new db.User
+			user.name = name
 			//TODO:avatarurl
-			audituser.avatarUrl = gravatar.url(auditname)
-			audituser.save()
-			callback(null,audituser)	
+			user.flag= 0
+			user.avatarUrl = gravatar.url(name)
+			user.save()
+			callback(null,user)	
 }
