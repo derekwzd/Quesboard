@@ -11,7 +11,7 @@ ul{
 }
 body{
   background-color: #eee;
-?€font: normal 100% Helvetica, Arial, sans-serif;
+  font: normal 100% Helvetica, Arial, sans-serif;
 }
 a{
   text-decoration: none;
@@ -138,6 +138,26 @@ button{
   width: 10px;
 }
 
+.header .user-dropdown{
+  display: none;
+  position: absolute;
+  text-align: center;
+  right: 0;
+  top:38px;
+  width: 120px;
+  background-color: #2f2f2f;
+  border: 1px #ccc solid;
+}
+
+.user-dropdown li{
+  padding: 10px 10px;
+}
+
+.user-dropdown a{
+    color: #fff;
+}
+
+
 /*Navigation*/
 
 .nav{
@@ -179,10 +199,10 @@ button{
 
 /*Question board*/
 
-.qboard{
+.lec-board{
   background-color: #eee;
 }
-.qboard .boardcontainer{
+.lec-board .boardcontainer{
   position: relative;
   overflow: hidden; 
   margin: 20px auto 20px; 
@@ -192,27 +212,27 @@ button{
   cursor: pointer;
 }
 
-.qboard .boardcontainer:hover{
+.lec-board .boardcontainer:hover{
   border: 1px solid #979797;
 }
 
 
- .boardcontainer .lec-title{
+ .boardcontainer .lec-lectitle{
   position: relative;
   margin-top: 20px;
   margin-left: 30px;
-  width: 650px;
+
   height: auto;
   overflow: hidden;
 }
 
-.lec-title img{
+.lec-lectitle img{
   float: left;
   height: 25px;
   margin-top: 5px;
 }
 
-.lec-title .lecname{
+.lec-lectitle .lec-lecname{
   float: left;
   white-space: nowrap;
   margin-left: 10px;
@@ -226,7 +246,7 @@ button{
   -webkit-box-orient: vertical;*/
 }
 
-.boardcontainer .lec-lecdescription{
+.boardcontainer .lec-lecdescrip{
   clear: both;
   position: relative;
   margin-top: 10px;
@@ -242,16 +262,16 @@ button{
   -webkit-box-orient: vertical;
 }
 
-.boardcontainer .lec-lec-stat{
-  position: relative;
-  margin-top: 20px;
-  margin-left: 30px;
+.boardcontainer .lec-lecstat{
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
   font-size: 1em;
   font-family: avenir;
   color: #747474;
 }
 
-.boardcontainer .toolbox{
+.boardcontainer .lec-toolbox{
   position: absolute;
   top: 30px;
   right: 40px;
@@ -262,21 +282,24 @@ button{
 .boardcontainer .lec-deletebtn{
   width: 20px;
   float: right;
+  cursor:pointer;
 }
 
 .boardcontainer .lec-editbtn{
   float: right;
   margin-right: 10px;
   width: 20px;
+  cursor:pointer;
 }
 
 .boardcontainer .lec-starbtn{
   width: 20px;
   margin-right: 12px;
   float: right;
+  cursor:pointer;
 }
 
-.opencheck {
+.boardcontainer .lec-opencheck {
   margin-right:20px;
   margin-top: 2px;
   float: right;
@@ -284,14 +307,15 @@ button{
   height: 20px;
   position: relative;
   background-color: #6ecf68;
+  cursor:pointer;
 }
 
-#opencheckInput{
+.lec-opencheck #lec-opencheckInput{
 	display: none;
 }
 
 /* Create the text for the On position */
-.opencheck .checkOff {
+.lec-opencheck .checkOff {
 	opacity: 0;
 	position: absolute;
 	top: 3px;
@@ -302,7 +326,7 @@ button{
 	font-size: 0.8em;
 }
 /* Create the label for the off position */
-.opencheck .checkOn {
+.lec-opencheck .checkOn {
 	position: absolute;
 	top: 3px;
 	right: 6px;
@@ -313,7 +337,7 @@ button{
 }
 
 /* Create the pill to click */
-.opencheck label {
+.lec-opencheck label {
   display: block;
   width: 16px;
   height: 16px;
@@ -334,7 +358,7 @@ button{
   left: 32px;
 }*/
 
-.boardcontainer .time{
+.boardcontainer .lec-time{
   position: absolute;
   bottom: 40px;
   right: 40px;
@@ -343,7 +367,7 @@ button{
   color: #747474;
 }
 
-.boardcontainer .idbox{
+.boardcontainer .lec-idbox{
   position: absolute;
   bottom: 20px;
   right: 45px;
@@ -413,9 +437,9 @@ button{
 }
 
 
-/* New Section popout */
+/* New Lecture popout */
 
-.sec-popout {
+.lec-popout {
   position: fixed;
   top:0;
   z-index: 10;
@@ -424,7 +448,7 @@ button{
   display: none;
 }
 
-.sec-popout .newseccontainer{
+.lec-popout .newleccontainer{
   overflow: hidden;
   position: relative;
   margin: 140px auto;
@@ -432,7 +456,7 @@ button{
   max-width: 620px;
 }
 
-.newseccontainer .newsecframe{
+.newleccontainer .newlecframe{
   float: left;
   width: 100%;	
   padding: 10px;
@@ -440,16 +464,15 @@ button{
 }
 
 
-.newseccontainer .newsectitle{
+.newleccontainer .newlectitle{
   position: relative;
   width: auto;
-  margin-top: 10px;
   margin-left: 2px;
   font-size: 1.4em;
   font-weight: bold;
 }
 
-.newseccontainer .newsecclosebtn{
+.newleccontainer .newlecclosebtn{
   float: right;
   padding: none;
   color: #fff;
@@ -459,32 +482,36 @@ button{
   cursor: pointer;
 }
 
-.newseccontainer .boardname{
+.newleccontainer .newlecname{
   display: block;
   float:left;
-  width: 70%;
+  width: 80%;
   height:50px;
-  margin: 10px auto 0;
+  margin: 0 auto 0;
   resize:none;
   padding: 10px;
   font-size: 18px;
   font-weight:bold;
   outline: none;
+  white-space: nowrap;
+  overflow-y:hidden;
+  overflow-x:hidden; 
+  border:1px solid #747474;
 }
 
-.newseccontainer .boarddescrip{
+.newleccontainer .newlecdescrip{
   display: block;
   clear:both;
   width: 100%;
   height:200px;
-  margin: 70px auto 0;
+  margin: 60px auto 0;
   resize:none;
   padding: 10px;
   font-size: 18px;
   outline: none;
 }
 
-.newseccontainer .confirmbtn{
+.newleccontainer .confirmbtn{
   float: right;
   margin-top: 10px;
   height: 40px;
@@ -652,96 +679,100 @@ button{
     width: 100%;
   }
 
-  .qboard {
-    margin-top:50px;
+  .lec-board {
+    margin-top:55px;
+    margin-bottom: 55px;
     }
 
-  .qboard .boardcontainer{
+  .lec-board .boardcontainer{
     width: 100%;
-    margin:10px 0 10px; 
+    margin-top: 5px;
+    margin-bottom: 5px; 
+    height:150px;
   }
 
-  .boardcontainer .time{
-    font-size:1.4em;
-  }
-  
-  .boardcontainer .lec-title{
-    margin-top: 20px;
+  .boardcontainer .lec-lectitle{
+    margin-top: 10px;
     margin-left: 10px;
   }
 
-  .lec-title img{
+  .lec-lectitle img{
+  	display: none;
     height: 16px;
   }
   
-  .lec-title .lecname{
-    font-size: 1.5em;
-    width:80%;
+  .lec-lectitle .lec-lecname{
+    font-size: 1.2em;
+    margin-left: 0;
+    width:70%;
+    height: 45px;
+    white-space: normal;
     font-weight: bold;
+    
+    overflow: hidden;
+	text-overflow:ellipsis;
+	display: -webkit-box;  
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
   }
 
-  .boardcontainer .sec-lec-description{
+  .boardcontainer .lec-lecdescrip{
+  	margin-top: 5px;
     margin-left: 10px;
     margin-right: 10px;
+    width: 70%;
+    height: 57px;
+    display: -webkit-box;  
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 
-  .boardcontainer .sec-lec-stat{
-    margin-left: 10px;
-    font-size: 1em;
+  .boardcontainer .lec-lecstat{
+  	width: 70%;
+  	bottom: 10px;
+  	left: 10px;
+    font-size: 0.8em;
   }
 
-  .boardcontainer .sectionlist{
-    border-top: 1px solid #eee;
-    margin-top: 20px;
-    padding: 10px;
-    max-width: none;
+  .boardcontainer .lec-toolbox{
+  	top: 10px;
+  	right: 10px;
   }
 
-  .boardcontainer .sectionframe{
-    margin-bottom: 10px;
+  .boardcontainer .lec-opencheck{
+  	float: none;
+  	position: absolute;
+  	top:50px;
+  	right:-20px;
   }
 
-  .sectionframe .sectionname{
-  	/*float: none;
-  	clear:both;
-  	margin-top: 60px;*/
-  	width: 55%;
-  	font-size: 1em;
-  	margin-top: 22px;
+  .boardcontainer .lec-time{
+  	bottom: 25px;
+  	right:10px;
+  	font-size:0.8em;
+  }
+
+  .boardcontainer .lec-idbox{
+  	bottom: 10px;
+  	right:10px;
   }
 
 
-  .sec-popout .newseccontainer{
+
+  .lec-popout .newleccontainer{
     width: 100%;
     margin-top: 0;
   }
 
-
-  .newseccontainer .newsecframe{
-    width: 100%;
-    padding: 10px;
-  }
-
-  .newseccontainer .newsectitle{
-    margin-left: 10px;
-    margin-top: 5px;
-    font-size: 1.2em;
-  }
-
-  .newseccontainer .boarddescrip{
-    margin-top: 10px;
+  .newleccontainer .newlecdescrip{
     height: 160px;
     width: 100%;
   }
 
-  .newseccontainer .confirmbtn{
+  .newleccontainer .confirmbtn{
     margin-top: 10px;
     margin-right: 0;
     width: 100%;
-  }
-
-  .newseccontainer .anonybox{
-    display: none;
   }
 
 
@@ -763,7 +794,11 @@ button{
 /* super small screen*/
 
 @media all and (max-width:329px){
-	.opencheck{
+	/*.lec-opencheck{
 		display: none;
-	}
+	}*/
+
+	  .boardcontainer .lec-lecstat{
+	  	display: none;
+	  }
 }

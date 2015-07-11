@@ -1,16 +1,22 @@
-var foldheight = 80;
-
 var main = function(){
+
+	//dropdown menu control
+	$(document).on('click',".user",function(){
+		console.log("user clicked");
+		$(".user-dropdown").slideToggle(200);
+	});
 
 	//show hide control
 	$(".showhidecontrol").bind("click",function () {
 			$(".header").slideToggle(400);
 		    $(".nav").slideToggle(400);
+		    $(".sec-editbtn").slideToggle(400);
+		    $(".sec-opencheck").slideToggle(400);
+		    $(".sec-deletebtn").slideToggle(400);
 	})
 
-
 	//QR Open Control
-	$(".lec-qr").bind("click",function(){
+	$(".sec-lecqr").bind("click",function(){
 		$(".qr-popout").fadeIn(400);
 	})
 
@@ -36,9 +42,9 @@ var main = function(){
 	})
 
 	//On/Off transition
-	$(document).on('click',".opencheck",function(){
-		if($(this).children("#opencheckInput").is(":checked") == false){
-			$(this).children("#opencheckInput").attr("checked",true);
+	$(document).on('click',".sec-opencheck",function(){
+		if($(this).children("#sec-opencheckInput").is(":checked") == false){
+			$(this).children("#sec-opencheckInput").attr("checked",true);
 			console.log("check=true");
 			$(this).css({"background-color":"#979797"});
 			$(this).children("label").css({"left":"32px"});
@@ -46,7 +52,7 @@ var main = function(){
 			$(this).children(".checkOff").animate({"opacity":"100"},100)
 		}
 		else{
-			$(this).children("#opencheckInput").attr("checked",false);
+			$(this).children("#sec-opencheckInput").attr("checked",false);
 			$(this).css({"background-color":"#6ecf68"});
 			$(this).children("label").css({"left":"2px"});
 			$(this).children(".checkOn").animate({"opacity":"100"},100)
@@ -93,7 +99,7 @@ var main = function(){
 	// common Close btn click
 	$(".newsecclosebtn").click(function(){
 		$(".sec-popout").fadeOut(200);
-		$(".inputbox").val("");
+		$(".newsecname").val("");
 		$(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
 
 	    //remove editing-class (if possible)
@@ -103,7 +109,7 @@ var main = function(){
 
 
 	// common input text length control(using common comfirm class)
-	$('.inputbox').keyup(function() {
+	$('.newsecname').keyup(function() {
 	    var secnameLength = $(this).val().length;
 	    var charactersLeft = 155 - secnameLength;
 	   //   $('.counter').text(charactersLeft); 
@@ -129,7 +135,7 @@ var main = function(){
     	//add confirm type
 		$(".confirmbtn").addClass("editsec-confirm");
 		$(this).siblings(".sectionname").addClass("editing-secname");
-		$('.inputbox').val($(".editing-secname").text());
+		$('.newsecname').val($(".editing-secname").text());
 		console.log("sec-editbtn clicked");
 	})
 
@@ -138,7 +144,7 @@ var main = function(){
 		console.log("editsec-confirm clicked");
 
 		//customize section frame
-		var sectext = $(".inputbox").val();
+		var sectext = $(".newsecname").val();
 		$(".editing-secname").text(sectext);
 
 		//remove editing-class
@@ -159,7 +165,7 @@ var main = function(){
 		//add confirm type
 		$(".confirmbtn").addClass("newsec-confirm")
 		//set up default text
-		$('.inputbox').val("Section "+($('.sectionlist').children().size()+1)+". Q&A Section");
+		$('.newsecname').val("Section "+($('.sectionlist').children().size()+1)+". Q&A Section");
 		console.log("newsec-btn clicked");
 	})
 
@@ -172,7 +178,7 @@ var main = function(){
 		$(".sectionlist").append(newsec);
 
 		//customize section frame
-		var sectext = $(".inputbox").val();
+		var sectext = $(".newsecname").val();
 		$(".sectionlist").children(".sectionframe").last().find(".sectionname").text(sectext);
 
 	    //clear newsec-confirm class
