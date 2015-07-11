@@ -94,3 +94,37 @@ exports.getAllLectures=function(callback){
 		limit:20
 	},callback)
 }
+
+exports.getSectionById= function(_lectureId, callback){
+	db.Lecture.findOne({
+		_id:_lectureId
+	},function(err,lecture){
+		if(err){
+			callback(err)
+		}else{
+			async.parallel([
+				function(done){
+					db.Section.find({
+						_lectureId:_lectureId
+					},null,{
+						sort:{
+							'time':-1
+						},
+						limit:20
+					},function(err,lectures){
+						done(err,lectures.reverse())
+					})
+				}
+				],
+				function(err,results){
+					if(err){
+						callback(err)
+					}else{
+						lecture=lecture.toObject()
+						lecture.sections=results[1]
+						callback(null,lecture)
+					}
+				});
+			}
+	})
+}

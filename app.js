@@ -4,7 +4,7 @@ var express = require('express');
 var flash = require('connect-flash');
 var session = require('express-session');
 var app = express();
-var port = process.env.PORT || 80;
+var port = process.env.PORT || 8080;
 //6.30 TODO:modify
 // login authentication interface
 var Controllers_user = require('./controllers/user.js')
@@ -139,6 +139,32 @@ app.post('/api/reg', function(req, res) {
     }
 })
 
+
+
+app.post('/api/getAllLectures',function(req, res){
+    // console.log(req.body)
+    var data = req.body;
+    if(data && data.lecture_Id){
+        Controllers_lecture.getSectionById(data.lecture_Id, function(err, lecture){
+            if(err){
+                res.send(err.message);
+            }
+            else{
+                res.send(data.lecture_Id, lecture)
+            }
+        })
+    }
+    else{
+        Controllers_lecture.getAllLectures(function(err, lectures){
+            if(err){
+                res.send(err);
+            }else{
+                res.send(lectures);
+            }
+        })
+    }
+})
+
 app.post('/api/auditlogin', function(req, res) {
     auditname = req.body.auditname
     console.log(req.body)
@@ -195,11 +221,6 @@ app.use(function(req, res) {
 //     }
 //     next();
 // }
-
-
-
-
-
 
 var io = require('socket.io').listen(app.listen(port));
 
