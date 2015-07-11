@@ -92,42 +92,75 @@ angular.module('techNodeApp').controller('VoteControl', function($scope, socket)
 
 
 angular.module('techNodeApp').controller('LectureCtrl', function($scope, $http, $location) {
-    var foldheight = 80;
+    //dropdown menu control
+    $(document).on('click', ".user", function() {
+        console.log("user clicked");
+        $(".user-dropdown").slideToggle(200);
+    });
+
+    //show hide control
     $(".showhidecontrol").bind("click", function() {
         $(".header").slideToggle(400);
         $(".nav").slideToggle(400);
-    });
+        $(".lec-toolbox").slideToggle(400);
+    })
 
     //QR Open Control
-    $(".lec-qr").bind("click", function() {
+    $(".lec-lecqr").bind("click", function() {
         $(".qr-popout").fadeIn(400);
-    });
+    })
 
     $(".qrclosebtn").bind("click", function() {
         $(".qr-popout").fadeOut(200);
-    });
+    })
 
     //Btn Mouseover Effect
-    $(document).on('mouseover', ".sec-editbtn", function() {
+    $(document).on('mouseover', ".lec-editbtn", function() {
         $(this).children().attr('src', 'img/editimg3-black.png');
-    });
+    })
 
-    $(document).on('mouseout', ".sec-editbtn", function() {
+    $(document).on('mouseout', ".lec-editbtn", function() {
         $(this).children().attr('src', 'img/editimg3.png');
-    });
+    })
 
-    $(document).on('mouseover', ".sec-deletebtn", function() {
+    $(document).on('mouseover', ".lec-deletebtn", function() {
         $(this).children().attr('src', 'img/deleteimg-black.png');
-    });
+    })
 
-    $(document).on('mouseout', ".sec-deletebtn", function() {
+    $(document).on('mouseout', ".lec-deletebtn", function() {
         $(this).children().attr('src', 'img/deleteimg.png');
+    })
+    $(document).on('mouseover', ".lec-starbtn", function() {
+        if ($(this).hasClass("lec-starbtn-clicked") == false) {
+            $(this).children().attr('src', 'img/starimg-empty-black.png');
+        } else {
+            $(this).children().attr('src', 'img/starimg-yellow-black.png');
+        }
+    })
+
+    $(document).on('mouseout', ".lec-starbtn", function() {
+        if ($(this).hasClass("lec-starbtn-clicked") == false) {
+            $(this).children().attr('src', 'img/starimg-empty.png');
+        } else {
+            $(this).children().attr('src', 'img/starimg-yellow.png');
+        }
+    })
+
+    //star clicked event
+    $(document).on('click', ".lec-starbtn", function() {
+        if ($(this).hasClass("lec-starbtn-clicked") == false) {
+            $(this).addClass("lec-starbtn-clicked");
+            $(this).children().attr('src', 'img/starimg-yellow-black.png');
+        } else {
+            $(this).removeClass("lec-starbtn-clicked");
+            $(this).children().attr('src', 'img/starimg-empty-black.png');
+        };
     });
 
-    //On/Off transition
-    $(document).on('click', ".opencheck", function() {
-        if ($(this).children("#opencheckInput").is(":checked") == false) {
-            $(this).children("#opencheckInput").attr("checked", true);
+    //On/Off label transition
+    $(document).on('click', ".lec-opencheck", function() {
+        if ($(this).children("#lec-opencheckInput").is(":checked") == false) {
+            $(this).children("#lec-opencheckInput").attr("checked", true);
             console.log("check=true");
             $(this).css({
                 "background-color": "#979797"
@@ -142,7 +175,7 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $http, 
                 "opacity": "100"
             }, 100)
         } else {
-            $(this).children("#opencheckInput").attr("checked", false);
+            $(this).children("#lec-opencheckInput").attr("checked", false);
             $(this).css({
                 "background-color": "#6ecf68"
             });
@@ -159,19 +192,22 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $http, 
         return false
     });
 
-    $(document).on('click', '.boardcontainer', function() {
-        window.location = "/section"
-    })
+    // $(document).on('click', '.boardcontainer', function() {
+    //     window.location = "/section"
+    // })
 
     // delete section btn click
-    $(document).on('click', ".sec-deletebtn", function(e) {
+    // delete lecture btn click
+    $(document).on('click', ".lec-deletebtn", function(e) {
+
         if ($("body").children(".bubblecontainer").is(".bubblecontainer") == false) {
             console.log("bubble=false");
             var newbubble = $("#defaultbubble").clone().removeAttr("id");
-            var selectsection = $(e.target).parents(".sectionframe");
+            var selectlecture = $(e.target).parents(".boardcontainer");
+
             $("body").prepend(newbubble);
-            var bubblex = $(e.target).closest(".sec-deletebtn").offset().left - 203;
-            var bubbley = $(e.target).closest(".sec-deletebtn").offset().top - 23;
+            var bubblex = $(e.target).closest(".lec-deletebtn").offset().left - 203;
+            var bubbley = $(e.target).closest(".lec-deletebtn").offset().top - 23;
             newbubble.css({
                 "display": "block",
                 "opacity": "0",
@@ -185,7 +221,7 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $http, 
             //bind delete-confirm event
             newbubble.find(".delete-confirm").bind('click', function() {
                 console.log("delete confirmed");
-                selectsection.children().andSelf().animate({
+                selectlecture.children().andSelf().animate({
                     minHeight: "0",
                     height: "0",
                     opacity: "0"
@@ -206,97 +242,117 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $http, 
                 });
             });
         }
-    });
+    })
 
 
     // common Close btn click
-    $(".newsecclosebtn").click(function() {
-        $(".sec-popout").fadeOut(200);
-        $(".inputbox").val("");
-        $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
+    $(".newlecclosebtn").click(function() {
+        $(".lec-popout").fadeOut(200);
+        $(".newlecname").val("");
+        $(".newlecdescrip").val("");
+        $(".confirmbtn").removeClass("newlec-confirm editlec-confirm");
 
         //remove editing-class (if possible)
-        $(".editing-secname").removeClass("editing-secname");
-    });
+        $(".editing-lecname").removeClass("editing-lecname");
+        $(".editing-lecdescrip").removeClass("editing-lecdescrip");
+
+    })
 
 
     // common input text length control(using common comfirm class)
-    $('.inputbox').keyup(function() {
-        var secnameLength = $(this).val().length;
-        var charactersLeft = 155 - secnameLength;
-        //   $('.counter').text(charactersLeft); 
-        if (charactersLeft < 0) {
+    var characterleftcheck = function() {
+        var lecnameLength = $('.newlecname').val().length;
+        var namecharactersLeft = 100 - lecnameLength;
+
+        var lecdescripLength = $('.newlecdescrip').val().length;
+        var descripcharactersLeft = 300 - lecdescripLength;
+
+        if (namecharactersLeft < 0 || descripcharactersLeft < 0) {
             $('.confirmbtn').addClass('uni-disabled');
             $('.confirmbtn').attr("disabled", "disabled");
-        } else if (charactersLeft == 155) {
+        } else if (namecharactersLeft == 100 || descripcharactersLeft == 300) {
             $('.confirmbtn').addClass('uni-disabled');
             $('.confirmbtn').attr("disabled", "disabled");
         } else {
             $('.confirmbtn').removeClass('uni-disabled');
             $('.confirmbtn').removeAttr("disabled");
         }
-    });
+    };
 
-    //section edit control
-    $(document).on('click', ".sec-editbtn", function() {
-        $(".sec-popout").fadeIn(400);
-        $(".newsectitle").text("Edit Section")
-            //add confirm type
-        $(".confirmbtn").addClass("editsec-confirm");
-        $(this).siblings(".sectionname").addClass("editing-secname");
-        $('.inputbox').val($(".editing-secname").text());
-        console.log("sec-editbtn clicked");
-    });
+    $('.newlecname').keyup(characterleftcheck);
+    $('.newlecdescrip').keyup(characterleftcheck);
 
-    // Section edit confirmbtn click
-    $(document).on('click', ".editsec-confirm", function() {
-        console.log("editsec-confirm clicked");
 
-        //customize section frame
-        var sectext = $(".inputbox").val();
-        $(".editing-secname").text(sectext);
+    //Lecture edit control
+    $(document).on('click', ".lec-editbtn", function() {
+        $(".lec-popout").fadeIn(400);
+        //add confirm type
+        $(".confirmbtn").addClass("editlec-confirm");
+        $(this).parent().siblings().find(".lec-lecname").addClass("editing-lecname");
+        $(this).parent().siblings(".lec-lecdescrip").addClass("editing-lecdescrip");
+        $('.newlecname').val($(".editing-lecname").text());
+        $('.newlecdescrip').val($(".editing-lecdescrip").text());
+        console.log("lec-editbtn clicked");
+    })
+
+    // Lecture edit confirmbtn click
+    $(document).on('click', ".editlec-confirm", function() {
+        console.log("editlec-confirm clicked");
+
+        //customize lecture frame
+        var lecnametext = $(".newlecname").val();
+        var lecdescriptext = $(".newlecdescrip").val();
+        $(".editing-lecname").text(lecnametext);
+        $(".editing-lecdescrip").text(lecdescriptext);
 
         //remove editing-class
-        $(".editing-secname").removeClass("editing-secname");
+        $(".editing-lecname").removeClass("editing-lecname");
+        $(".editing-lecdescrip").removeClass("editing-lecdescrip");
 
-        //clear newsec-confirm class
-        $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
+        //clear newlec-confirm class
+        $(".confirmbtn").removeClass("newlec-confirm editlec-confirm");
 
-        $(".sec-popout").fadeOut(200);
+        $(".lec-popout").fadeOut(200);
 
-    });
+    })
 
 
-    //New Section control
+    //New Board control
     $(document).on('click', ".newboard-btn", function() {
-        $(".sec-popout").fadeIn(400);
-        $(".newsectitle").text("New Section")
-            //add confirm type
-        $(".confirmbtn").addClass("newsec-confirm")
+        $(".lec-popout").fadeIn(400);
+        //add confirm type
+        $(".confirmbtn").addClass("newlec-confirm")
             //set up default text
-        $('.inputbox').val("Section " + ($('.sectionlist').children().size() + 1) + ". Q&A Section");
+        $('.newlecname').val("Lecture " + ($('.lec-board').children().size() + 1) + " - New Lecture");
+        $('.newlecdescrip').val("Description: This is a new lecture");
         console.log("newboard-btn clicked");
-    });
+    })
 
-    // newsec confirm click
-    $(document).on('click', ".newsec-confirm", function() {
-        console.log("newsec-confirm clicked");
-        var newsec = $("#defaultsection").clone().removeAttr("id");
-        $(".sectionlist").append(newsec);
+    // newlec confirm click
+    $(document).on('click', ".newlec-confirm", function() {
+        console.log("newlec-confirm clicked");
 
-        //customize section frame
-        var sectext = $(".inputbox").val();
-        $(".sectionlist").children(".sectionframe").last().find(".sectionname").text(sectext);
 
-        //clear newsec-confirm class
-        $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
+        var newlec = $("#defaultlecture").clone().removeAttr("id");
 
-        //scroll to the new section part
+        //customize lecture frame
+        var lecnametext = $(".newlecname").val();
+        var lecdescriptext = $(".newlecdescrip").val();
+        newlec.last().find(".lec-lecname").text(lecnametext);
+        newlec.last().find(".lec-lecdescrip").text(lecdescriptext);
+
+
+        $(".lec-board").append(newlec);
+
+        //clear newlec-confirm class
+        $(".confirmbtn").removeClass("newlec-confirm editlec-confirm");
+
+        //scroll to the new lecture part
         $(document.body).animate({
-            scrollTop: $(".sectionlist").children(".sectionframe").last().offset().top
+            scrollTop: $(".lec-board").children(".boardcontainer").last().offset().top
         }, 600);
-        $(".sec-popout").fadeOut(200);
-    });
+        $(".lec-popout").fadeOut(200);
+    })
 
 })
 
@@ -506,14 +562,24 @@ angular.module('techNodeApp').controller('RoomCtrl', function($scope, socket) {
 })
 
 angular.module('techNodeApp').controller('SectionCtrl', function($scope, socket) {
-    var foldheight = 80;
+
+    //dropdown menu control
+    $(document).on('click', ".user", function() {
+        console.log("user clicked");
+        $(".user-dropdown").slideToggle(200);
+    });
+
     //show hide control
     $(".showhidecontrol").bind("click", function() {
-            $(".header").slideToggle(400);
-            $(".nav").slideToggle(400);
-        })
-        //QR Open Control
-    $(".lec-qr").bind("click", function() {
+        $(".header").slideToggle(400);
+        $(".nav").slideToggle(400);
+        $(".sec-editbtn").slideToggle(400);
+        $(".sec-opencheck").slideToggle(400);
+        $(".sec-deletebtn").slideToggle(400);
+    })
+
+    //QR Open Control
+    $(".sec-lecqr").bind("click", function() {
         $(".qr-popout").fadeIn(400);
     })
 
@@ -521,7 +587,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, socket)
         $(".qr-popout").fadeOut(200);
     })
 
-    //Section Mouseover Effect
+    //Btn Mouseover Effect
     $(document).on('mouseover', ".sec-editbtn", function() {
         $(this).children().attr('src', 'img/editimg3-black.png');
     })
@@ -535,54 +601,106 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, socket)
     })
 
     $(document).on('mouseout', ".sec-deletebtn", function() {
-        $(this).children().attr('src', 'img/deleteimg.png');
-    })
+            $(this).children().attr('src', 'img/deleteimg.png');
+        })
+        //On/Off transition
+    $(document).on('click', ".sec-opencheck", function() {
+        if ($(this).children("#sec-opencheckInput").is(":checked") == false) {
+            $(this).children("#sec-opencheckInput").attr("checked", true);
+            console.log("check=true");
+            $(this).css({
+                "background-color": "#979797"
+            });
+            $(this).children("label").css({
+                "left": "32px"
+            });
+            $(this).children(".checkOn").animate({
+                "opacity": "0"
+            }, 100)
+            $(this).children(".checkOff").animate({
+                "opacity": "100"
+            }, 100)
+        } else {
+            $(this).children("#sec-opencheckInput").attr("checked", false);
+            $(this).css({
+                "background-color": "#6ecf68"
+            });
+            $(this).children("label").css({
+                "left": "2px"
+            });
+            $(this).children(".checkOn").animate({
+                "opacity": "100"
+            }, 100)
+            $(this).children(".checkOff").animate({
+                "opacity": "0"
+            }, 100)
+        }
+
+    });
 
     // delete section btn click
-    $(document).on('click', ".sec-deletebtn", function() {
+    $(document).on('click', ".sec-deletebtn", function(e) {
         if (event && event.stopPropagation) { //非IE浏览器 
             event.stopPropagation();
         } else { //IE浏览器 
             window.event.cancelBubble = true;
         }
-        console.log('test111')
-            //if($(this).children(".bubblecontainer").css("display")=="none"){
-        if ($(this).children(".bubblecontainer").is(".bubblecontainer") == false) {
-            console.log("false");
-            $(this).prepend($(".bubblecontainer").clone());
-            $(this).children(".bubblecontainer").fadeIn(100);
+        if ($("body").children(".bubblecontainer").is(".bubblecontainer") == false) {
+            console.log("bubble=false");
+            var newbubble = $("#defaultbubble").clone().removeAttr("id");
+            var selectsection = $(e.target).parents(".sectionframe");
+
+            $("body").prepend(newbubble);
+            var bubblex = $(e.target).closest(".sec-deletebtn").offset().left - 203;
+            var bubbley = $(e.target).closest(".sec-deletebtn").offset().top - 23;
+            newbubble.css({
+                "display": "block",
+                "opacity": "0",
+                "left": bubblex,
+                "top": bubbley
+            }).animate({
+                opacity: "1",
+                "top": (bubbley - 20)
+            }, 200);
 
             //bind delete-confirm event
-            $(this).find(".delete-confirm").bind('click', function() {
+            newbubble.find(".delete-confirm").bind('click', function() {
                 console.log("delete confirmed");
-                $(this).parents(".sectionframe").remove();
+                selectsection.children().andSelf().animate({
+                    minHeight: "0",
+                    height: "0",
+                    opacity: "0"
+                }, function() {
+                    $(this).remove();
+                })
+
             });
 
-            //all screen fadeout event
-            var bubblefade = function() {
-                $(".bubblecontainer").fadeOut(100);
-                console.log("fadeOut by func")
-                $(".sec-deletebtn").children(".bubblecontainer").remove();
-            }
-            $("body").one('click', bubblefade); //bind one-time event to all element
-            //$(".bubblecontainer").unbind(); //avoid bug when clicking same btn
-        } else {
-            $(this).children(".bubblecontainer").remove();
-            console.log("fadeout by else")
+            //bind one-time fullscreen fadeout event to clear the btnwithbubble
+            $(document).one('click', function(e) {
+                newbubble.animate({
+                    "top": bubbley,
+                    opacity: "0"
+                }, 100, function() {
+                    $(this).remove();
+                    console.log("bubble removed");
+                });
+            });
         }
-
         return false;
     })
 
-    $(document).on('click', '.sectionframe', function() {
-        window.location = "/room"
-    })
+
+    // $(document).on('click', '.sectionframe', function() {
+    //     window.location = "/room"
+    // })
 
     // common Close btn click
-    $(".newsecclosebtn").click(function() {
+    $(".newsecclosebtn").click(function(){
         $(".sec-popout").fadeOut(200);
-        $(".inputbox").val("");
+        $(".newsecname").val("");
         $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
+
         //remove editing-class (if possible)
         $(".editing-secname").removeClass("editing-secname");
 
@@ -590,41 +708,42 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, socket)
 
 
     // common input text length control(using common comfirm class)
-    $('.inputbox').keyup(function() {
+    $('.newsecname').keyup(function() {
         var secnameLength = $(this).val().length;
         var charactersLeft = 155 - secnameLength;
-        //   $('.counter').text(charactersLeft); 
-
-        if (charactersLeft < 0) {
-            $('.confirmbtn').addClass('uni-disabled');
-            $('.confirmbtn').attr("disabled", "disabled");
-        } else if (charactersLeft == 155) {
-            $('.confirmbtn').addClass('uni-disabled');
-            $('.confirmbtn').attr("disabled", "disabled");
-        } else {
-            $('.confirmbtn').removeClass('uni-disabled');
-            $('.confirmbtn').removeAttr("disabled");
+       //   $('.counter').text(charactersLeft); 
+  
+        if(charactersLeft < 0) {
+          $('.confirmbtn').addClass('uni-disabled'); 
+          $('.confirmbtn').attr("disabled","disabled");
         }
-    });
+        else if(charactersLeft == 155) {
+          $('.confirmbtn').addClass('uni-disabled');
+          $('.confirmbtn').attr("disabled","disabled");
+        }
+        else {
+          $('.confirmbtn').removeClass('uni-disabled');
+          $('.confirmbtn').removeAttr("disabled");
+        }
+    }); 
 
-    //section edit control
-    $(document).on('click', ".sec-editbtn", function() {
+     //section edit control
+    $(document).on('click',".sec-editbtn",function(){
         $(".sec-popout").fadeIn(400);
         $(".newsectitle").text("Edit Section")
-            //add confirm type
+        //add confirm type
         $(".confirmbtn").addClass("editsec-confirm");
-        console.log($(this).siblings(".sectionname"));
         $(this).siblings(".sectionname").addClass("editing-secname");
-        $('.inputbox').val($(".editing-secname").text());
+        $('.newsecname').val($(".editing-secname").text());
         console.log("sec-editbtn clicked");
     })
 
     // Section edit confirmbtn click
-    $(document).on('click', ".editsec-confirm", function() {
+    $(document).on('click',".editsec-confirm",function(){
         console.log("editsec-confirm clicked");
 
         //customize section frame
-        var sectext = $(".inputbox").val();
+        var sectext = $(".newsecname").val();
         $(".editing-secname").text(sectext);
 
         //remove editing-class
@@ -634,41 +753,38 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, socket)
         $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
 
         $(".sec-popout").fadeOut(200);
+
     })
 
 
     //New Section control
-    $(document).on('click', ".newsec-btn", function() {
+    $(document).on('click',".newsec-btn",function(){
         $(".sec-popout").fadeIn(400);
         $(".newsectitle").text("New Section")
-            //add confirm type
+        //add confirm type
         $(".confirmbtn").addClass("newsec-confirm")
-            //set up default text
-        $('.inputbox').val("Section " + ($('.sectionframe').length + 1) + ". Q&A Section");
+        //set up default text
+        $('.newsecname').val("Section "+($('.sectionlist').children().size()+1)+". Q&A Section");
         console.log("newsec-btn clicked");
     })
 
     // newsec confirm click
-    $(document).on('click', ".newsec-confirm", function() {
+    $(document).on('click',".newsec-confirm",function(){
         console.log("newsec-confirm clicked");
-
-        var newseccontent = $(".sectionframe").html();
-        var newsec = $("<div>").html(newseccontent);
-        newsec.addClass("sectionframe");
+        
+    
+        var newsec = $("#defaultsection").clone().removeAttr("id");
         $(".sectionlist").append(newsec);
 
-
         //customize section frame
-        var sectext = $(".inputbox").val();
-        $(".sectionframe").last().find(".sectionname").text(sectext);
+        var sectext = $(".newsecname").val();
+        $(".sectionlist").children(".sectionframe").last().find(".sectionname").text(sectext);
 
         //clear newsec-confirm class
         $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
 
         //scroll to the new section part
-        $(document.body).animate({
-            scrollTop: $(".sectionframe").last().offset().top
-        }, 600);
+        $(document.body).animate({scrollTop:$(".sectionlist").children(".sectionframe").last().offset().top}, 600 );
         $(".sec-popout").fadeOut(200);
     })
 
