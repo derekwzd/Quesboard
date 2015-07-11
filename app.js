@@ -29,6 +29,9 @@ app.use(session({
     }
 }))
 
+
+
+
 app.get('/api/validate', function(req, res) {
     _userId = req.session._userId
     if (_userId) {
@@ -273,6 +276,176 @@ app.post('/api/createQuestion', function(req, res) {
         })
     }
 })
+
+app.post('/api/deleteLecture', function(req, res) {
+    var lecture_Id = req.body.lecture_Id;
+    var user_Id = req.body.user_Id;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id;
+        if (user_Id === _id.toString()) {
+            console.log('You are the creator,valid to delete')
+            Controllers_lecture.deleteLecture(_lectureId, function(err, msg) {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.send("delete")
+                }
+            })
+        }
+    })
+})
+
+
+app.post('/api/openLecture', function(req, res) {
+    var lecture_Id = req.body.lecture_Id;
+    var user_Id = req.body.user_Id;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id;
+        if (user_Id === _id.toString()) {
+            console.log('You are the creator,valid to open')
+            Controllers_lecture.onLecture(_lectureId, function(err, msg) {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.send("open")
+                }
+            })
+        }
+    })
+})
+
+app.post('/api/closeLecture', function(req, res) {
+    var lecture_Id = req.body.lecture_Id;
+    var user_Id = req.body.user_Id;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id;
+        if (user_Id === _id.toString()) {
+            console.log('You are the creator,valid to close')
+            Controllers_lecture.offLecture(_lectureId, function(err, msg) {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.send("close")
+                }
+            })
+        }
+    })
+})
+
+app.post('/api/deleteSection', function(req, res) {
+    var user_Id = req.body.user_Id;
+    var lecture_Id = req.body.lecture_Id;
+    var section_Id = req.body.section_Id;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id;
+        if (user_Id === _id.toString()) {
+            console.log('You can delete')
+            Controllers_section.deleteSection(_sectionId, function(err, msg) {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.send("delete")
+                }
+            })
+        }
+    })
+})
+
+app.post('/api/openSection', function(req, res) {
+    var user_Id = req.body.user_Id;
+    var lecture_Id = req.body.lecture_Id;
+    var section_Id = req.body.section_Id;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id;
+        if (user_Id === _id.toString()) {
+            console.log('You can open')
+            Controllers_section.onSection(_sectionId, function(err, msg) {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.send("open")
+                }
+            })
+        }
+    })
+})
+
+app.post('/api/closeSection', function(req, res) {
+    var user_Id = req.body.user_Id;
+    var lecture_Id = req.body.lecture_Id;
+    var section_Id = req.body.section_Id;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id;
+        if (user_Id === _id.toString()) {
+            console.log('You can close')
+            Controllers_section.offSection(_sectionId, function(err, msg) {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.send("close")
+                }
+            })
+        }
+    })
+})
+
+app.post('/api/deleteQuestion', function(req, res) {
+    var user_Id = req.body.user_Id;
+    var lecture_Id = req.body.lecture_Id;
+    var question_Id = req.body.question_Id;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id;
+        if (user_Id === _id.toString()) {
+            console.log('You can delete')
+            Controllers_question.deleteQuestion(_questionId, function(err, msg) {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.send("delete")
+                }
+            })
+        }
+    })
+})
+
+app.post('/api/openQuestion', function(req, res) {
+    var user_Id = req.body.user_Id;
+    var lecture_Id = req.body.lecture_Id;
+    var question_Id = req.body.question_Id;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id;
+        if (user_Id === _id.toString()) {
+            console.log('You can open')
+            Controllers_question.onQuestion(_questionId, function(err, msg) {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.send("open")
+                }
+            })
+        }
+    })
+})
+
+app.post('/api/closeQuestion', function(req, res) {
+    var user_Id = req.body.user_Id;
+    var lecture_Id = req.body.lecture_Id;
+    var question_Id = req.body.question_Id;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id;
+        if (user_Id === _id.toString()) {
+            console.log('You can close')
+            Controllers_question.offQuestion(_questionId, function(err, msg) {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.send("close")
+                }
+            })
+        }
+    })
+})
+
 
 app.post('/api/auditlogin', function(req, res) {
     name = req.body.auditname
