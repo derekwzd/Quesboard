@@ -17,10 +17,10 @@ body {
           margin: 0;
 }
 
-/*body {
+.loginbody {
   text-align: center;
  }
-*/
+
 .homebg { 
 width:100%;
 border:0; 
