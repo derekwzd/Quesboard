@@ -2,11 +2,12 @@ var db=require('../models')
 var async = require('async')
 
 exports.createNewSection = function(section, callback){
-	var section=new db.Section()
-	section.content=section.content
-	section.lectureId=section.lectureId
-	section.sStatus=1
-	section.save(callback)
+	var newsection=new db.Section()
+	console.log(section)
+	newsection.content=section.content
+	newsection.lectureId=section.lectureId
+	newsection.sStatus=1
+	newsection.save(callback)
 }
 
 exports.deleteSection=function(_sectionId,callback){
@@ -47,8 +48,9 @@ exports.changeSection = function(_sectionId, content, callback){
 }
 
 exports.getAllSections=function(_lectureId,callback){
+	console.log(_lectureId)
 	db.Section.find({
-		lectureId:_letureId
+		lectureId: _lectureId
 	},null,{
 		sort:{
 			'creatAt':-1

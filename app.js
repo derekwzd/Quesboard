@@ -5,8 +5,10 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var app = express();
 var port = process.env.PORT || 8080;
-//6.30 TODO:modify
-// login authentication interface
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
+    //6.30 TODO:modify
+    // login authentication interface
 var Controllers_user = require('./controllers/user.js')
 var Controllers_audituser = require('./controllers/audituser.js')
 var Controllers_section = require('./controllers/section.js')
@@ -54,18 +56,39 @@ app.get('/api/validate', function(req, res) {
     }
 })
 
+app.post('/api/createSection', function(req, res) {
+    var user_Id = req.body.user_Id;
+    var lecture_Id = req.body.lecture_Id;
+    var content = req.body.content;
+    // if(user_Id === Controllers_lecture.findCreatorByID(lecture_Id))
+    if (lecture_Id) {
+        var newsection = {
+            content: content,
+            lectureId: lecture_Id,
+        }
+        Controllers_section.createNewSection(newsection, function(err, section){
+            if(err){
+                res.send(err)
+            }else{
+                // console.log(section)
+                res.send("create Success")
+            }
+        })
+    }
+})
+
 app.post('/api/login', function(req, res) {
     email = req.body.email
-    console.log(req.body)
+    // console.log(req.body)
     password = req.body.password
-    console.log('the loginemail is:' + email)
-    console.log('the lohinpassword is:' + password)
+    // console.log('the loginemail is:' + email)
+    // console.log('the lohinpassword is:' + password)
         // console.log(Controllers.User)
     if (email && password) {
         // Controllers.User.findByEmailOrCreate(email, function(err, user) {
         Controllers_user.findByEmail(email, function(err, user) {
             if (err) {
-                console.log('the email have not registrated');
+                // console.log('the email have not registrated');
                 req.flash('error', 'the email have not registrated');
                 res.json(500, {
                     msg: err
@@ -141,50 +164,60 @@ app.post('/api/reg', function(req, res) {
 
 
 
+
 //TODO
-app.post('/api/getAllLectures',function(req, res){
-    // console.log(req.body)
-    // console.log(data.lecture_Id)
+app.post('/api/getAllLectures', function(req, res) {
     var data = req.body;
-    if(data && data.lecture_Id){
-        Controllers_lecture.getSectionById(data.lecture_Id, function(err, lecture){
-            if(err){
+    if (data && data.lecture_Id) {
+        Controllers_lecture.getSectionById(data.lecture_Id, function(err, lecture) {
+            if (err) {
                 res.send(err.message);
-            }
-            else{
+            } else {
                 res.send(lecture)
             }
         })
-    }
-    else{
-        Controllers_lecture.getAllLectures(function(err, lectures){
-            if(err){
+    } else {
+        Controllers_lecture.getAllLectures(function(err, lectures) {
+            if (err) {
                 res.send(err);
-            }else{
+            } else {
                 res.send(lectures);
             }
         })
     }
 })
 
-
+app.post('/api/getAllSectionsByID',function(req, res){
+    var user_Id = req.body.user_Id;
+    var lecture_Id = req.body.lecture_Id;
+    console.log("haha" + lecture_Id)
+    // if(Controllers_lecture.validSeeLectureContent(user_Id, lecture_Id)==='yse')
+    Controllers_section.getAllSections(lecture_Id, function(err, msg){
+        if(err){
+            res.send(err)
+        }else{
+            res.send(msg)
+        }
+    })
+})
 
 app.post('/api/creatlecture', function(req, res) {
     creator = req.body.creator;
     name = req.body.name
     content = req.body.content
     if (name && content) {
-        Controllers_lecture.createNewLecture(name, content, function(err, msg){
+        Controllers_lecture.createNewLecture(name, content, function(err, msg) {
             if (err) {
-                res.json(401,{msg:err})
-            }else{
+                res.json(401, {
+                    msg: err
+                })
+            } else {
                 res.json(msg)
             }
         })
-    }
-    else {
+    } else {
         console.log('response 403')
-        res.json(403,null)
+        res.json(403, null)
     }
 })
 
@@ -201,17 +234,18 @@ app.post('/api/auditlogin', function(req, res) {
     console.log('the auditname is:' + auditname)
     console.log(Controllers_audituser)
     if (auditname) {
-        Controllers_audituser.createNewAudit(auditname, function(err, user){
+        Controllers_audituser.createNewAudit(auditname, function(err, user) {
             if (err) {
-                res.json(401,{msg:err})
-            }else{
+                res.json(401, {
+                    msg: err
+                })
+            } else {
                 res.json(audituser)
             }
         })
-    } 
-    else {
+    } else {
         console.log('response 403')
-        res.json(403,null)
+        res.json(403, null)
     }
 })
 
