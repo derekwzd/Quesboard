@@ -141,8 +141,10 @@ app.post('/api/reg', function(req, res) {
 
 
 
+//TODO
 app.post('/api/getAllLectures',function(req, res){
     // console.log(req.body)
+    // console.log(data.lecture_Id)
     var data = req.body;
     if(data && data.lecture_Id){
         Controllers_lecture.getSectionById(data.lecture_Id, function(err, lecture){
@@ -150,7 +152,7 @@ app.post('/api/getAllLectures',function(req, res){
                 res.send(err.message);
             }
             else{
-                res.send(data.lecture_Id, lecture)
+                res.send(lecture)
             }
         })
     }
@@ -164,6 +166,34 @@ app.post('/api/getAllLectures',function(req, res){
         })
     }
 })
+
+
+
+app.post('/api/creatlecture', function(req, res) {
+    creator = req.body.creator;
+    name = req.body.name
+    content = req.body.content
+    if (name && content) {
+        Controllers_lecture.createNewLecture(name, content, function(err, msg){
+            if (err) {
+                res.json(401,{msg:err})
+            }else{
+                res.json(msg)
+            }
+        })
+    }
+    else {
+        console.log('response 403')
+        res.json(403,null)
+    }
+})
+
+
+
+
+
+
+
 
 app.post('/api/auditlogin', function(req, res) {
     auditname = req.body.auditname

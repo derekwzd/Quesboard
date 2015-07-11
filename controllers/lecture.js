@@ -83,17 +83,22 @@ exports.increaseQuestion= function(_lectureId,callback){
 	},callback)
 }
 
-//sort by totalvote
+// sort by totalvote
 exports.getAllLectures=function(callback){
-	db.Question.find({
-
-	},null,{
+	db.Lecture.find({},null,{
 		sort:{
 			'totalVote':-1
 		},
 		limit:20
 	},callback)
 }
+
+// exports.getAllLectures = function(callback){
+// 	var result = db.Question.find({});
+// 	callback(resultconsole.log())
+// }
+
+
 
 exports.getSectionById= function(_lectureId, callback){
 	db.Lecture.findOne({
