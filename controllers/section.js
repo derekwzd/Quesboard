@@ -3,7 +3,7 @@ var async = require('async')
 
 exports.createNewSection = function(section, callback){
 	var newsection=new db.Section()
-	console.log(section)
+	// console.log(section)
 	newsection.content=section.content
 	newsection.lectureId=section.lectureId
 	newsection.sStatus=1
@@ -48,7 +48,7 @@ exports.changeSection = function(_sectionId, content, callback){
 }
 
 exports.getAllSections=function(_lectureId,callback){
-	console.log(_lectureId)
+	// console.log(_lectureId)
 	db.Section.find({
 		lectureId: _lectureId
 	},null,{
@@ -60,7 +60,7 @@ exports.getAllSections=function(_lectureId,callback){
 }
 
 exports.getActiveSections=function(_lectureId,callback){
-	console.log(_lectureId)
+	// console.log(_lectureId)
 	db.Section.find({
 		lectureId: _lectureId,
 		sStatus:1

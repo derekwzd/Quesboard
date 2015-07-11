@@ -2,7 +2,7 @@
  var Schema = mongoose.Schema
  var ObjectId=Schema.ObjectId
 
- var Qusetion = new Schema({
+ var Question = new Schema({
      content:String,
      creator:{
      	_id:ObjectId,
@@ -19,4 +19,4 @@
      	default:Date.now
      }
  });
- module.exports = Qusetion;
+ module.exports = Question;

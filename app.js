@@ -17,15 +17,8 @@ var Controllers_question = require('./controllers/question.js')
 var bodyParser = require('body-parser')
 app.use(bodyParser())
 app.use(flash())
-    // app.use(express.bodyParser())
-    // app.use(express.cookieParser())
 var cookieParser = require('cookie-parser')
-    // app.use(cookieParser)
 
-//var crypto=require('crypto'),
-//User = require('./models/user.js');
-
-//app.post('/api/login',checkNotLogin);
 app.use(session({
     //secret:settings.cookieSecret,
     secret: 'technnode',
@@ -35,7 +28,6 @@ app.use(session({
         maxAge: 60 * 1000 * 60 * 24
     }
 }))
-
 
 app.get('/api/validate', function(req, res) {
     _userId = req.session._userId
@@ -55,8 +47,6 @@ app.get('/api/validate', function(req, res) {
         res.json(401, null)
     }
 })
-
-
 
 app.post('/api/login', function(req, res) {
     email = req.body.email
@@ -90,22 +80,7 @@ app.post('/api/login', function(req, res) {
     }
 })
 
-// var md5 =crypto.createHash('md5'),
-// password=md5.update(req.body.password).digest('hex');
-// User.get(req.body.name,function(err,user){
-//     if(!user){
-//         req.flash('error','the user is nor existed');
-//         return res.redirect('/');
-//     }
-//     if (user.password!=password) {
-//         req.flash('error','password incorrect');
-//         return res.redirect('/');
-//     }
-//     res.session.user=user;
-//     req.flash('success','login succeed');
-//     res.redirect('/section');
-// });
-// });
+
 
 app.post('/api/reg', function(req, res) {
     var email = req.body.email,
@@ -139,10 +114,6 @@ app.post('/api/reg', function(req, res) {
     }
 })
 
-
-
-
-//TODO
 app.post('/api/getAllLectures', function(req, res) {
     var data = req.body;
     if (data && data.lecture_Id) {
@@ -164,72 +135,79 @@ app.post('/api/getAllLectures', function(req, res) {
     }
 })
 
-app.post('/api/getAllSectionsByID',function(req, res){
+app.post('/api/getAllSectionsByID', function(req, res) {
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
-    console.log("haha" + lecture_Id)
-    Controllers_lecture.findCreatorByID(lecture_Id,function(err, _id){
-        if(user_Id === _id){
-            Controllers_section.getAllSections(lecture_Id, function(err, msg){
-            if(err){
-                res.send(err)
-            }else{
-                res.send(msg)
-                }
-            })
-        }else{
-            Controllers_section.getActiveSections(lecture_Id,function(err,msg){
-                if(err){
-                    console.log('getActiveSections failed')
-                    res.send(err)
-                }else{
-                    res.send(msg)
-                }
-            })
-        }
-    }
-    // if(Controllers_lecture.validSeeLectureContent(user_Id, lecture_Id)==='yes')
-    
+    // console.log("haha" + lecture_Id)
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+            var _id = lec.creator._id.toString()
+            if (user_Id === _id) {
+                Controllers_section.getAllSections(lecture_Id, function(err, msg) {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        res.send(msg)
+                    }
+                })
+            } else {
+                Controllers_section.getActiveSections(lecture_Id, function(err, msg) {
+                    if (err) {
+                        console.log('getActiveSections failed')
+                        res.send(err)
+                    } else {
+                        res.send(msg)
+                    }
+                })
+            }
+        })
+        // if(Controllers_lecture.validSeeLectureContent(user_Id, lecture_Id)==='yes')   
 })
 
-app.post('/api/getAllQuestionsByID',function(req, res){
+app.post('/api/getAllQuestionsByID', function(req, res) {
     var user_Id = req.body.user_Id;
     var section_Id = req.body.section_Id;
     var lecture_Id = req.body.lecture_Id;
-    console.log("section" + section_Id)
-    Controllers_lecture.findCreatorByID(lecture_Id,function(err, _id){
-        if(user_Id === _id){
-            Controllers_question.getAllQuestions(section_Id, function(err, msg){
-            if(err){
-                res.send(err)
-            }else{
-                res.send(msg)
+    // console.log("section" + section_Id)
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id.toString()
+        if (user_Id === _id) {
+            Controllers_question.getAllQuestions(section_Id, function(err, msg) {
+                if (err) {
+                    res.send(err)
+                } else {
+                    res.send(msg)
                 }
             })
-        }else{
-            Controllers_section.getActiveQuestions(lecture_Id,function(err,msg){
-                if(err){
+        } else {
+            Controllers_question.getActiveQuestions(section_Id, function(err, msg) {
+                if (err) {
                     console.log('getActiveQuestions failed')
                     res.send(err)
-                }else{
+                } else {
                     res.send(msg)
                 }
             })
         }
-    }    
+    })
 })
-
 
 app.post('/api/creatlecture', function(req, res) {
     creator = req.body.creator;
     name = req.body.name
     content = req.body.content
     if (name && content) {
-        Controllers_lecture.createNewLecture(name, content, function(err, msg) {
+        var newLecture = {
+            boardID: "",
+            name: name,
+            content: content,
+            qrUrl: "999",
+            creator: {
+                _id: creator
+            }
+        }
+        Controllers_lecture.createNewLecture(newLecture, function(err, msg) {
             if (err) {
-                res.json(401, {
-                    msg: err
-                })
+                res.json(err)
             } else {
                 res.json(msg)
             }
@@ -240,32 +218,32 @@ app.post('/api/creatlecture', function(req, res) {
     }
 })
 
+
 app.post('/api/createSection', function(req, res) {
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
     var content = req.body.content;
-    Controllers_lecture.findCreatorByID(lecture_Id,function(err, _id){
-        if(user_Id === _id){
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        var _id = lec.creator._id;
+        if (user_Id === _id.toString()) {
             console.log('You are the creator,access')
             if (lecture_Id) {
                 var newsection = {
-                content: content,
-                lectureId: lecture_Id,
+                    content: content,
+                    lectureId: lecture_Id,
                 }
-                Controllers_section.createNewSection(newsection, function(err, section){
-                    if(err){
+                Controllers_section.createNewSection(newsection, function(err, section) {
+                    if (err) {
                         res.send(err)
-                    }else{
-                    // console.log(section)
-                    res.send("create Success")
+                    } else {
+                        res.send("create Success")
                     }
                 })
             }
-        }else{
-            console.log('not valid')
+        } else {
+            res.json(403, null)
         }
-    }
-    
+    })
 })
 
 
@@ -276,38 +254,25 @@ app.post('/api/createQuestion', function(req, res) {
     var section_Id = req.body.section_Id;
     var lecture_Id = req.body.lecture_Id;
     var content = req.body.content;
-    Controllers_lecture.findCreatorByID(lecture_Id,function(err, _id){
-        if(user_Id === _id){
-            console.log('You are the creator,access')
-            if (section_Id) {
-                var newquestion = {
-                content: content,
-                sectionId: section_Id,
-                creator:{
-                    _id:user_Id,
-                    name:name,
-                    avatarUrl: avatarUrl
-                }
-                Controllers_section.createNewSection(newsection, function(err, section){
-                    if(err){
-                        res.send(err)
-                    }else{
-                    // console.log(section)
-                    res.send("create Q Success")
-                    }
-                })
+    if (section_Id) {
+        var newquestion = {
+            content: content,
+            sectionId: section_Id,
+            creator: {
+                _id: user_Id,
+                name: name
             }
-        }else{
-            console.log('not valid')
         }
+        Controllers_question.createNewQuestion(newquestion, function(err, msg) {
+            if (err) {
+                res.send(err)
+            } else {
+                // console.log(msg)
+                res.send("create")
+            }
+        })
     }
-    
 })
-
-
-
-
-
 
 app.post('/api/auditlogin', function(req, res) {
     name = req.body.auditname
@@ -339,33 +304,17 @@ app.get('/api/logout', function(req, res) {
         //  res.redirect('/');
 })
 
+
+
+
+
+
+
 app.use(express.static(__dirname + '/static'));
 app.use(function(req, res) {
     res.sendfile('./static/index.html');
 });
 
-
-
-
-
-
-
-//7.2 TODO:MODIFY
-// function checkLogin(req,res,next){
-//     if (!res.session.user){
-//         req.flash('error','not login');
-//         res.redirect('/');
-//     }
-//     next();
-// }
-
-// function checkNotLogin(req,res,next){
-//     if(req.session.user){
-//         req.flash('error','You have loged in');
-//         res.redirect('back');
-//     }
-//     next();
-// }
 
 var io = require('socket.io').listen(app.listen(port));
 

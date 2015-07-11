@@ -3,6 +3,7 @@ var async = require('async')
 
 exports.createNewLecture = function(lecture, callback) {
     var newlecture = new db.Lecture()
+    // console.log('test!!')
     newlecture.boardID = lecture.boardID
     newlecture.name = lecture.name
     newlecture.content = lecture.content
@@ -138,13 +139,13 @@ exports.getSectionById = function(_lectureId, callback) {
 exports.findCreatorById = function(_lectureId, callback){
     db.Lecture.findOne({
         _id:_lectureId
-    },{creator:{
-        _id:1
-    }},function(err, _id){
+    },{creator:1},function(err, lecture){
         if (err) {
             callback(err)
+            // console.log(err)
         }else{
-            callback(null, _id)
+            // console.log('htet'+lecture)
+            callback(null, lecture)
         }
     })
 }

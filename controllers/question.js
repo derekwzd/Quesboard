@@ -2,7 +2,7 @@ var db=require('../models')
 var async = require('async')
 
 exports.createNewQuestion = function(question, callback){
-	var newquestion=new db.Question()
+	var newquestion = new db.Question()
 	newquestion.content=question.content
 	newquestion.creator=question.creator
 	newquestion.sectionId=question.sectionId
