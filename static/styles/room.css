@@ -610,7 +610,7 @@ button{
     display: none !important; 
   }
   
-  .newquest-btn{
+  body .newquest-btn{
     display: block;
     position: fixed;
     bottom: 0;

@@ -159,23 +159,10 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $http, 
 
     //On/Off label transition
     $(document).on('click', ".lec-opencheck", function() {
-        if ($(this).children("#lec-opencheckInput").is(":checked") == false) {
-            $(this).children("#lec-opencheckInput").attr("checked", true);
-            console.log("check=true");
-            $(this).css({
-                "background-color": "#979797"
-            });
-            $(this).children("label").css({
-                "left": "32px"
-            });
-            $(this).children(".checkOn").animate({
-                "opacity": "0"
-            }, 100)
-            $(this).children(".checkOff").animate({
-                "opacity": "100"
-            }, 100)
-        } else {
-            $(this).children("#lec-opencheckInput").attr("checked", false);
+        console.log('show here the result: '+$(this).children("#lec-opencheckInput").attr("checked"))
+        if($(this).children("#lec-opencheckInput").attr("checked") === "checked"){
+            $(this).children("#lec-opencheckInput").removeAttr("checked");
+            console.log("2: "+$(this).children("#lec-opencheckInput").attr("checked"))
             $(this).css({
                 "background-color": "#6ecf68"
             });
@@ -187,6 +174,21 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $http, 
             }, 100)
             $(this).children(".checkOff").animate({
                 "opacity": "0"
+            }, 100)
+        }else{
+            $(this).children("#lec-opencheckInput").attr("checked", true);
+            console.log("1: "+$(this).children("#lec-opencheckInput").attr("checked"))
+            $(this).css({
+                "background-color": "#979797"
+            });
+            $(this).children("label").css({
+                "left": "32px"
+            });
+            $(this).children(".checkOn").animate({
+                "opacity": "0"
+            }, 100)
+            $(this).children(".checkOff").animate({
+                "opacity": "100"
             }, 100)
         }
         return false
@@ -605,8 +607,22 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, socket)
         })
         //On/Off transition
     $(document).on('click', ".sec-opencheck", function() {
-        if ($(this).children("#sec-opencheckInput").is(":checked") == false) {
-            $(this).children("#sec-opencheckInput").attr("checked", true);
+        if ($(this).children("#sec-opencheckInput").attr("checked") === 'checked') {
+            $(this).children("#sec-opencheckInput").attr("checked", false);
+            $(this).css({
+                "background-color": "#6ecf68"
+            });
+            $(this).children("label").css({
+                "left": "2px"
+            });
+            $(this).children(".checkOn").animate({
+                "opacity": "100"
+            }, 100)
+            $(this).children(".checkOff").animate({
+                "opacity": "0"
+            }, 100)           
+        } else {
+             $(this).children("#sec-opencheckInput").attr("checked", true);
             console.log("check=true");
             $(this).css({
                 "background-color": "#979797"
@@ -620,22 +636,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, socket)
             $(this).children(".checkOff").animate({
                 "opacity": "100"
             }, 100)
-        } else {
-            $(this).children("#sec-opencheckInput").attr("checked", false);
-            $(this).css({
-                "background-color": "#6ecf68"
-            });
-            $(this).children("label").css({
-                "left": "2px"
-            });
-            $(this).children(".checkOn").animate({
-                "opacity": "100"
-            }, 100)
-            $(this).children(".checkOff").animate({
-                "opacity": "0"
-            }, 100)
         }
-
     });
 
     // delete section btn click

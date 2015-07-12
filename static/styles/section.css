@@ -637,7 +637,7 @@ button{
     display: none !important; 
   }
   
-  .newsec-btn{
+  body .newsec-btn{
     display: block;
     position: fixed;
     bottom: 0;

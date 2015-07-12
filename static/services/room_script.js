@@ -59,20 +59,20 @@ var main = function() {
 
         //On/Off label transition
     $(document).on('click',".ques-opencheck",function(){
-        if($(this).children("#ques-opencheckInput").is(":checked") == false){
+        if($(this).children("#ques-opencheckInput").attr("checked") === 'checked'){
+            $(this).children("#ques-opencheckInput").attr("checked",false);
+            $(this).css({"background-color":"#6ecf68"});
+            $(this).children("label").css({"left":"2px"});
+            $(this).children(".checkOn").animate({"opacity":"100"},100)
+            $(this).children(".checkOff").animate({"opacity":"0"},100)
+        }
+        else{
             $(this).children("#ques-opencheckInput").attr("checked",true);
             console.log("check=true");
             $(this).css({"background-color":"#979797"});
             $(this).children("label").css({"left":"32px"});
             $(this).children(".checkOn").animate({"opacity":"0"},100)
             $(this).children(".checkOff").animate({"opacity":"100"},100)
-        }
-        else{
-            $(this).children("#ques-opencheckInput").attr("checked",false);
-            $(this).css({"background-color":"#6ecf68"});
-            $(this).children("label").css({"left":"2px"});
-            $(this).children(".checkOn").animate({"opacity":"100"},100)
-            $(this).children(".checkOff").animate({"opacity":"0"},100)
         }
     });
     
