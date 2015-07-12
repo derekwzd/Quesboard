@@ -91,10 +91,9 @@ angular.module('techNodeApp').controller('VoteControl', function($scope, socket)
 })
 
 
-angular.module('techNodeApp').controller('LectureCtrl', function($scope, $http, $location) {
+angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeParams, $scope) {
     //dropdown menu control
     $(document).on('click', ".user", function() {
-        console.log("user clicked");
         $(".user-dropdown").slideToggle(200);
     });
 
@@ -193,10 +192,6 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $http, 
         }
         return false
     });
-
-    // $(document).on('click', '.boardcontainer', function() {
-    //     window.location = "/section"
-    // })
 
     // delete section btn click
     // delete lecture btn click
@@ -355,6 +350,9 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $http, 
         }, 600);
         $(".lec-popout").fadeOut(200);
     })
+
+
+    console.log("test: " + $routeParams._lecId)
 
 })
 
@@ -546,7 +544,7 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
 })
 
 
-angular.module('techNodeApp').controller('RoomCtrl', function($scope, socket) {
+angular.module('techNodeApp').controller('RoomCtrl', function($scope, $routeParams, $scope, socket) {
     $scope.messages = [];
     socket.emit('getAllMessages')
     socket.on('allMessages', function(messages) {
@@ -561,9 +559,11 @@ angular.module('techNodeApp').controller('RoomCtrl', function($scope, socket) {
     socket.on('triggervote', function(messages) {
         $scope.messages = messages;
     })
+   console.log('lectureId:'+ $routeParams._lecId+ " sectionId: " + $routeParams._secId +" roomID: "+ $routeParams._roomId)
+ 
 })
 
-angular.module('techNodeApp').controller('SectionCtrl', function($scope, socket) {
+angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeParams, $scope, socket) {
 
     //dropdown menu control
     $(document).on('click', ".user", function() {
@@ -788,6 +788,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, socket)
         $(document.body).animate({scrollTop:$(".sectionlist").children(".sectionframe").last().offset().top}, 600 );
         $(".sec-popout").fadeOut(200);
     })
+    console.log('lectureId:'+ $routeParams._lecId+ " sectionId: " + $routeParams._secId)
 
 })
 
