@@ -27,7 +27,56 @@ router.post('/getAllLectures', function(req, res) {
     }
 })
 
-router.get('/api/validate', function(req, res) {
+router.post('/createQuestion', function(req, res) {
+	console.log('here')
+    var name = req.body.name;
+    var avatarUrl = req.body.avatarUrl;
+    var user_Id = req.body.user_Id;
+    var section_Id = req.body.section_Id;
+    var lecture_Id = req.body.lecture_Id;
+    var content = req.body.content;
+    if (section_Id) {
+        var newquestion = {
+            content: content,
+            sectionId: section_Id,
+            creator: {
+                _id: user_Id,
+                name: name
+            }
+        }
+        Controllers_question.createNewQuestion(newquestion, function(err, msg) {
+            if (err) {
+                res.send(err)
+            } else {
+                // console.log(msg)
+                res.send("create")
+            }
+        })
+    }
+})
+
+router.post('/getAllLectures', function(req, res) {
+    var data = req.body;
+    if (data && data.lecture_Id) {
+        Controllers_lecture.getSectionById(data.lecture_Id, function(err, lecture) {
+            if (err) {
+                res.send(err.message);
+            } else {
+                res.send(lecture)
+            }
+        })
+    } else {
+        Controllers_lecture.getAllLectures(data.user_Id, function(err, lectures) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send(lectures);
+            }
+        })
+    }
+})
+
+router.get('/validate', function(req, res) {
     _userId = req.session._userId
     if (_userId) {
         Controllers_user.findUserById(_userId, function(err, user) {
@@ -46,7 +95,7 @@ router.get('/api/validate', function(req, res) {
     }
 })
 
-router.post('/api/login', function(req, res) {
+router.post('/login', function(req, res) {
     email = req.body.email
     password = req.body.password
     if (email && password) {
@@ -76,7 +125,7 @@ router.post('/api/login', function(req, res) {
 
 
 
-router.post('/api/reg', function(req, res) {
+router.post('/reg', function(req, res) {
     var email = req.body.email,
         password = req.body.password
         // password_re=req.body['password_repeat'];
@@ -108,28 +157,9 @@ router.post('/api/reg', function(req, res) {
     }
 })
 
-router.post('/api/getAllLectures', function(req, res) {
-    var data = req.body;
-    if (data && data.lecture_Id) {
-        Controllers_lecture.getSectionById(data.lecture_Id, function(err, lecture) {
-            if (err) {
-                res.send(err.message);
-            } else {
-                res.send(lecture)
-            }
-        })
-    } else {
-        Controllers_lecture.getAllLectures(data.user_Id, function(err, lectures) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.send(lectures);
-            }
-        })
-    }
-})
 
-router.post('/api/getAllSectionsByID', function(req, res) {
+
+router.post('/getAllSectionsByID', function(req, res) {
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
     // console.log("haha" + lecture_Id)
@@ -157,7 +187,7 @@ router.post('/api/getAllSectionsByID', function(req, res) {
         // if(Controllers_lecture.validSeeLectureContent(user_Id, lecture_Id)==='yes')   
 })
 
-router.post('/api/getAllQuestionsByID', function(req, res) {
+router.post('/getAllQuestionsByID', function(req, res) {
     var user_Id = req.body.user_Id;
     var section_Id = req.body.section_Id;
     var lecture_Id = req.body.lecture_Id;
@@ -185,7 +215,7 @@ router.post('/api/getAllQuestionsByID', function(req, res) {
     })
 })
 
-router.post('/api/creatlecture', function(req, res) {
+router.post('/creatlecture', function(req, res) {
     creator = req.body.creator;
     name = req.body.name
     content = req.body.content
@@ -213,7 +243,7 @@ router.post('/api/creatlecture', function(req, res) {
 })
 
 
-router.post('/api/createSection', function(req, res) {
+router.post('/createSection', function(req, res) {
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
     var content = req.body.content;
@@ -241,34 +271,9 @@ router.post('/api/createSection', function(req, res) {
 })
 
 
-router.post('/api/createQuestion', function(req, res) {
-    var name = req.body.name;
-    var avatarUrl = req.body.avatarUrl;
-    var user_Id = req.body.user_Id;
-    var section_Id = req.body.section_Id;
-    var lecture_Id = req.body.lecture_Id;
-    var content = req.body.content;
-    if (section_Id) {
-        var newquestion = {
-            content: content,
-            sectionId: section_Id,
-            creator: {
-                _id: user_Id,
-                name: name
-            }
-        }
-        Controllers_question.createNewQuestion(newquestion, function(err, msg) {
-            if (err) {
-                res.send(err)
-            } else {
-                // console.log(msg)
-                res.send("create")
-            }
-        })
-    }
-})
 
-router.post('/api/deleteLecture', function(req, res) {
+
+router.post('/deleteLecture', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var user_Id = req.body.user_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
@@ -287,7 +292,7 @@ router.post('/api/deleteLecture', function(req, res) {
 })
 
 
-router.post('/api/openLecture', function(req, res) {
+router.post('/openLecture', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var user_Id = req.body.user_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
@@ -305,7 +310,7 @@ router.post('/api/openLecture', function(req, res) {
     })
 })
 
-router.post('/api/closeLecture', function(req, res) {
+router.post('/closeLecture', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var user_Id = req.body.user_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
@@ -323,7 +328,7 @@ router.post('/api/closeLecture', function(req, res) {
     })
 })
 
-router.post('/api/deleteSection', function(req, res) {
+router.post('/deleteSection', function(req, res) {
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
     var section_Id = req.body.section_Id;
@@ -342,7 +347,7 @@ router.post('/api/deleteSection', function(req, res) {
     })
 })
 
-router.post('/api/openSection', function(req, res) {
+router.post('/openSection', function(req, res) {
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
     var section_Id = req.body.section_Id;
@@ -361,7 +366,7 @@ router.post('/api/openSection', function(req, res) {
     })
 })
 
-router.post('/api/closeSection', function(req, res) {
+router.post('/closeSection', function(req, res) {
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
     var section_Id = req.body.section_Id;
@@ -380,7 +385,7 @@ router.post('/api/closeSection', function(req, res) {
     })
 })
 
-router.post('/api/deleteQuestion', function(req, res) {
+router.post('/deleteQuestion', function(req, res) {
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
     var question_Id = req.body.question_Id;
@@ -399,7 +404,7 @@ router.post('/api/deleteQuestion', function(req, res) {
     })
 })
 
-router.post('/api/openQuestion', function(req, res) {
+router.post('/openQuestion', function(req, res) {
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
     var question_Id = req.body.question_Id;
@@ -418,7 +423,7 @@ router.post('/api/openQuestion', function(req, res) {
     })
 })
 
-router.post('/api/closeQuestion', function(req, res) {
+router.post('/closeQuestion', function(req, res) {
     var user_Id = req.body.user_Id;
     var lecture_Id = req.body.lecture_Id;
     var question_Id = req.body.question_Id;
@@ -438,7 +443,7 @@ router.post('/api/closeQuestion', function(req, res) {
 })
 
 
-router.post('/api/auditlogin', function(req, res) {
+router.post('/auditlogin', function(req, res) {
     name = req.body.auditname
     console.log(req.body)
     console.log('the auditname is:' + name)
@@ -460,11 +465,9 @@ router.post('/api/auditlogin', function(req, res) {
 })
 
 
-router.get('/api/logout', function(req, res) {
+router.get('/logout', function(req, res) {
     req.session._userId = null
     req.json(401)
 })
-
-
 
 module.exports = router;

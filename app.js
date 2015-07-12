@@ -23,7 +23,8 @@ app.use(session({
 app.use(express.static(__dirname + '/static'));
 var api = require('./routes/api.js')
 app.use('/api', api)
-app.use(function(req, res) {
+
+app.use('/', function(req, res) {
     res.sendfile('./static/index.html');
 });
 

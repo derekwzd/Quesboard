@@ -22,29 +22,25 @@ console.log()
 // });
 
 
-$.ajax({
-	url: '/api/getAllLectures',
-	type: 'POST',
-	dataType: '',
-	data: {
-		user_Id : "55a09acdf2290647ded227a1"
-		// lecture_Id: "55a0d7a14cfc3883176ef1de",
-	},
-})
-.done(function(data) {
-	console.log(data)
-	console.log("success");
-})
-.fail(function() {
-	console.log("error");
-})
-.always(function() {
-	console.log("complete");
-});
-
-
-
-
+// $.ajax({
+// 	url: '/api/getAllLectures',
+// 	type: 'POST',
+// 	dataType: '',
+// 	data: {
+// 		user_Id : "55a09acdf2290647ded227a1"
+// 		// lecture_Id: "55a0d7a14cfc3883176ef1de",
+// 	},
+// })
+// .done(function(data) {
+// 	console.log(data)
+// 	console.log("success");
+// })
+// .fail(function() {
+// 	console.log("error");
+// })
+// .always(function() {
+// 	console.log("complete");
+// });
 
 // $.ajax({
 // 	url: '/api/createSection',
@@ -99,7 +95,8 @@ $.ajax({
 // 		user_Id : "55928482df38c17a66c67f2a"
 // 	},
 // })
-// .done(function() {
+// .done(function(data) {
+// 	console.log(data)
 // 	console.log("success");
 // })
 // .fail(function() {
