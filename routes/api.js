@@ -164,8 +164,7 @@ router.post('/getAllSectionsByID', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     // console.log("haha" + lecture_Id)
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-            var _id = lec.creator._id.toString()
-            if (user_Id === _id) {
+            if (lec && user_Id === lec.creator._id.toString()) {
                 Controllers_section.getAllSections(lecture_Id, function(err, msg) {
                     if (err) {
                         res.send(err)
@@ -193,8 +192,7 @@ router.post('/getAllQuestionsByID', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     // console.log("section" + section_Id)
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id.toString()
-        if (user_Id === _id) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             Controllers_question.getAllQuestions(section_Id, function(err, msg) {
                 if (err) {
                     res.send(err)
@@ -248,8 +246,7 @@ router.post('/createSection', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var content = req.body.content;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id;
-        if (user_Id === _id.toString()) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You are the creator,access')
             if (lecture_Id) {
                 var newsection = {
@@ -270,15 +267,11 @@ router.post('/createSection', function(req, res) {
     })
 })
 
-
-
-
 router.post('/deleteLecture', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var user_Id = req.body.user_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id;
-        if (user_Id === _id.toString()) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You are the creator,valid to delete')
             Controllers_lecture.deleteLecture(_lectureId, function(err, msg) {
                 if (err) {
@@ -288,6 +281,9 @@ router.post('/deleteLecture', function(req, res) {
                 }
             })
         }
+        else{
+            res.json(403, null)
+        }
     })
 })
 
@@ -296,8 +292,7 @@ router.post('/openLecture', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var user_Id = req.body.user_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id;
-        if (user_Id === _id.toString()) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You are the creator,valid to open')
             Controllers_lecture.onLecture(_lectureId, function(err, msg) {
                 if (err) {
@@ -307,6 +302,9 @@ router.post('/openLecture', function(req, res) {
                 }
             })
         }
+        else{
+            res.json(403, null)
+        }
     })
 })
 
@@ -314,8 +312,7 @@ router.post('/closeLecture', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var user_Id = req.body.user_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id;
-        if (user_Id === _id.toString()) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You are the creator,valid to close')
             Controllers_lecture.offLecture(_lectureId, function(err, msg) {
                 if (err) {
@@ -325,6 +322,9 @@ router.post('/closeLecture', function(req, res) {
                 }
             })
         }
+        else{
+            res.json(403, null)
+        }
     })
 })
 
@@ -333,8 +333,7 @@ router.post('/deleteSection', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var section_Id = req.body.section_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id;
-        if (user_Id === _id.toString()) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can delete')
             Controllers_section.deleteSection(_sectionId, function(err, msg) {
                 if (err) {
@@ -344,6 +343,9 @@ router.post('/deleteSection', function(req, res) {
                 }
             })
         }
+        else{
+            res.json(403, null)
+        }
     })
 })
 
@@ -352,8 +354,7 @@ router.post('/openSection', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var section_Id = req.body.section_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id;
-        if (user_Id === _id.toString()) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can open')
             Controllers_section.onSection(_sectionId, function(err, msg) {
                 if (err) {
@@ -363,6 +364,9 @@ router.post('/openSection', function(req, res) {
                 }
             })
         }
+        else{
+            res.json(403, null)
+        }
     })
 })
 
@@ -371,8 +375,7 @@ router.post('/closeSection', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var section_Id = req.body.section_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id;
-        if (user_Id === _id.toString()) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can close')
             Controllers_section.offSection(_sectionId, function(err, msg) {
                 if (err) {
@@ -382,6 +385,9 @@ router.post('/closeSection', function(req, res) {
                 }
             })
         }
+        else{
+            res.json(403, null)
+        }
     })
 })
 
@@ -390,8 +396,7 @@ router.post('/deleteQuestion', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var question_Id = req.body.question_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id;
-        if (user_Id === _id.toString()) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can delete')
             Controllers_question.deleteQuestion(_questionId, function(err, msg) {
                 if (err) {
@@ -401,6 +406,9 @@ router.post('/deleteQuestion', function(req, res) {
                 }
             })
         }
+        else{
+            res.json(403, null)
+        }
     })
 })
 
@@ -409,8 +417,7 @@ router.post('/openQuestion', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var question_Id = req.body.question_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id;
-        if (user_Id === _id.toString()) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can open')
             Controllers_question.onQuestion(_questionId, function(err, msg) {
                 if (err) {
@@ -420,6 +427,9 @@ router.post('/openQuestion', function(req, res) {
                 }
             })
         }
+        else{
+            res.json(403, null)
+        }
     })
 })
 
@@ -428,8 +438,7 @@ router.post('/closeQuestion', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var question_Id = req.body.question_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
-        var _id = lec.creator._id;
-        if (user_Id === _id.toString()) {
+        if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can close')
             Controllers_question.offQuestion(_questionId, function(err, msg) {
                 if (err) {
@@ -438,6 +447,9 @@ router.post('/closeQuestion', function(req, res) {
                     res.send("close")
                 }
             })
+        }
+        else{
+            res.json(403, null)
         }
     })
 })

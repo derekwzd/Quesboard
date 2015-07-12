@@ -1,4 +1,4 @@
-console.log()
+// console.log()
 // $.ajax({
 // 	url: '/api/creatlecture',
 // 	type: 'POST',
@@ -42,26 +42,26 @@ console.log()
 // 	console.log("complete");
 // });
 
-// $.ajax({
-// 	url: '/api/createSection',
-// 	type: 'POST',
-// 	dataType: '',
-// 	data: {
-// 		user_Id : "55928482df38c17a66c67f2a",
-// 		lecture_Id : "55a12a88f41d06712b6dc674",
-// 		content : "first section for user2 lec4",
-// 	},
-// })
-// .done(function(msg) {
-// 	console.log(msg)
-// 	console.log("success");
-// })
-// .fail(function() {
-// 	console.log("error");
-// })
-// .always(function() {
-// 	console.log("complete");
-// });
+$.ajax({
+	url: '/api/createSection',
+	type: 'POST',
+	dataType: '',
+	data: {
+		user_Id : "55928482df38c17a66c67f2a",
+		lecture_Id : "55a12a88f41d06712b6dc674",
+		content : "first section for user2 lec4",
+	},
+})
+.done(function(msg) {
+	console.log(msg)
+	console.log("success");
+})
+.fail(function(data) {
+	console.log("error");
+})
+.always(function() {
+	console.log("complete");
+});
 
 // $.ajax({
 // 	url: '/api/getAllSectionsByID',
