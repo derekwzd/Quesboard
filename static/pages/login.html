@@ -16,7 +16,7 @@
                     <input class="longinput" id="signupemail" type="email" ng-model="signupEmail" autocomplete="off" placeholder="Email">
                     <br>
                     <input class="longinput" id="signuppwd" type="password" requied ng-model="signupPassword" autocomplete="off" placeholder="Password">
-                    <button class="bigbtn" id="signupbtn" >SIGN UP</button>
+                    <button class="bigbtn" id="signupbtn">SIGN UP</button>
                 </div>
             </form>
         </div>
@@ -38,7 +38,7 @@
             <div class="lowerleftbox">
                 <form class="lowerleftmidbox" ng-submit="auditlogin()">
                     <img id='chooseimg' class="randomimg" src="img/profile100px/opensign.png" />
-                    <input class="shortinput" type="text" autocomplete="off" value="visitor 007" placeholder="Name" ng-model='auditname'>
+                    <input class="shortinput" id="customname" type="text" autocomplete="off" value="visitor 007" placeholder="Name" ng-model='auditname'>
                     <button class="gobtn">Go!</button>
                 </form>
                 <p id="audit-info">Pick a name and post questions on board as a visitor</p>
@@ -62,4 +62,16 @@
             </div>
         </div>
     </div>
+    <!-- module -->
+    <div class="modules">
+        <div id="defaultinfobubble" class="infobubble">
+            <div class="bubbletop">
+                <p class="bubble-info">Sections will also be deleted.</p>
+            </div>
+            <div class="bubbletriangle-outer">
+                <div class="bubbletriangle-inner"></div>
+            </div>
+        </div>
+    </div>
+    
 </div>

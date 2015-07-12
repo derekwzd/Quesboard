@@ -1,9 +1,29 @@
 angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeParams, $scope) {
     //dropdown menu control
-    $(document).on('click', ".user", function() {
-        $(".user-dropdown").slideToggle(200);
+    $(document).on('click',".user",function(event){
+        $(".user-dropdown").show(150);
+        $(document).one('click',function(){
+            $(".user-dropdown").hide(100);
+        });
+        event.stopPropagation();
+        // $(document).on('click',".user",function(event){
+        //  event.stopPropagation();
+        // });
+    });
+    // sort dropdown control
+    $(document).on('click',".lec-sorttype",function(event){
+        $(".lec-sortdropdown").show(150);
+        $(document).one('click',function(){
+            $(".lec-sortdropdown").hide(100);
+        });
+        event.stopPropagation();
     });
 
+    $(document).on('click',".sorttype-choice",function(){
+        var sortchose= $(this).attr("title");
+        $(".sorttype-text").html(sortchose);
+    })
+    
     //show hide control
     $(".showhidecontrol").bind("click", function() {
         $(".header").slideToggle(400);

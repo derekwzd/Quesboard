@@ -247,9 +247,68 @@ button{
 
 .questionlist .section{
   position: relative;
+  display: inline-block;
   margin-left: 10px;
   font-size: 1.15em;
+  width: 70%;
 }
+
+/** questionlist sort**/
+
+.questionlist .ques-sortbox{
+  float: right;
+  position: relative;
+  min-width: 80px;
+  min-height:20px; 
+  margin-right: 10px;
+}
+
+.ques-sortbox .ques-sorttype{
+  cursor: pointer;
+  float:right;
+}
+
+.ques-sorttype .list-icon{
+  float: right;
+  margin-top: 8px;
+  margin-right: 5px;
+  width: 10px;
+}
+
+.ques-sorttype .sorttype-text{
+  float: right;
+  margin-right: 5px;
+  color: #747474;
+  font-family: avenir,arial;
+
+}
+
+.questionlist .ques-sortdropdown{
+  display: none;
+  position: absolute;
+  text-align: left;
+  right:5px;
+  top:25px;
+  width: 80px;
+  background-color: #fff;
+  border: 1px #ccc solid;
+  z-index: 100;
+}
+
+.ques-sortdropdown li{
+  float: right;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 1em;
+  font-family: avenir,arial;
+  color: #ccc;
+}
+
+.ques-sortdropdown li:hover{
+  font-size: 1em;
+  color: #747474;
+}
+/** End of questionlist sort**/
 
 .questionframe{
   display: block;

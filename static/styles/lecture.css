@@ -187,6 +187,64 @@ button{
   font-family: avenir;
 }
 
+
+/** Nav Lecture sort**/
+.nav .lec-sortbox{
+  float: right;
+  position: relative;
+  min-width: 80px;
+  min-height: 20px;
+  margin-top: 30px;
+  margin-right: 20px;
+}
+
+ .lec-sorttype{
+  cursor: pointer;
+  float:right;
+}
+
+.lec-sorttype .list-icon{
+  float: right;
+  margin-top: 8px;
+  margin-right: 5px;
+  width: 10px;
+}
+
+.lec-sorttype .sorttype-text{
+  float: right;
+  margin-right: 5px;
+  color: #747474;
+  font-family: avenir,arial;
+
+}
+
+.nav .lec-sortdropdown{
+  display: none;
+  position: absolute;
+  text-align: left;
+  right: 0px;
+  top:30px;
+  width: 100px;
+  background-color: #fff;
+  border: 1px #ccc solid;
+  z-index: 100;
+}
+
+.lec-sortdropdown li{
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 1em;
+  font-family: avenir,arial;
+  color: #ccc;
+}
+
+.lec-sortdropdown li:hover{
+  font-size: 1em;
+  color: #747474;
+}
+/** End of Nav Lecture sort**/
+
+
 .nav .newboard-btn{
   display: block;
   float: right;

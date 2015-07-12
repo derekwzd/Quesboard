@@ -24,6 +24,19 @@
             <img class="backicon" src="img/backicon.png"><span>Back</span>
         </a>
         <button class="uni-green newboard-btn" href="#">New Board</button>
+        <!-- Sort Drop Down-->
+        <div class="lec-sortbox">
+            <div class="lec-sorttype">
+                <img class="list-icon" src="img/list_nav.png">
+                <p class="sorttype-text">Recent</p>
+            </div>
+            <ul class="lec-sortdropdown">
+                <li class="sorttype-choice" title="Recent">Recent</li>
+                <li class="sorttype-choice" title="My Boards">My Boards</li>
+                <li class="sorttype-choice" title="Favourite">Favourite</li>
+            </ul>
+        </div>
+        <!--End of Sort Drop Down-->
     </div>
 </div>
 <!-- Lecture board -->
@@ -120,18 +133,18 @@
 <!-- Fixed newsection-->
 <button class="uni-green newboard-btn" href="#">New Board</button>
 <!-- Popout newlec Box -->
-<div class ="lec-popout">
-  <div class = "blackbg">
-  </div>
-  <div class="newleccontainer">
-    <div class="newlecframe">
-     <!-- <span class="newlectitle">New lection</span> -->
-      <button class="newlecclosebtn" type="button"><img src="img/closebtn.png"></button>
-      <textarea class="newlecname" placeholder="The name of new board"></textarea>
-      <textarea class="newlecdescrip" placeholder="Describe the new board here"></textarea>
-      <button class="uni-green confirmbtn">confirm</button>
+<div class="lec-popout">
+    <div class="blackbg">
     </div>
-  </div>
+    <div class="newleccontainer">
+        <div class="newlecframe">
+            <!-- <span class="newlectitle">New lection</span> -->
+            <button class="newlecclosebtn" type="button"><img src="img/closebtn.png"></button>
+            <textarea class="newlecname" placeholder="The name of new board"></textarea>
+            <textarea class="newlecdescrip" placeholder="Describe the new board here"></textarea>
+            <button class="uni-green confirmbtn">confirm</button>
+        </div>
+    </div>
 </div>
 <!-- Popout QR Box -->
 <div class="qr-popout">
@@ -149,41 +162,37 @@
 </div>
 <!-- mode control-->
 <a class="showhidecontrol" href="#">show/hide</a>
-
 <!-- module -->
-<div class="modules"> 
-  <div id="defaultbubble" class="bubblecontainer">
-      <div class="bubbletop">
-          <button class="delete-confirm">Delete</button>
-              <p class="confirm-info">Sections will also be deleted.</p>
-      </div>
-      <div class="bubbletriangle-outer"><div class="bubbletriangle-inner"></div></div>
-  </div>
-
-  <div id = "defaultlecture" class="boardcontainer">
-      <div class="lec-lectitle">
-        <a href="#"><img class="lec-lecqr" src="img/QR.png"></a>
-        <span class="lec-lecname">This is a new Lecture</span>
-      </div>  
+<div class="modules">
+    <div id="defaultbubble" class="bubblecontainer">
+        <div class="bubbletop">
+            <button class="delete-confirm">Delete</button>
+            <p class="confirm-info">Sections will also be deleted.</p>
+        </div>
+        <div class="bubbletriangle-outer">
+            <div class="bubbletriangle-inner"></div>
+        </div>
+    </div>
+    <div id="defaultlecture" class="boardcontainer">
+        <div class="lec-lectitle">
+            <a href="#"><img class="lec-lecqr" src="img/QR.png"></a>
+            <span class="lec-lecname">This is a new Lecture</span>
+        </div>
         <p class="lec-lecdescrip">This is a new Description</p>
-
-        <p class="lec-lecstat"> <span class="sec-count">0</span> Sections  |  <span class="question-count">0</span> Questions  |  <span class="vote-count">0</span> Votes</p>
-        
+        <p class="lec-lecstat"> <span class="sec-count">0</span> Sections | <span class="question-count">0</span> Questions | <span class="vote-count">0</span> Votes</p>
         <div class="lec-toolbox">
-          <div class= "lec-deletebtn"><img src="img/deleteimg.png">   
-          </div>
-          <button class= "lec-editbtn"><img src="img/editimg3.png"></button>   
-          <div class= "lec-starbtn"><img src="img/starimg-empty.png">   
-          </div>      
-          <div class="lec-opencheck">
+            <div class="lec-deletebtn"><img src="img/deleteimg.png">
+            </div>
+            <button class="lec-editbtn"><img src="img/editimg3.png"></button>
+            <div class="lec-starbtn"><img src="img/starimg-empty.png">
+            </div>
+            <div class="lec-opencheck">
                 <input id="lec-opencheckInput" type="checkbox" value="1" name="" />
                 <label></label>
                 <span class="checkOff">OFF</span><span class="checkOn">ON</span>
-          </div>
-
+            </div>
         </div>
-    <span class="lec-time">2015/01/01</span>
-    <span class="lec-idbox">Board ID: <span class="lec-idnumber">000</span></span>
-  </div>
-
+        <span class="lec-time">2015/01/01</span>
+        <span class="lec-idbox">Board ID: <span class="lec-idnumber">000</span></span>
+    </div>
 </div>
