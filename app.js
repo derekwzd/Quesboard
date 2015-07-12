@@ -1,14 +1,10 @@
 var express = require('express');
-// var MongoStore =require('connect-mongo')(express);
-//var settings =require('./settings');
 var flash = require('connect-flash');
 var session = require('express-session');
 var app = express();
 var port = process.env.PORT || 80;
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
-    //6.30 TODO:modify
-    // login authentication interface
 var Controllers_user = require('./controllers/user.js')
 var Controllers_audituser = require('./controllers/audituser.js')
 var Controllers_section = require('./controllers/section.js')
@@ -54,12 +50,9 @@ app.get('/api/validate', function(req, res) {
 app.post('/api/login', function(req, res) {
     email = req.body.email
     password = req.body.password
-        // console.log(Controllers.User)
     if (email && password) {
-        // Controllers.User.findByEmailOrCreate(email, function(err, user) {
         Controllers_user.findByEmail(email, function(err, user) {
             if (err) {
-                // console.log('the email have not registrated');
                 req.flash('error', 'the email have not registrated');
                 res.json(500, {
                     msg: err
@@ -70,7 +63,6 @@ app.post('/api/login', function(req, res) {
                     res.json(user)
                 } else {
                     req.flash('error', 'password incorrect')
-                    console.log('password incorrect');
                     res.json(404, {
                         msg: err
                     })
@@ -95,24 +87,24 @@ app.post('/api/reg', function(req, res) {
         // }
         //var md5=crypto.createHash('md5'),
         //password=md5.update(req.body.password).digest('hex');
-    console.log('the regemail is:' + email)
-    console.log('the regpassword is:' + password)
+    // console.log('the regemail is:' + email)
+    // console.log('the regpassword is:' + password)
     if (email && password) {
         // Controllers.User.findByEmailOrCreate(email, function(err, user) {
         Controllers_user.createNewUser(email, password, function(err, user) {
             if (err) {
-                console.log('the email have registrated please login');
+                // console.log('the email have registrated please login');
                 req.flash('error', 'the email have registrated please login');
                 res.json(500, {
                     msg: err
                 })
             } else {
-                console.log('signup success');
+                // console.log('signup success');
                 res.json(user)
             }
         })
     } else {
-        console.log('lack email or password')
+        // console.log('lack email or password')
         res.json(403)
     }
 })

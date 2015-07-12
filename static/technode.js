@@ -389,7 +389,7 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
     //add up all the pic src array
     var allcate = new Array();
     allcate = allcate.concat(gensrc(sciencecate), gensrc(artcate), gensrc(comiccate));
-    console.log("allcate.length is " + allcate.length);
+    // console.log("allcate.length is " + allcate.length);
 
     //load all the pic into head selection page
     for (i = 0; i < allcate.length; i++) {
@@ -520,8 +520,8 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
 
     //6.30reg
     $scope.reg = function() {
-        console.log($('#chooseimg').attr('src'))
-        console.log($scope.signupEmail)
+        // console.log($('#chooseimg').attr('src'))
+        // console.log($scope.signupEmail)
         $http({
             url: '/api/reg',
             method: 'POST',
@@ -530,13 +530,13 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
                 password: $scope.signupPassword
             }
         }).success(function(user) {
-            console.log(user)
-            console.log('reg')
+            // console.log(user)
+            // console.log('reg')
             $scope.$emit('reg', user)
             $location.path('/lecture', $scope.signupEmail)
         }).error(function(data) {
-            console.log(data)
-            console.log('error_reg')
+            // console.log(data)
+            // console.log('error_reg')
             $location.path('/')
         })
 
