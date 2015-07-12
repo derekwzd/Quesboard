@@ -125,7 +125,7 @@ router.post('/login', function(req, res) {
 
 
 
-app.post('/api/reg', function(req, res) {
+router.post('/api/reg', function(req, res) {
     var email = req.body.email,
         password = req.body.password
         // password_re=req.body['password_repeat'];

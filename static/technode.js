@@ -158,10 +158,10 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
 
     //On/Off label transition
     $(document).on('click', ".lec-opencheck", function() {
-        console.log('show here the result: '+$(this).children("#lec-opencheckInput").attr("checked"))
-        if($(this).children("#lec-opencheckInput").attr("checked") === "checked"){
+        console.log('show here the result: ' + $(this).children("#lec-opencheckInput").attr("checked"))
+        if ($(this).children("#lec-opencheckInput").attr("checked") === "checked") {
             $(this).children("#lec-opencheckInput").removeAttr("checked");
-            console.log("2: "+$(this).children("#lec-opencheckInput").attr("checked"))
+            console.log("2: " + $(this).children("#lec-opencheckInput").attr("checked"))
             $(this).css({
                 "background-color": "#6ecf68"
             });
@@ -174,9 +174,9 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
             $(this).children(".checkOff").animate({
                 "opacity": "0"
             }, 100)
-        }else{
+        } else {
             $(this).children("#lec-opencheckInput").attr("checked", true);
-            console.log("1: "+$(this).children("#lec-opencheckInput").attr("checked"))
+            console.log("1: " + $(this).children("#lec-opencheckInput").attr("checked"))
             $(this).css({
                 "background-color": "#979797"
             });
@@ -351,8 +351,30 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         $(".lec-popout").fadeOut(200);
     })
 
+    //guoxiao
+    var xxx = function() {
+        $.ajax({
+                url: '/api/getAllLectures',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    user_Id: "55a09acdf2290647ded227a1"
+                        // lecture_Id: "55a0d7a14cfc3883176ef1de",
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+    }
+    xxx();
 
-    console.log("test: " + $routeParams._lecId)
 
 })
 
@@ -559,8 +581,8 @@ angular.module('techNodeApp').controller('RoomCtrl', function($scope, $routePara
     socket.on('triggervote', function(messages) {
         $scope.messages = messages;
     })
-   console.log('lectureId:'+ $routeParams._lecId+ " sectionId: " + $routeParams._secId +" roomID: "+ $routeParams._roomId)
- 
+    console.log('lectureId:' + $routeParams._lecId + " sectionId: " + $routeParams._secId + " roomID: " + $routeParams._roomId)
+
 })
 
 angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeParams, $scope, socket) {
@@ -620,9 +642,9 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
             }, 100)
             $(this).children(".checkOff").animate({
                 "opacity": "0"
-            }, 100)           
+            }, 100)
         } else {
-             $(this).children("#sec-opencheckInput").attr("checked", true);
+            $(this).children("#sec-opencheckInput").attr("checked", true);
             console.log("check=true");
             $(this).css({
                 "background-color": "#979797"
@@ -697,7 +719,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
     // })
 
     // common Close btn click
-    $(".newsecclosebtn").click(function(){
+    $(".newsecclosebtn").click(function() {
         $(".sec-popout").fadeOut(200);
         $(".newsecname").val("");
         $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
@@ -712,27 +734,25 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
     $('.newsecname').keyup(function() {
         var secnameLength = $(this).val().length;
         var charactersLeft = 155 - secnameLength;
-       //   $('.counter').text(charactersLeft); 
-  
-        if(charactersLeft < 0) {
-          $('.confirmbtn').addClass('uni-disabled'); 
-          $('.confirmbtn').attr("disabled","disabled");
-        }
-        else if(charactersLeft == 155) {
-          $('.confirmbtn').addClass('uni-disabled');
-          $('.confirmbtn').attr("disabled","disabled");
-        }
-        else {
-          $('.confirmbtn').removeClass('uni-disabled');
-          $('.confirmbtn').removeAttr("disabled");
-        }
-    }); 
+        //   $('.counter').text(charactersLeft); 
 
-     //section edit control
-    $(document).on('click',".sec-editbtn",function(){
+        if (charactersLeft < 0) {
+            $('.confirmbtn').addClass('uni-disabled');
+            $('.confirmbtn').attr("disabled", "disabled");
+        } else if (charactersLeft == 155) {
+            $('.confirmbtn').addClass('uni-disabled');
+            $('.confirmbtn').attr("disabled", "disabled");
+        } else {
+            $('.confirmbtn').removeClass('uni-disabled');
+            $('.confirmbtn').removeAttr("disabled");
+        }
+    });
+
+    //section edit control
+    $(document).on('click', ".sec-editbtn", function() {
         $(".sec-popout").fadeIn(400);
         $(".newsectitle").text("Edit Section")
-        //add confirm type
+            //add confirm type
         $(".confirmbtn").addClass("editsec-confirm");
         $(this).siblings(".sectionname").addClass("editing-secname");
         $('.newsecname').val($(".editing-secname").text());
@@ -740,7 +760,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
     })
 
     // Section edit confirmbtn click
-    $(document).on('click',".editsec-confirm",function(){
+    $(document).on('click', ".editsec-confirm", function() {
         console.log("editsec-confirm clicked");
 
         //customize section frame
@@ -759,21 +779,21 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
 
 
     //New Section control
-    $(document).on('click',".newsec-btn",function(){
+    $(document).on('click', ".newsec-btn", function() {
         $(".sec-popout").fadeIn(400);
         $(".newsectitle").text("New Section")
-        //add confirm type
+            //add confirm type
         $(".confirmbtn").addClass("newsec-confirm")
-        //set up default text
-        $('.newsecname').val("Section "+($('.sectionlist').children().size()+1)+". Q&A Section");
+            //set up default text
+        $('.newsecname').val("Section " + ($('.sectionlist').children().size() + 1) + ". Q&A Section");
         console.log("newsec-btn clicked");
     })
 
     // newsec confirm click
-    $(document).on('click',".newsec-confirm",function(){
+    $(document).on('click', ".newsec-confirm", function() {
         console.log("newsec-confirm clicked");
-        
-    
+
+
         var newsec = $("#defaultsection").clone().removeAttr("id");
         $(".sectionlist").append(newsec);
 
@@ -785,10 +805,15 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
         $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
 
         //scroll to the new section part
-        $(document.body).animate({scrollTop:$(".sectionlist").children(".sectionframe").last().offset().top}, 600 );
+        $(document.body).animate({
+            scrollTop: $(".sectionlist").children(".sectionframe").last().offset().top
+        }, 600);
         $(".sec-popout").fadeOut(200);
     })
-    console.log('lectureId:'+ $routeParams._lecId+ " sectionId: " + $routeParams._secId)
+
+    //xiaoxiao
+
+    console.log('lectureId:' + $routeParams._lecId + " sectionId: " + $routeParams._secId)
 
 })
 
