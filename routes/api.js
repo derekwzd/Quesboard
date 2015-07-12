@@ -60,9 +60,9 @@ router.get('/validate', function(req, res) {
     if (_userId) {
         Controllers_user.findUserById(_userId, function(err, user) {
             if (err) {
-                console.log('error')
+                // console.log('error')
                 res.json(401, {
-                    msg: err
+                    msg: 'error'
                 })
             } else {
                 res.json(user)
@@ -81,32 +81,34 @@ router.post('/login', function(req, res) {
         Controllers_user.findByEmail(email, function(err, user) {
             if (err) {
                 req.flash('error', 'the email have not registrated');
-                res.json(500, {
-                    msg: err
+                res.json(401, {
+                    msg: 'the email have not registrated'
                 })
             } else {
                 if (password === user.password) {
-                    // req.session._userId = user._id
+                    req.session._userId = user
                     res.json(user)
                 } else {
                     req.flash('error', 'password incorrect')
-                    res.json(404, {
-                        msg: err
+                    res.json(400, {
+                        msg: 'password incorrect'
                     })
                 }
             }
         })
     } else {
-        console.log('response 403')
-        res.json(403)
+        // console.log('response 403')
+        res.json(402,{
+            msg : 'password not in'
+        })
     }
 })
 
 
 
 router.post('/reg', function(req, res) {
-    var email = req.body.email,
-        password = req.body.password
+    var email = req.body.email
+    var password = req.body.password
         // password_re=req.body['password_repeat'];
         // if(password_re !=password){
         //     req.flash('error','The two password you inputed is not same!');
@@ -123,7 +125,7 @@ router.post('/reg', function(req, res) {
                 console.log('the email have registrated please login');
                 // req.flash('error', 'the email have registrated please login');
                 res.json(500, {
-                    msg: err
+                    msg: 'the email have registrated please login'
                 })
             } else {
                 Controllers_user.createNewUser(email, password, function(err, user) {

@@ -5,12 +5,12 @@ run(function($window, $rootScope, $http, $location) {
         method: 'GET'
     }).success(function(user) {
         // console.log(user)
-        // $rootScope.me = user
+        $rootScope.me = user
         // $location.path('/section')
         // console.log('login success')
     }).error(function(data) {
-        // console.log("not login in")
-        // $location.path('/')
+        console.log("not login in")
+        $location.path('/')
     })
     // console.log('tes')
     $rootScope.logout = function() {
