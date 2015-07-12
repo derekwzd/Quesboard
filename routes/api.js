@@ -90,7 +90,7 @@ router.get('/validate', function(req, res) {
             }
         })
     } else {
-        console.log('not');
+        // console.log('not');
         res.json(401, null)
     }
 })
