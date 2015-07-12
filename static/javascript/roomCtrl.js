@@ -56,7 +56,6 @@ angular.module('techNodeApp').controller('VoteControl', function($scope, socket)
 
 angular.module('techNodeApp').controller('RoomCtrl', function($scope, $routeParams, $scope, socket) {
     $scope.messages = [];
-    console.log('fdsafdsa')
     socket.emit('getAllMessages')
     socket.on('allMessages', function(messages) {
         $scope.messages = messages;
@@ -70,7 +69,12 @@ angular.module('techNodeApp').controller('RoomCtrl', function($scope, $routePara
     socket.on('triggervote', function(messages) {
         $scope.messages = messages;
     })
-    console.log('lectureId:' + $routeParams._lecId + " sectionId: " + $routeParams._secId + " roomID: " + $routeParams._roomId)
+    console.log('lectureId:' + $routeParams._lecId + " sectionId: " + $routeParams._secId)
+
+    $('.backbtn').attr({
+        href: "/lecture/"+$routeParams._lecId
+    });
+
 })
 
 angular.module('techNodeApp').directive('autoScrollToBottom', function() {

@@ -12,7 +12,6 @@ run(function($window, $rootScope, $http, $location) {
         console.log("not login in")
         $location.path('/')
     })
-    console.log('tes')
     $rootScope.logout = function() {
             $http({
                 url: '/ajax/logout',

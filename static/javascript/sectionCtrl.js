@@ -224,7 +224,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
     })
 
     //xiaoxiao
-    console.log('lectureId:' + $routeParams._lecId + " sectionId: " + $routeParams._secId)
+    console.log('lectureId:' + $routeParams._lecId)
 
     var createSection = function() {
             $.ajax({
@@ -369,5 +369,6 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                 console.log("complete");
             });
     } 
-    //editSection();
+
+
 })
