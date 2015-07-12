@@ -20,6 +20,18 @@ exports.findByEmail = function(email, callback){
 	})
 }
 
+exports.findRegEmail = function(email, callback){
+	db.User.findOne({
+		email:email
+	}, function(err, user){
+		if(user){
+			callback("reg", user)
+		}else{
+			return callback(null) 
+		}
+	})
+}
+
 exports.createNewUser = function(email,password, callback){
 	db.User.findOne({
 		email:email,

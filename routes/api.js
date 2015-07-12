@@ -125,7 +125,7 @@ router.post('/login', function(req, res) {
 
 
 
-router.post('/reg', function(req, res) {
+app.post('/api/reg', function(req, res) {
     var email = req.body.email,
         password = req.body.password
         // password_re=req.body['password_repeat'];
@@ -138,21 +138,26 @@ router.post('/reg', function(req, res) {
     // console.log('the regemail is:' + email)
     // console.log('the regpassword is:' + password)
     if (email && password) {
-        // Controllers.User.findByEmailOrCreate(email, function(err, user) {
-        Controllers_user.createNewUser(email, password, function(err, user) {
+        //Controllers_user.createNewUser(email, password, function(err, user) {
+        Controllers_user.findRegEmail(email, function(err, user) {
             if (err) {
-                // console.log('the email have registrated please login');
-                req.flash('error', 'the email have registrated please login');
+                console.log('the email have registrated please login');
+                // req.flash('error', 'the email have registrated please login');
                 res.json(500, {
                     msg: err
                 })
             } else {
-                // console.log('signup success');
+                Controllers_user.createNewUser(email, password, function(err, user) {
+                    if (err) {
+                        console.log("err")
+                    }
+                })
+                console.log('signup success');
                 res.json(user)
             }
         })
     } else {
-        // console.log('lack email or password')
+        console.log('lack email or password')
         res.json(403)
     }
 })
