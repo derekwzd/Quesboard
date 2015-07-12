@@ -28,7 +28,7 @@ router.post('/getAllLectures', function(req, res) {
 })
 
 router.post('/createQuestion', function(req, res) {
-	console.log('here')
+    console.log('here')
     var name = req.body.name;
     var avatarUrl = req.body.avatarUrl;
     var user_Id = req.body.user_Id;
@@ -50,27 +50,6 @@ router.post('/createQuestion', function(req, res) {
             } else {
                 // console.log(msg)
                 res.send("create")
-            }
-        })
-    }
-})
-
-router.post('/getAllLectures', function(req, res) {
-    var data = req.body;
-    if (data && data.lecture_Id) {
-        Controllers_lecture.getSectionById(data.lecture_Id, function(err, lecture) {
-            if (err) {
-                res.send(err.message);
-            } else {
-                res.send(lecture)
-            }
-        })
-    } else {
-        Controllers_lecture.getAllLectures(data.user_Id, function(err, lectures) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.send(lectures);
             }
         })
     }
@@ -125,7 +104,7 @@ router.post('/login', function(req, res) {
 
 
 
-router.post('/api/reg', function(req, res) {
+router.post('/reg', function(req, res) {
     var email = req.body.email,
         password = req.body.password
         // password_re=req.body['password_repeat'];
@@ -135,8 +114,8 @@ router.post('/api/reg', function(req, res) {
         // }
         //var md5=crypto.createHash('md5'),
         //password=md5.update(req.body.password).digest('hex');
-    // console.log('the regemail is:' + email)
-    // console.log('the regpassword is:' + password)
+        // console.log('the regemail is:' + email)
+        // console.log('the regpassword is:' + password)
     if (email && password) {
         //Controllers_user.createNewUser(email, password, function(err, user) {
         Controllers_user.findRegEmail(email, function(err, user) {
@@ -218,7 +197,7 @@ router.post('/getAllQuestionsByID', function(req, res) {
     })
 })
 
-router.post('/creatlecture', function(req, res) {
+router.post('/creatLecture', function(req, res) {
     creator = req.body.creator;
     name = req.body.name
     content = req.body.content
@@ -244,6 +223,31 @@ router.post('/creatlecture', function(req, res) {
         res.json(403, null)
     }
 })
+
+router.post('/editLecture', function(req, res) {
+    var lecture_Id = req.body.lecture_Id;
+    var user_Id = req.body.user_Id;
+    var name = req.body.name;
+    var content = req.body.content;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        if (lec && user_Id === lec.creator._id.toString()) {
+            console.log('You are the creator,valid to edit')
+            if (name || content) {
+                Controllers_lecture.changeLecture(lecture_Id, name, content, function(err, msg) {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        res.send("edit")
+                    }
+                })
+            }
+        } else {
+            res.json(403, null)
+        }
+    })
+})
+
+
 
 
 router.post('/createSection', function(req, res) {
@@ -272,21 +276,46 @@ router.post('/createSection', function(req, res) {
     })
 })
 
+router.post('/editSection', function(req, res) {
+    var lecture_Id = req.body.lecture_Id;
+    var user_Id = req.body.user_Id;
+    var _sectionId = req.body.section_Id;
+    var content = req.body.content;
+    Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+        if (lec && user_Id === lec.creator._id.toString()) {
+            console.log('You are the creator,valid to edit')
+            if (content) {
+                Controllers_section.changeSection(_sectionId, content, function(err, msg) {
+                    if (err) {
+                        res.send(err)
+                    } else {
+                        res.send("edit")
+                    }
+                })
+            }
+        } else {
+            console.log('have no access')
+            res.json(403, null)
+        }
+    })
+})
+
+
+
 router.post('/deleteLecture', function(req, res) {
     var lecture_Id = req.body.lecture_Id;
     var user_Id = req.body.user_Id;
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
         if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You are the creator,valid to delete')
-            Controllers_lecture.deleteLecture(_lectureId, function(err, msg) {
+            Controllers_lecture.deleteLecture(lecture_Id, function(err, msg) {
                 if (err) {
                     res.send(err)
                 } else {
                     res.send("delete")
                 }
             })
-        }
-        else{
+        } else {
             res.json(403, null)
         }
     })
@@ -299,15 +328,14 @@ router.post('/openLecture', function(req, res) {
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
         if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You are the creator,valid to open')
-            Controllers_lecture.onLecture(_lectureId, function(err, msg) {
+            Controllers_lecture.onLecture(lecture_Id, function(err, msg) {
                 if (err) {
                     res.send(err)
                 } else {
                     res.send("open")
                 }
             })
-        }
-        else{
+        } else {
             res.json(403, null)
         }
     })
@@ -319,15 +347,14 @@ router.post('/closeLecture', function(req, res) {
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
         if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You are the creator,valid to close')
-            Controllers_lecture.offLecture(_lectureId, function(err, msg) {
+            Controllers_lecture.offLecture(lecture_Id, function(err, msg) {
                 if (err) {
                     res.send(err)
                 } else {
                     res.send("close")
                 }
             })
-        }
-        else{
+        } else {
             res.json(403, null)
         }
     })
@@ -340,15 +367,14 @@ router.post('/deleteSection', function(req, res) {
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
         if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can delete')
-            Controllers_section.deleteSection(_sectionId, function(err, msg) {
+            Controllers_section.deleteSection(section_Id, function(err, msg) {
                 if (err) {
                     res.send(err)
                 } else {
                     res.send("delete")
                 }
             })
-        }
-        else{
+        } else {
             res.json(403, null)
         }
     })
@@ -361,15 +387,14 @@ router.post('/openSection', function(req, res) {
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
         if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can open')
-            Controllers_section.onSection(_sectionId, function(err, msg) {
+            Controllers_section.onSection(section_Id, function(err, msg) {
                 if (err) {
                     res.send(err)
                 } else {
                     res.send("open")
                 }
             })
-        }
-        else{
+        } else {
             res.json(403, null)
         }
     })
@@ -382,15 +407,14 @@ router.post('/closeSection', function(req, res) {
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
         if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can close')
-            Controllers_section.offSection(_sectionId, function(err, msg) {
+            Controllers_section.offSection(section_Id, function(err, msg) {
                 if (err) {
                     res.send(err)
                 } else {
                     res.send("close")
                 }
             })
-        }
-        else{
+        } else {
             res.json(403, null)
         }
     })
@@ -403,15 +427,14 @@ router.post('/deleteQuestion', function(req, res) {
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
         if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can delete')
-            Controllers_question.deleteQuestion(_questionId, function(err, msg) {
+            Controllers_question.deleteQuestion(question_Id, function(err, msg) {
                 if (err) {
                     res.send(err)
                 } else {
                     res.send("delete")
                 }
             })
-        }
-        else{
+        } else {
             res.json(403, null)
         }
     })
@@ -424,15 +447,14 @@ router.post('/openQuestion', function(req, res) {
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
         if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can open')
-            Controllers_question.onQuestion(_questionId, function(err, msg) {
+            Controllers_question.onQuestion(question_Id, function(err, msg) {
                 if (err) {
                     res.send(err)
                 } else {
                     res.send("open")
                 }
             })
-        }
-        else{
+        } else {
             res.json(403, null)
         }
     })
@@ -445,15 +467,14 @@ router.post('/closeQuestion', function(req, res) {
     Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
         if (lec && user_Id === lec.creator._id.toString()) {
             console.log('You can close')
-            Controllers_question.offQuestion(_questionId, function(err, msg) {
+            Controllers_question.offQuestion(question_Id, function(err, msg) {
                 if (err) {
                     res.send(err)
                 } else {
                     res.send("close")
                 }
             })
-        }
-        else{
+        } else {
             res.json(403, null)
         }
     })

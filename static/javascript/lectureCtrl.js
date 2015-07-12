@@ -259,14 +259,13 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
     })
 
     //guoxiao
-    var xxx = function() {
+    var getAllLecture = function() {
             $.ajax({
                     url: '/api/getAllLectures',
                     type: 'POST',
                     dataType: '',
                     data: {
                         user_Id: "55a09acdf2290647ded227a1"
-                            // lecture_Id: "55a0d7a14cfc3883176ef1de",
                     },
                 })
                 .done(function(data) {
@@ -280,5 +279,127 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
                     console.log("complete");
                 });
         }
-        // xxx();
+        //getAllLecture();
+
+    var createLecture = function() {
+        $.ajax({
+                url: '/api/creatLecture',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    // creator : "55a09acdf2290647ded227a1",
+                    creator: "55928482df38c17a66c67f2a",
+                    name: '45555',
+                    content: "4445"
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            })
+    }
+    //createLecture();
+
+    var deleteLecture = function(){
+        $.ajax({
+                url: '/api/deleteLecture',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    // creator : "55a09acdf2290647ded227a1",
+                    user_Id: "55928482df38c17a66c67f2a",
+                    lecture_Id:"55a248922deef73926fb21f5"
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            })
+    }
+    //deleteLecture();
+
+    var openLecture = function(){
+        $.ajax({
+                url: '/api/openLecture',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    // creator : "55a09acdf2290647ded227a1",
+                    user_Id: "55928482df38c17a66c67f2a",
+                    lecture_Id:"55a2228ffed9f4cd232a823d"
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            })
+    }
+    //openLecture();
+
+    var closeLecture = function(){
+        $.ajax({
+                url: '/api/closeLecture',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    // creator : "55a09acdf2290647ded227a1",
+                    user_Id: "55928482df38c17a66c67f2a",
+                    lecture_Id:"55a2228ffed9f4cd232a823d"
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            })
+    }
+    //closeLecture();
+    var editLecture = function(){
+        $.ajax({
+                url: '/api/editLecture',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    // creator : "55a09acdf2290647ded227a1",
+                    user_Id: "55928482df38c17a66c67f2a",
+                    lecture_Id:"55a2228ffed9f4cd232a823d",
+                    name:"555",
+                    content:"555"
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            })
+    }
+    //editLecture();
 })

@@ -224,7 +224,150 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
     })
 
     //xiaoxiao
-
     console.log('lectureId:' + $routeParams._lecId + " sectionId: " + $routeParams._secId)
 
+    var createSection = function() {
+            $.ajax({
+                    url: '/api/createSection',
+                    type: 'POST',
+                    dataType: '',
+                    data: {
+                        user_Id: "55928482df38c17a66c67f2a",
+                        lecture_Id: "55a2228ffed9f4cd232a823d",
+                        content: "second section for user2 lec4",
+                    },
+                })
+                .done(function(msg) {
+                    console.log(msg)
+                    console.log("success");
+                })
+                .fail(function(data) {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+
+        }
+        //createSection();
+
+    var getAllSection = function() {
+        $.ajax({
+                url: '/api/getAllSectionsByID',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    user_Id: '55928482df38c17a66c67f2a',
+                    lecture_Id: '55a2228ffed9f4cd232a823d',
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+    }
+    //getAllSection();
+    var deleteSection = function(){
+        $.ajax({
+                url: '/api/deleteSection',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    user_Id: '55928482df38c17a66c67f2a',
+                    lecture_Id: '55a2228ffed9f4cd232a823d',
+                    section_Id:'55a274d18b0cdfe82609e8aa'
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+    }
+    //deleteSection();
+
+    var closeSection = function(){
+        $.ajax({
+                url: '/api/closeSection',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    user_Id: '55928482df38c17a66c67f2a',
+                    lecture_Id: '55a2228ffed9f4cd232a823d',
+                    section_Id:'55a274d18b0cdfe82609e8aa'
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+    }
+    //closeSection();
+
+    var OpenSection = function(){
+        $.ajax({
+                url: '/api/openSection',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    user_Id: '55928482df38c17a66c67f2a',
+                    lecture_Id: '55a2228ffed9f4cd232a823d',
+                    section_Id:'55a274d18b0cdfe82609e8aa'
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+    }
+    //OpenSection();
+
+    var editSection = function(){
+        $.ajax({
+                url: '/api/editSection',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    user_Id: '55928482df38c17a66c67f2a',
+                    lecture_Id: '55a2228ffed9f4cd232a823d',
+                    section_Id:'55a274d18b0cdfe82609e8aa',
+                    content:'12345'
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+    } 
+    //editSection();
 })
