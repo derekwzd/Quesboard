@@ -1,4 +1,23 @@
 $(document).ready(function(){
+
+
+    //Tips generate
+    var gentip = function(tiptarget,tipcontent){
+        var newbubble = $("#defaultinfobubble").clone().removeAttr("id");
+        newbubble.find(".confirm-info").html(tipcontent);
+        $("body").append(newbubble);
+        var tipaxisX= $("body").width() - tiptarget.offset().left - tiptarget.width()/2 - newbubble.width()/2;
+        var tipaxisY= tiptarget.offset().top-20;
+        newbubble.css({"top":tipaxisY + "px", "right":tipaxisX + "px"});
+        newbubble.animate({opacity:"0.9","top":tipaxisY-10+"px"},200);
+        setTimeout(function(){newbubble.animate({opacity:"0","top":tipaxisY+"px"},200,function(){$(this).remove();})},1500); 
+    }
+
+    $(document).on('click',"input",function(){
+        gentip($(this),"Tpye in here!");
+    });
+
+
     //random picture and name
     $(".randomimg").click(function(){
         $(".head-popout").fadeIn(400);
