@@ -12,7 +12,7 @@ run(function($window, $rootScope, $http, $location) {
         console.log("not login in")
         $location.path('/')
     })
-    // console.log('tes')
+    console.log('tes')
     $rootScope.logout = function() {
             $http({
                 url: '/ajax/logout',
@@ -28,6 +28,9 @@ run(function($window, $rootScope, $http, $location) {
         $rootScope.me = me
     })
     $rootScope.$on('reg', function(evt, me) {
+        $rootScope.me = me
+    })
+    $rootScope.$on('auditlogin', function(evt, me){
         $rootScope.me = me
     })
 })

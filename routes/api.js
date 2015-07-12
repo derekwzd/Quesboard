@@ -484,17 +484,16 @@ router.post('/closeQuestion', function(req, res) {
 
 
 router.post('/auditlogin', function(req, res) {
-    name = req.body.auditname
-    console.log(req.body)
-    console.log('the auditname is:' + name)
-    console.log(Controllers_audituser)
+    var name = req.body.auditname
+    var img = req.body.auditimg
     if (name) {
-        Controllers_audituser.createNewAudit(name, function(err, user) {
+        Controllers_audituser.createNewAudit(name, img, function(err, user) {
             if (err) {
                 res.json(401, {
                     msg: err
                 })
             } else {
+                req.session._userId = user;
                 res.json(user)
             }
         })

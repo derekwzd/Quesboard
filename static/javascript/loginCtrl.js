@@ -85,9 +85,11 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
         pickname = randomname(comicname);
     }
 
-    // $("#randomname").val("Visitor " + pickname);
+    $("#customname").val("Visitor " + pickname);
+    console.log( $("#customname").val())
     //buttun hover effect function
     $scope.username = "Visitor " + pickname
+    // console.log(pickname)
 
     var signup = function() {
         $('.choosebtn').css('color', '#fff')
@@ -143,11 +145,15 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
 
     //AUDIT
     $scope.auditlogin = function() {
+        // console.log($('#chooseimg').attr('src'))
+        // console.log($scope.auditname)
+        // console.log($scope.auditimg)
         $http({
             url: '/api/auditlogin',
             method: 'POST',
             data: {
                 auditname: $scope.auditname,
+                auditimg : $('#chooseimg').attr('src')
             }
         }).success(function(audituser) {
             $scope.$emit('auditlogin', audituser)
@@ -168,7 +174,7 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
             }
         }).success(function(user) {
             $scope.$emit('login', user)
-            $location.path('/lecture', $scope.loginEmail)
+            $location.path('/lecture')
         }).error(function(data) {
             $location.path('/')
         })
