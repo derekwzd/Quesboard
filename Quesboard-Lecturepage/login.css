@@ -12,7 +12,6 @@ ul{
   list-style: none;
 }
 body{
-	  text-align: center;
   background-color: #eee;
   font: normal 100% Helvetica, Arial, sans-serif;
 }
@@ -27,6 +26,10 @@ button{
   border:none;
   outline: none;
   cursor: pointer;
+}
+
+.login-board{
+text-align: center;
 }
 
 
@@ -335,6 +338,7 @@ min-width: 920px;
 }
 
 .infobubble .bubbletop{
+  text-align: center;
   min-width: 120px;
   padding: 2px;
   margin-bottom: 5px;
@@ -343,7 +347,7 @@ min-width: 920px;
   border-radius: 2px;
 }
 
-.infobubble .confirm-info{
+.infobubble .bubble-info{
   position: relative;
   margin: 0 auto;
   font-size: 0.8em;

@@ -4,7 +4,7 @@ $(document).ready(function(){
     //Tips generate
     var gentip = function(tiptarget,tipcontent){
         var newbubble = $("#defaultinfobubble").clone().removeAttr("id");
-        newbubble.find(".confirm-info").html(tipcontent);
+        newbubble.find(".bubble-info").html(tipcontent);
         $("body").append(newbubble);
         var tipaxisX= $("body").width() - tiptarget.offset().left - tiptarget.width()/2 - newbubble.width()/2;
         var tipaxisY= tiptarget.offset().top-20;
