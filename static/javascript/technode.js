@@ -4,14 +4,14 @@ run(function($window, $rootScope, $http, $location) {
         url: '/api/validate',
         method: 'GET'
     }).success(function(user) {
-        // console.log(user)
+        console.log(user)
         $rootScope.me = user
+        console.log($rootScope.me)
         if ($location.$$path === '/') {
             $location.path('/lecture')
         }
     }).error(function(data) {
         console.log("not login in")
-        console.log($location.$$path)
         if ($location.$$path === "/") {
             
         } else {

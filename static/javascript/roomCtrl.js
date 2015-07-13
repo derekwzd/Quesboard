@@ -22,25 +22,77 @@ angular.module('techNodeApp').factory('socket', function($rootScope) {
     }
 });
 
-angular.module('techNodeApp').controller('MessageCreatorCtrl', function($scope, socket) {
+angular.module('techNodeApp').controller('MessageCreatorCtrl', function($scope , $routeParams, socket) {
     $scope.newMessage = '';
     $scope.createMessage = function() {
-        if ($scope.newMessage === '') {
+        var asktext = $(".inputbox").val();
+        if (asktext === '') {
+            return
+        }
+        if (asktext === 'reset') {
+            socket.emit('resetMessages')
+            $(".inputbox").val("");
+            $(".ask-popout").fadeOut(200);
             return
         }
         var askername = $(".username").text();
         var askerimgsrc = $(".userimg").attr("src");
         socket.emit('createMessage', {
             content: $scope.newMessage,
-            img: askerimgsrc,
-            name: askername,
-            votenum: 0
+            votenum: 0,
+            name: $scope.me.name,
+            avatarUrl: $scope.me.avatarUrl,
+            user_Id: $scope.me._id,
+            section_Id: $routeParams._secId,
+            lecture_Id: $routeParams._lecId,
         })
         $scope.newMessage = ''
+        $(".inputbox").val("");
         $(document.body).animate({
             scrollTop: $(".questionframe").last().offset().top
         }, 600);
         $(".ask-popout").fadeOut(200);
+        // if ($scope.newMessage === '') {
+        //     return
+        // }
+
+        // // $.ajax({
+        // //     url: '/api/createQuestion',
+        // //     type: 'POST',
+        // //     dataType: '',
+        // //     data: {
+        // //         name : $scope.me.name,
+        // //         avatarUrl : $scope.me.avatarUrl,
+        // //         user_Id : $scope.me._id,
+        // //         section_Id : $routeParams._secId,
+        // //         lecture_Id : $routeParams._lecId,
+        // //         content : "aha"
+        // //     },
+        // // })
+        // // .done(function() {
+        // //     console.log("success");
+        // // })
+        // // .fail(function() {
+        // //     console.log("error");
+        // // })
+        // // .always(function() {
+        // //     console.log("complete");
+        // // });
+
+        // socket.emit('createMessage', {
+        //     content: $scope.newMessage,
+        //     votenum: 0,
+        //     name: $scope.me.name,
+        //     avatarUrl: $scope.me.avatarUrl,
+        //     user_Id: $scope.me._id,
+        //     section_Id: $routeParams._secId,
+        //     lecture_Id: $routeParams._lecId,
+        // })
+        // $scope.newMessage = ''
+        // $(document.body).animate({
+        //     scrollTop: $(".questionframe").last().offset().top
+        // }, 600);
+        // $(".ask-popout").fadeOut(200);
     }
 })
 
@@ -56,11 +108,25 @@ angular.module('techNodeApp').controller('VoteControl', function($scope, socket)
 
 angular.module('techNodeApp').controller('RoomCtrl', function($scope, $routeParams, $scope, socket) {
     $scope.messages = [];
-    socket.emit('getAllMessages')
+
+    socket.emit('joinRoom', {
+        section_Id : $routeParams._secId
+    })
+    socket.on('joinRoom', function(msg){
+        console.log(msg)
+    })
+
+    socket.emit('getAllMessages', {
+        user_Id: $scope.me._id,
+        section_Id: $routeParams._secId,
+        lecture_Id: $routeParams._lecId
+    })
+
     socket.on('allMessages', function(messages) {
         $scope.messages = messages;
     })
     socket.on('messageAdded', function(message) {
+        console.log($scope.messages)
         $scope.messages.push(message);
     })
     socket.on('orignMessages', function(messages) {
@@ -72,8 +138,14 @@ angular.module('techNodeApp').controller('RoomCtrl', function($scope, $routePara
     console.log('lectureId:' + $routeParams._lecId + " sectionId: " + $routeParams._secId)
 
     $('.backbtn').attr({
-        href: "/lecture/"+$routeParams._lecId
+        href: "/lecture/" + $routeParams._lecId
     });
+
+
+
+
+
+
 
 })
 
@@ -142,8 +214,8 @@ angular.module('techNodeApp').directive('vote', function(socket) {
 });
 
 
-angular.module('techNodeApp').directive('postClick', function(socket) {
-    return function(scope, element, attrs) {
+angular.module('techNodeApp').directive('postClick', function($routeParams, socket) {
+    return function($scope, element, attrs) {
         element.bind("click", function(evt) {
             var asktext = $(".inputbox").val();
             if (asktext === '') {
@@ -158,11 +230,15 @@ angular.module('techNodeApp').directive('postClick', function(socket) {
             var askername = $(".username").text();
             var askerimgsrc = $(".userimg").attr("src");
             socket.emit('createMessage', {
-                content: asktext,
-                img: askerimgsrc,
-                name: askername,
-                votenum: 0
+                content: $scope.newMessage,
+                votenum: 0,
+                name: $scope.me.name,
+                avatarUrl: $scope.me.avatarUrl,
+                user_Id: $scope.me._id,
+                section_Id: $routeParams._secId,
+                lecture_Id: $routeParams._lecId,
             })
+            $scope.newMessage = ''
             $(".inputbox").val("");
             $(document.body).animate({
                 scrollTop: $(".questionframe").last().offset().top
@@ -171,4 +247,3 @@ angular.module('techNodeApp').directive('postClick', function(socket) {
         })
     }
 })
-

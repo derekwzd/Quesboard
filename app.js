@@ -7,6 +7,9 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
+var Controllers_lecture = require('./controllers/lecture.js')
+var Controllers_question = require('./controllers/question.js')
+
 
 
 app.use(bodyParser())
@@ -60,14 +63,66 @@ var messages = orign_messages.concat()
 
 io.sockets.on('connection', function(socket) {
     socket.emit('connected');
-    socket.on('getAllMessages', function() {
-        socket.emit('allMessages', messages)
+    socket.on('joinRoom', function(join) {
+        socket.join(join.section_Id)
+        socket.emit('joinRoom', "you are in: "+join.section_Id)
     })
+
+    socket.on('getAllMessages', function(data) {
+
+        // socket.join(data.section_Id)
+
+        var user_Id = data.user_Id;
+        var section_Id = data.section_Id;
+        var lecture_Id = data.lecture_Id;
+        Controllers_lecture.findCreatorById(lecture_Id, function(err, lec) {
+            if (lec.creator._id && lec && user_Id === lec.creator._id.toString()) {
+                Controllers_question.getAllQuestions(section_Id, function(err, msg) {
+                    if (err) {
+                        console.log('getAllQuestions failed')
+                    } else {
+                        // res.send(msg)
+                        socket.emit('allMessages', msg)
+                    }
+                })
+            } else {
+                Controllers_question.getActiveQuestions(section_Id, function(err, msg) {
+                    if (err) {
+                        console.log('getActiveQuestions failed')
+                    } else {
+                        socket.emit('allMessages', msg)
+                    }
+                })
+            }
+        })
+    })
+
+
+
+
     socket.on('createMessage', function(message) {
-        message.quesid = messages.length + 1;
-        messages.push(message);
-        io.sockets.emit('messageAdded', message)
+        var newquestion = {
+            content: message.content,
+            sectionId: message.section_Id,
+            creator: {
+                _id: message.user_Id,
+                name: message.name,
+                avatarUrl: message.avatarUrl
+            }
+        }
+        Controllers_question.createNewQuestion(newquestion, function(err, msg) {
+            if (err) {
+                res.send(err)
+            } else {
+                msg.quesid = messages.length + 1;
+                messages.push(msg);
+                socket.in(message.section_Id).broadcast.emit('messageAdded', msg)
+                socket.emit('messageAdded', msg)
+            }
+        })
     })
+
+
     socket.on('resetMessages', function() {
         messages = orign_messages.concat()
         socket.emit('orignMessages', messages)

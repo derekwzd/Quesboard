@@ -88,7 +88,6 @@ var main = function() {
         }
         else{
             $(this).children("#ques-opencheckInput").attr("checked",true);
-            console.log("check=true");
             $(this).css({"background-color":"#979797"});
             $(this).children("label").css({"left":"32px"});
             $(this).children(".checkOn").animate({"opacity":"0"},100)

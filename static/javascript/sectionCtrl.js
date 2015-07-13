@@ -57,7 +57,6 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
             }, 100)
         } else {
             $(this).children("#sec-opencheckInput").attr("checked", true);
-            console.log("check=true");
             $(this).css({
                 "background-color": "#979797"
             });

@@ -43,7 +43,6 @@ router.post('/getAllLectures', function(req, res) {
 })
 
 router.post('/createQuestion', function(req, res) {
-    console.log('here')
     var name = req.body.name;
     var avatarUrl = req.body.avatarUrl;
     var user_Id = req.body.user_Id;
