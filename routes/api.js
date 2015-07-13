@@ -130,11 +130,12 @@ router.post('/reg', function(req, res) {
             } else {
                 Controllers_user.createNewUser(email, password, function(err, user) {
                     if (err) {
-                        console.log("err")
+                        res.json(500)
+                    } else {
+                        console.log('signup success');
+                        res.json(user)
                     }
                 })
-                console.log('signup success');
-                res.json(user)
             }
         })
     } else {
