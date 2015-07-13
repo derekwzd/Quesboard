@@ -1,8 +1,13 @@
 angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeParams, $scope) {
+    
+    var global = {
+        user_Id: "55928482df38c17a66c67f2a"
+    }
+
     //dropdown menu control
-    $(document).on('click',".user",function(event){
+    $(document).on('click', ".user", function(event) {
         $(".user-dropdown").show(150);
-        $(document).one('click',function(){
+        $(document).one('click', function() {
             $(".user-dropdown").hide(100);
         });
         event.stopPropagation();
@@ -11,19 +16,19 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         // });
     });
     // sort dropdown control
-    $(document).on('click',".lec-sorttype",function(event){
+    $(document).on('click', ".lec-sorttype", function(event) {
         $(".lec-sortdropdown").show(150);
-        $(document).one('click',function(){
+        $(document).one('click', function() {
             $(".lec-sortdropdown").hide(100);
         });
         event.stopPropagation();
     });
 
-    $(document).on('click',".sorttype-choice",function(){
-        var sortchose= $(this).attr("title");
+    $(document).on('click', ".sorttype-choice", function() {
+        var sortchose = $(this).attr("title");
         $(".sorttype-text").html(sortchose);
     })
-    
+
     //show hide control
     $(".showhidecontrol").bind("click", function() {
         $(".header").slideToggle(400);
@@ -86,6 +91,10 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
     //On/Off label transition
     $(document).on('click', ".lec-opencheck", function() {
         console.log('show here the result: ' + $(this).children("#lec-opencheckInput").attr("checked"))
+        var clickedlec = $(this).parents(".boardcontainer");
+        //console.log($(this).parents(".boardcontainer"));
+        var boardid = clickedlec.last().find(".lec-idnumber").attr("title");
+        console.log("boardid is " + boardid);
         if ($(this).children("#lec-opencheckInput").attr("checked") === "checked") {
             $(this).children("#lec-opencheckInput").removeAttr("checked");
             console.log("2: " + $(this).children("#lec-opencheckInput").attr("checked"))
@@ -99,8 +108,37 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
                 "opacity": "100"
             }, 100)
             $(this).children(".checkOff").animate({
-                "opacity": "0"
-            }, 100)
+                    "opacity": "0"
+                }, 100)
+                //open Lec
+        
+            var openLecture = function() {
+                var boardId;
+                $.ajax({
+                        url: '/api/openLecture',
+                        type: 'POST',
+                        dataType: '',
+                        data: {
+                            user_Id: global.user_Id,
+                            lecture_Id: boardid
+                        },
+                    })
+                    .done(function(data) {
+                        //console.log(data)
+                        console.log("success");
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        alert(failure);
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    })
+            }
+            openLecture();
+
+
+
         } else {
             $(this).children("#lec-opencheckInput").attr("checked", true);
             console.log("1: " + $(this).children("#lec-opencheckInput").attr("checked"))
@@ -116,13 +154,41 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
             $(this).children(".checkOff").animate({
                 "opacity": "100"
             }, 100)
+
+            //close lec
+             var closeLecture = function() {
+            $.ajax({
+                    url: '/api/closeLecture',
+                    type: 'POST',
+                    dataType: '',
+                    data: {
+                        user_Id: global.user_Id,
+                        lecture_Id: boardid
+                    },
+                })
+                .done(function(data) {
+                    //console.log(data)
+                    console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                })
+        }
+        closeLecture();
         }
         return false
     });
 
     // delete section btn click
-    // delete lecture btn click
     $(document).on('click', ".lec-deletebtn", function(e) {
+        var clickedlec = $(this).parents(".boardcontainer");
+        //console.log($(this).parents(".boardcontainer"));
+        var deletingboardid = clickedlec.last().find(".lec-idnumber").attr("title")
+        console.log(deletingboardid);
+
 
         if ($("body").children(".bubblecontainer").is(".bubblecontainer") == false) {
             console.log("bubble=false");
@@ -144,7 +210,34 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
 
             //bind delete-confirm event
             newbubble.find(".delete-confirm").bind('click', function() {
-                console.log("delete confirmed");
+                //console.log(deleltingboardid);
+
+                var deleteLecture = function() {
+                    $.ajax({
+                            url: '/api/deleteLecture',
+                            type: 'POST',
+                            dataType: '',
+                            data: {
+                                // creator : "55a09acdf2290647ded227a1",
+                                user_Id: global.user_Id,
+                                lecture_Id: deletingboardid
+                            },
+                        })
+                        .done(function(data) {
+                            console.log(data)
+                            console.log("success");
+                        })
+                        .fail(function() {
+                            console.log("error");
+                        })
+                        .always(function() {
+                            console.log("complete");
+                        })
+                }
+                deleteLecture();
+
+
+                //delete animation
                 selectlecture.children().andSelf().animate({
                     minHeight: "0",
                     height: "0",
@@ -207,7 +300,6 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
     $('.newlecdescrip').keyup(characterleftcheck);
 
 
-    //Lecture edit control
     $(document).on('click', ".lec-editbtn", function() {
         $(".lec-popout").fadeIn(400);
         //add confirm type
@@ -216,12 +308,54 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         $(this).parent().siblings(".lec-lecdescrip").addClass("editing-lecdescrip");
         $('.newlecname').val($(".editing-lecname").text());
         $('.newlecdescrip').val($(".editing-lecdescrip").text());
+        var clickedlec = $(this).parents(".boardcontainer");
+        //console.log(clickedlec);
+        var editingboardid = clickedlec.last().find(".lec-idnumber").attr("title")
+        $('.newlecname').attr("title", editingboardid);
+
         console.log("lec-editbtn clicked");
     })
 
-    // Lecture edit confirmbtn click
+// Lecture edit confirmbtn click
     $(document).on('click', ".editlec-confirm", function() {
         console.log("editlec-confirm clicked");
+        //console.log($('.newlecname').attr("title"));
+
+        var editLecture = function() {
+            var lecnametext;
+            var lecdescriptext;
+            console.log("newlecname.val is " + $(".newlecname").val());
+            console.log("content" + $(".newlecdescrip").val());
+            $.ajax({
+                url: '/api/editLecture',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    user_Id: global.user_Id,
+                    lecture_Id: $('.newlecname').attr("title"),
+                    name: $(".newlecname").val(),
+                    content: $(".newlecdescrip").val()
+                },
+            })
+
+            .done(function(data) {
+
+                })
+                .fail(function() {
+                    console.log("error");
+                    alert("network failure");
+                })
+                .always(function() {
+                    console.log("complete");
+                })
+
+            // clear newlecname attr
+            $('.newlecname').attr("title", "")
+
+        }
+
+        editLecture();
+
 
         //customize lecture frame
         var lecnametext = $(".newlecname").val();
@@ -260,13 +394,46 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         var newlec = $("#defaultlecture").clone().removeAttr("id");
 
         //customize lecture frame
-        var lecnametext = $(".newlecname").val();
-        var lecdescriptext = $(".newlecdescrip").val();
-        newlec.last().find(".lec-lecname").text(lecnametext);
-        newlec.last().find(".lec-lecdescrip").text(lecdescriptext);
+        //var lecnametext = $(".newlecname").val();
+        //var lecdescriptext = $(".newlecdescrip").val();
+
+        var createLecture = function() {
+            var lecnametext;
+            var lecdescriptext;
+            var boardId;
+            console.log($(".newlecname").val())
+                        console.log($(".newlecdescrip").val())
+            $.ajax({
+                    url: '/api/creatLecture',
+                    type: 'POST',
+                    dataType: '',
+                    data: {
+                        creator: global.user_Id,
+                        name: $(".newlecname").val(),
+                        content: $(".newlecdescrip").val()
+                    },
+                })
+                .done(function(data) {
+                    console.log(data)
+                    lecnametext = data.name;
+                    lecdescriptext = data.content;
+                    boardId = data._id
+                    console.log("success");
+                    newlec.last().find(".lec-lecname").text(lecnametext);
+                    newlec.last().find(".lec-lecdescrip").text(lecdescriptext);
+                    newlec.last().find(".lec-idnumber").attr("title", boardId);
+                    $(".lec-board").append(newlec);
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                })
+        }
+        createLecture();
 
 
-        $(".lec-board").append(newlec);
 
         //clear newlec-confirm class
         $(".confirmbtn").removeClass("newlec-confirm editlec-confirm");
@@ -278,149 +445,59 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         $(".lec-popout").fadeOut(200);
     })
 
-    //guoxiao
+
     var getAllLecture = function() {
-            $.ajax({
-                    url: '/api/getAllLectures',
-                    type: 'POST',
-                    dataType: '',
-                    data: {
-                        user_Id: "55a09acdf2290647ded227a1"
-                    },
-                })
-                .done(function(data) {
-                    console.log(data)
-                    console.log("success");
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-                .always(function() {
-                    console.log("complete");
-                });
-        }
-        //getAllLecture();
+        var lecnametext;
+        var lecdescriptext;
+        var newlec;
+        var boardId;
+        var totalVote, totalQuestion, totalSection;
+        var qrUrl;
+        var lecState;
+        $.ajax({
+                url: '/api/getAllLectures',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    //me._Id
+                    user_Id: global.user_Id
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+                for (var i in data) {
+                    newlec = $("#defaultlecture").clone().removeAttr("id");
+                    lecnametext = data[i].name;
+                    lecdescriptext = data[i].content;
+                    boardId = data[i]._id;
+                    totalVote = data[i].totalVote;
+                    totalQuestion = data[i].totalQuestion;
+                    totalSection = data[i].totalSection;
+                    qrUrl = data[i].qrUrl
+                    lecState = data[i].lStatus
+                    newlec.last().find(".lec-lecname").text(lecnametext);
+                    newlec.last().find(".lec-lecdescrip").text(lecdescriptext);
+                    newlec.last().find(".lec-idnumber").attr("title", boardId);
+                    //newlec.last().find(".sec-count").text();
+                    $(".lec-board").append(newlec);
+                }
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+    }
+    getAllLecture();
 
-    var createLecture = function() {
-        $.ajax({
-                url: '/api/creatLecture',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    // creator : "55a09acdf2290647ded227a1",
-                    creator: "55928482df38c17a66c67f2a",
-                    name: '45555',
-                    content: "4445"
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            })
-    }
-    //createLecture();
 
-    var deleteLecture = function(){
-        $.ajax({
-                url: '/api/deleteLecture',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    // creator : "55a09acdf2290647ded227a1",
-                    user_Id: "55928482df38c17a66c67f2a",
-                    lecture_Id:"55a248922deef73926fb21f5"
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            })
-    }
-    //deleteLecture();
 
-    var openLecture = function(){
-        $.ajax({
-                url: '/api/openLecture',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    // creator : "55a09acdf2290647ded227a1",
-                    user_Id: "55928482df38c17a66c67f2a",
-                    lecture_Id:"55a2228ffed9f4cd232a823d"
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            })
-    }
-    //openLecture();
 
-    var closeLecture = function(){
-        $.ajax({
-                url: '/api/closeLecture',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    // creator : "55a09acdf2290647ded227a1",
-                    user_Id: "55928482df38c17a66c67f2a",
-                    lecture_Id:"55a2228ffed9f4cd232a823d"
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            })
-    }
-    //closeLecture();
-    var editLecture = function(){
-        $.ajax({
-                url: '/api/editLecture',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    // creator : "55a09acdf2290647ded227a1",
-                    user_Id: "55928482df38c17a66c67f2a",
-                    lecture_Id:"55a2228ffed9f4cd232a823d",
-                    name:"555",
-                    content:"555"
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            })
-    }
+
+
+
     console.log($scope.me._id)
 
 })
