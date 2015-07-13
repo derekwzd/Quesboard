@@ -134,11 +134,11 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
 
     //On/Off label transition
     $(document).on('click', ".lec-opencheck", function() {
-        console.log('show here the result: ' + $(this).children("#lec-opencheckInput").attr("checked"))
+        //console.log('show here the result: ' + $(this).children("#lec-opencheckInput").attr("checked"))
         var clickedlec = $(this).parents(".boardcontainer");
         //console.log($(this).parents(".boardcontainer"));
         var boardid = clickedlec.last().find(".lec-idnumber").attr("title");
-        console.log("boardid is " + boardid);
+        //console.log("boardid is " + boardid);
         if ($(this).children("#lec-opencheckInput").attr("checked") === "checked") {
             $(this).children("#lec-opencheckInput").removeAttr("checked");
             console.log("2: " + $(this).children("#lec-opencheckInput").attr("checked"))
@@ -173,7 +173,7 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
                     })
                     .fail(function() {
                         console.log("error");
-                        alert(failure);
+                        alert("failure");
                     })
                     .always(function() {
                         console.log("complete");
@@ -216,6 +216,7 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
                     })
                     .fail(function() {
                         console.log("error");
+                        alert("failure");
                     })
                     .always(function() {
                         console.log("complete");
@@ -317,6 +318,9 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         $(".editing-lecname").removeClass("editing-lecname");
         $(".editing-lecdescrip").removeClass("editing-lecdescrip");
 
+        // clear possible lec id
+        $('.newlecname').attr("title", "")
+
     })
 
 
@@ -352,6 +356,8 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         $(this).parent().siblings(".lec-lecdescrip").addClass("editing-lecdescrip");
         $('.newlecname').val($(".editing-lecname").text());
         $('.newlecdescrip').val($(".editing-lecdescrip").text());
+
+        //transmit boardid to new window
         var clickedlec = $(this).parents(".boardcontainer");
         //console.log(clickedlec);
         var editingboardid = clickedlec.last().find(".lec-idnumber").attr("title")

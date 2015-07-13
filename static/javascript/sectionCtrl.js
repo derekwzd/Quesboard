@@ -1,4 +1,145 @@
 angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeParams, $scope, socket) {
+    var global = {
+            //secid:     55a3cdc3f9738e2c330dde5c
+            //55a39ea4cdd2660d305bfca4
+            user_Id: "55a39ea4cdd2660d305bfca4"
+                //$scope.me._id
+        }
+        //TODO
+    var getLecture = function() {
+            var lecnametext;
+            var lecdescriptext;
+            var totalVote, totalQuestion, totalSection;
+            var qrUrl;
+            var time;
+            $.ajax({
+                    url: '/api/getLecture',
+                    type: 'POST',
+                    dataType: '',
+                    data: {
+                        user_Id: global.user_Id,
+                        lecture_Id: $routeParams._lecId,
+                    },
+                })
+                .done(function(data) {
+                    console.log(data)
+                    lecnametext = data.name;
+                    lecdescriptext = data.content;
+                    totalVote = data.totalVote;
+                    totalSection = data.totalSection;
+                    totalQuestion = data.totalQuestion;
+                    qrUrl = data.qrUrl
+                    secCreator = data.creator._id
+                    time = data.time.substring(0, 4) + "/" + data.time.substring(5, 7) + "/" + data.time.substring(8, 10);
+                    newlec.last().find(".lec-lecname").text(lecnametext);
+                    $(".sec-lecname").html(lecnametext);
+                    $(".sec-lecdescription").html(lecdescriptext);
+                    $(".sec-count").html(totalSection);
+                    $(".question-count").html(totalQuestion);
+                    $(".vote-count").html(totalVote);
+                    $(".sec-time").html(time);
+                    console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+        }
+        //getLecture();
+
+
+
+
+    //getAll
+    var getAllSection = function() {
+        var seccontent;
+        var sectionId;
+        var secState;
+        var newsec;
+        $.ajax({
+                url: '/api/getAllSectionsByID',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    user_Id: global.user_Id,
+                    lecture_Id: $routeParams._lecId,
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                console.log("success");
+                for (var i in data) {
+                    newsec = $("#defaultsection").clone().removeAttr("id");
+                    seccontent = data[i].content;
+                    secState = data[i].sStatus;
+                    sectionId = data[i]._id;
+
+                    newsec.attr("title", sectionId);
+                    newsec.last().find(".sectionname").text(seccontent);
+                    var newsecopencheck = newsec.last().find(".sec-opencheck");
+                    //JUEDE ISCREATOR
+                    // if(secCreator !== $scope.me._id){
+                    //     newlec.last().find(".sec-editbtn").css("display","none");
+                    //     newlec.last().find(".sec-opencheck").css("display","none");
+                    //     newlec.last().find(".sec-deletebtn").css("display","none");
+                    //     console.log("toolbtn blocked");
+                    // }else{
+
+                    // }
+
+
+
+
+                    if (secState === 1) {
+                        $(newsecopencheck).children("#sec-opencheckInput").removeAttr("checked");
+                        $(newsecopencheck).css({
+                            "background-color": "#6ecf68"
+                        });
+                        $(newsecopencheck).children("label").css({
+                            "left": "2px"
+                        });
+                        $(newsecopencheck).children(".checkOn").animate({
+                            "opacity": "100"
+                        }, 100)
+                        $(newsecopencheck).children(".checkOff").animate({
+                            "opacity": "0"
+                        }, 100)
+
+                    } else {
+                        $(newsecopencheck).children("#sec-opencheckInput").attr("checked", true);
+                        $(newsecopencheck).css({
+                            "background-color": "#979797"
+                        });
+                        $(newsecopencheck).children("label").css({
+                            "left": "32px"
+                        });
+                        $(newsecopencheck).children(".checkOn").animate({
+                            "opacity": "0"
+                        }, 100)
+                        $(newsecopencheck).children(".checkOff").animate({
+                            "opacity": "100"
+                        }, 100)
+
+                    }
+
+
+                    $(".sectionlist").append(newsec);
+
+                }
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+    }
+    getAllSection();
+
+
     //dropdown menu control
     $(document).on('click', ".user", function() {
         console.log("user clicked");
@@ -41,6 +182,9 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
         })
         //On/Off transition
     $(document).on('click', ".sec-opencheck", function() {
+        var clickedsec = $(this).parents(".sectionframe");
+        //console.log($(this).parents(".boardcontainer"));
+        var sectionid = clickedsec.attr("title");
         if ($(this).children("#sec-opencheckInput").attr("checked") === 'checked') {
             $(this).children("#sec-opencheckInput").attr("checked", false);
             $(this).css({
@@ -53,8 +197,35 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                 "opacity": "100"
             }, 100)
             $(this).children(".checkOff").animate({
-                "opacity": "0"
-            }, 100)
+                    "opacity": "0"
+                }, 100)
+                //open sec
+
+            var OpenSection = function() {
+                $.ajax({
+                        url: '/api/openSection',
+                        type: 'POST',
+                        dataType: '',
+                        data: {
+                            user_Id: global.user_Id,
+                            lecture_Id: $routeParams._lecId,
+                            section_Id: sectionid
+                        },
+                    })
+                    .done(function(data) {
+                        //console.log(data)
+                        console.log("open success");
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        alert("failure");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+            }
+            OpenSection();
+
         } else {
             $(this).children("#sec-opencheckInput").attr("checked", true);
             $(this).css({
@@ -69,11 +240,44 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
             $(this).children(".checkOff").animate({
                 "opacity": "100"
             }, 100)
+
+
+            //close lec
+            var closeSection = function() {
+                $.ajax({
+                        url: '/api/closeSection',
+                        type: 'POST',
+                        dataType: '',
+                        data: {
+                            user_Id: global.user_Id,
+                            lecture_Id: $routeParams._lecId,
+                            section_Id: sectionid
+                        },
+                    })
+                    .done(function(data) {
+                        //console.log(data)
+                        console.log("close success");
+                    })
+                    .fail(function() {
+                        console.log("error");
+                        alert("failure");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+            }
+            closeSection();
+
         }
     });
 
     // delete section btn click
     $(document).on('click', ".sec-deletebtn", function(e) {
+        var clickedsec = $(this).parents(".sectionframe");
+        //console.log($(this).parents(".boardcontainer"));
+        var deletingsectionId = clickedsec.attr("title");
+        //console.log("deletingsectionId is" + deletingsectionId);
+
         if (event && event.stopPropagation) { //非IE浏览器 
             event.stopPropagation();
         } else { //IE浏览器 
@@ -99,7 +303,34 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
 
             //bind delete-confirm event
             newbubble.find(".delete-confirm").bind('click', function() {
-                console.log("delete confirmed");
+                //console.log("delete confirmed");
+
+
+                var deleteSection = function() {
+                    $.ajax({
+                            url: '/api/deleteSection',
+                            type: 'POST',
+                            dataType: '',
+                            data: {
+                                user_Id: global.user_Id,
+                                lecture_Id: $routeParams._lecId,
+                                section_Id: deletingsectionId
+                            },
+                        })
+                        .done(function(data) {
+                            console.log(data)
+                            console.log("success");
+                        })
+                        .fail(function() {
+                            console.log("error");
+                        })
+                        .always(function() {
+                            console.log("complete");
+                        });
+                }
+                deleteSection();
+
+
                 selectsection.children().andSelf().animate({
                     minHeight: "0",
                     height: "0",
@@ -138,6 +369,8 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
         //remove editing-class (if possible)
         $(".editing-secname").removeClass("editing-secname");
 
+        //clear possible ids
+        $('.newsecname').attr("title","")
     })
 
 
@@ -168,11 +401,46 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
         $(this).siblings(".sectionname").addClass("editing-secname");
         $('.newsecname').val($(".editing-secname").text());
         console.log("sec-editbtn clicked");
+
+        var clickedsec = $(this).parents(".sectionframe");
+        //transmit id to new window
+        var editingsecid = clickedsec.attr("title")
+        $('.newsecname').attr("title", editingsecid);
     })
 
     // Section edit confirmbtn click
     $(document).on('click', ".editsec-confirm", function() {
         console.log("editsec-confirm clicked");
+
+        var editSection = function() {
+            $.ajax({
+                    url: '/api/editSection',
+                    type: 'POST',
+                    dataType: '',
+                    data: {
+                        user_Id: global.user_Id,
+                        lecture_Id: $routeParams._lecId,
+                        section_Id: $('.newsecname').attr("title"),
+                        content: $(".newsecname").val(),
+                    },
+                })
+                .done(function(data) {
+                    console.log("edit success");
+                }) 
+                .fail(function() {
+                    console.log("error");
+                    alert("network failure");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+
+            // clear newlecname attr
+            $('.newsecname').attr("title","")
+
+        }
+        editSection();
+
 
         //customize section frame
         var sectext = $(".newsecname").val();
@@ -204,41 +472,35 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
     $(document).on('click', ".newsec-confirm", function() {
         console.log("newsec-confirm clicked");
 
-
         var newsec = $("#defaultsection").clone().removeAttr("id");
-        $(".sectionlist").append(newsec);
-
-        //customize section frame
-        var sectext = $(".newsecname").val();
-        $(".sectionlist").children(".sectionframe").last().find(".sectionname").text(sectext);
-
-        //clear newsec-confirm class
-        $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
-
-        //scroll to the new section part
-        $(document.body).animate({
-            scrollTop: $(".sectionlist").children(".sectionframe").last().offset().top
-        }, 600);
-        $(".sec-popout").fadeOut(200);
-    })
-
-    //xiaoxiao
-    console.log('lectureId:' + $routeParams._lecId)
-
-    var createSection = function() {
+        //new lec
+        var createSection = function() {
+            var seccontent
+            var sectionId;
             $.ajax({
                     url: '/api/createSection',
                     type: 'POST',
                     dataType: '',
                     data: {
-                        user_Id: "55928482df38c17a66c67f2a",
-                        lecture_Id: "55a2228ffed9f4cd232a823d",
-                        content: "second section for user2 lec4",
+                        user_Id: global.user_Id,
+                        lecture_Id: $routeParams._lecId,
+                        content: $(".newsecname").val()
                     },
                 })
-                .done(function(msg) {
-                    console.log(msg)
+                .done(function(data) {
+                    console.log("data is" + data)
                     console.log("success");
+                    seccontent = data.content;
+                    sectionId = data._id;
+
+                    console.log(seccontent);
+                    console.log(sectionId);
+
+                    newsec.find(".sectionname").html(seccontent);
+                    newsec.attr("title", sectionId);
+                    $(".sectionlist").append(newsec);
+
+
                 })
                 .fail(function(data) {
                     console.log("error");
@@ -248,125 +510,30 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                 });
 
         }
-        //createSection();
+        createSection();
 
-    var getAllSection = function() {
-            $.ajax({
-                    url: '/api/getAllSectionsByID',
-                    type: 'POST',
-                    dataType: '',
-                    data: {
-                        user_Id: '55928482df38c17a66c67f2a',
-                        lecture_Id: '55a2228ffed9f4cd232a823d',
-                    },
-                })
-                .done(function(data) {
-                    console.log(data)
-                    console.log("success");
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-                .always(function() {
-                    console.log("complete");
-                });
 
-        }
-        //getAllSection();
-    var deleteSection = function() {
-            $.ajax({
-                    url: '/api/deleteSection',
-                    type: 'POST',
-                    dataType: '',
-                    data: {
-                        user_Id: '55928482df38c17a66c67f2a',
-                        lecture_Id: '55a2228ffed9f4cd232a823d',
-                        section_Id: '55a274d18b0cdfe82609e8aa'
-                    },
-                })
-                .done(function(data) {
-                    console.log(data)
-                    console.log("success");
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-                .always(function() {
-                    console.log("complete");
-                });
-        }
-        //deleteSection();
 
-    var closeSection = function() {
-            $.ajax({
-                    url: '/api/closeSection',
-                    type: 'POST',
-                    dataType: '',
-                    data: {
-                        user_Id: '55928482df38c17a66c67f2a',
-                        lecture_Id: '55a2228ffed9f4cd232a823d',
-                        section_Id: '55a274d18b0cdfe82609e8aa'
-                    },
-                })
-                .done(function(data) {
-                    console.log(data)
-                    console.log("success");
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-                .always(function() {
-                    console.log("complete");
-                });
-        }
-        //closeSection();
+        //customize section frame
+        var sectext = $(".newsecname").val();
 
-    var OpenSection = function() {
-            $.ajax({
-                    url: '/api/openSection',
-                    type: 'POST',
-                    dataType: '',
-                    data: {
-                        user_Id: '55928482df38c17a66c67f2a',
-                        lecture_Id: '55a2228ffed9f4cd232a823d',
-                        section_Id: '55a274d18b0cdfe82609e8aa'
-                    },
-                })
-                .done(function(data) {
-                    console.log(data)
-                    console.log("success");
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-                .always(function() {
-                    console.log("complete");
-                });
-        }
-        //OpenSection();
 
-    var editSection = function() {
-        $.ajax({
-                url: '/api/editSection',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    user_Id: '55928482df38c17a66c67f2a',
-                    lecture_Id: '55a2228ffed9f4cd232a823d',
-                    section_Id: '55a274d18b0cdfe82609e8aa',
-                    content: '12345'
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            });
-    }
+        //clear newsec-confirm class
+        $(".confirmbtn").removeClass("newsec-confirm editsec-confirm");
+
+        //scroll to the new section part
+        $(document.body).animate({
+            scrollTop: $(".sectionlist").children(".sectionframe").last().offset().top
+        }, 600);
+        $(".sec-popout").fadeOut(200);
+
+
+
+
+    })
+
+    //xiaoxiao
+    console.log('lectureId:' + $routeParams._lecId)
+
 
 })
