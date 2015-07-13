@@ -1,19 +1,32 @@
 angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $location) {
-    
+
     //Tips generate
-    var gentip = function(tiptarget,tipcontent){
+    var gentip = function(tiptarget, tipcontent) {
         var newbubble = $("#defaultinfobubble").clone().removeAttr("id");
         newbubble.find(".bubble-info").html(tipcontent);
         $("body").append(newbubble);
-        var tipaxisX= $("body").width() - tiptarget.offset().left - tiptarget.width()/2 - newbubble.width()/2;
-        var tipaxisY= tiptarget.offset().top-20;
-        newbubble.css({"top":tipaxisY + "px", "right":tipaxisX + "px"});
-        newbubble.animate({opacity:"0.9","top":tipaxisY-10+"px"},200);
-        setTimeout(function(){newbubble.animate({opacity:"0","top":tipaxisY+"px"},200,function(){$(this).remove();})},1500); 
+        var tipaxisX = $("body").width() - tiptarget.offset().left - tiptarget.width() / 2 - newbubble.width() / 2;
+        var tipaxisY = tiptarget.offset().top - 20;
+        newbubble.css({
+            "top": tipaxisY + "px",
+            "right": tipaxisX + "px"
+        });
+        newbubble.animate({
+            opacity: "0.9",
+            "top": tipaxisY - 10 + "px"
+        }, 200);
+        setTimeout(function() {
+            newbubble.animate({
+                opacity: "0",
+                "top": tipaxisY + "px"
+            }, 200, function() {
+                $(this).remove();
+            })
+        }, 1500);
     }
 
-    $(document).on('click',"input",function(){
-        gentip($(this),"Tpye in here!");
+    $(document).on('click', "input", function() {
+        gentip($(this), "Tpye in here!");
     });
 
     //random picture and name
@@ -46,7 +59,6 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
     //add up all the pic src array
     var allcate = new Array();
     allcate = allcate.concat(gensrc(sciencecate), gensrc(artcate), gensrc(comiccate));
-    // console.log("allcate.length is " + allcate.length);
 
     //load all the pic into head selection page
     for (i = 0; i < allcate.length; i++) {
@@ -61,7 +73,6 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
 
     //generate initial random pic
     var ranpicnum = Math.ceil(Math.random() * 31);
-    // console.log("ranpicnum is " + ranpicnum);
     var ranpicsrc = allcate[ranpicnum];
     $(".randomimg").attr("src", ranpicsrc);
 
@@ -86,10 +97,12 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
     }
 
     $("#customname").val("Visitor " + pickname);
-    console.log( $("#customname").val())
+
+    console.log($("#customname").val())
+
     //buttun hover effect function
     $scope.username = "Visitor " + pickname
-    // console.log(pickname)
+        // console.log(pickname)
 
     var signup = function() {
         $('.choosebtn').css('color', '#fff')
@@ -145,19 +158,21 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
 
     //AUDIT
     $scope.auditlogin = function() {
-        // console.log($('#chooseimg').attr('src'))
-        // console.log($scope.auditname)
-        // console.log($scope.auditimg)
         $http({
             url: '/api/auditlogin',
             method: 'POST',
             data: {
-                auditname: $scope.auditname,
-                auditimg : $('#chooseimg').attr('src')
+                auditname: $("#customname").val(),
+                auditimg: $('#chooseimg').attr('src')
             }
         }).success(function(audituser) {
             $scope.$emit('auditlogin', audituser)
-            $location.path('/lecture', $scope.auditname)
+            var newurl = getUrlParam('target')
+            if(newurl){
+                $location.url(newurl, $scope.auditname)
+            }else{
+                $location.url('/lecture', $scope.auditname)
+            }
         }).error(function(data) {
             $location.path('/')
         })
@@ -183,8 +198,6 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
 
     //6.30reg
     $scope.reg = function() {
-        // console.log($('#chooseimg').attr('src'))
-        // console.log($scope.signupEmail)
         $http({
             url: '/api/reg',
             method: 'POST',
@@ -193,17 +206,17 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
                 password: $scope.signupPassword
             }
         }).success(function(user) {
-            // console.log(user)
-            // console.log('reg')
             $scope.$emit('reg', user)
             $location.path('/lecture', $scope.signupEmail)
         }).error(function(data) {
-            // console.log(data)
-            // console.log('error_reg')
             $location.path('/')
         })
+    }
 
-        // $scope.$emit('reg', $scope.email, $('#chooseimg').attr('src'))
-        // $location.path('/section', $scope.username)
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) return unescape(r[2]);
+        return null; //返回参数值
     }
 })

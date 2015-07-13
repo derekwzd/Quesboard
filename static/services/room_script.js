@@ -77,7 +77,7 @@ var main = function() {
         };
     });
 
-        //On/Off label transition
+    //On/Off label transition
     $(document).on('click',".ques-opencheck",function(){
         if($(this).children("#ques-opencheckInput").attr("checked") === 'checked'){
             $(this).children("#ques-opencheckInput").attr("checked",false);

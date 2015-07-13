@@ -1,13 +1,14 @@
 <div class="header">
     <div class="wrapper">
-        <a class="logo" href="#"><img src="img/logo-white.png"></a>
-        <a class="backbtn" href="#">
+        <a class="logo" href="/lecture"><img src="img/logo-white.png"></a>
+        <!-- <a class="backbtn" href="/">
             <img class="backicon" src="img/backicon-white.png"><span>Back</span>
-        </a>
+        </a> -->
         <a class="user" href="#">
             <img class="list-icon" src="img/list-nav-white.png">
             <p class="username">{{ me.name }}</p>
             <img class="userimg" src={{me.avatarUrl}}>
+            <div id = "usertype"style="display: none">{{ me.flag }}</div>
         </a>
         <!-- Drop Down-->
         <ul class="user-dropdown">
@@ -20,9 +21,9 @@
 <!-- Navigation -->
 <div class="nav">
     <div class="wrapper">
-        <a class="backbtn" href="/">
+<!--         <a class="backbtn" href="/">
             <img class="backicon" src="img/backicon.png"><span>Back</span>
-        </a>
+        </a> -->
         <button class="uni-green newboard-btn" href="#">New Board</button>
         <!-- Sort Drop Down-->
         <div class="lec-sortbox">

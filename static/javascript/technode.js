@@ -6,30 +6,37 @@ run(function($window, $rootScope, $http, $location) {
     }).success(function(user) {
         // console.log(user)
         $rootScope.me = user
-        // $location.path('/section')
-        // console.log('login success')
+        if ($location.$$path === '/') {
+            $location.path('/lecture')
+        }
     }).error(function(data) {
         console.log("not login in")
-        $location.path('/')
-    })
-    $rootScope.logout = function() {
-            $http({
-                url: '/ajax/logout',
-                method: 'GET'
-            }).success(function() {
-                //clear the user info
-                $rootScope.me = null
-                $location.path('/')
-            })
+        console.log($location.$$path)
+        if ($location.$$path === "/") {
+            
+        } else {
+            var newurl = "/" + "?target=" + $location.$$path;
+            $location.url(newurl)
         }
-        //listen the login event from LoginCtrl
+    })
+
+    $rootScope.logout = function() {
+        $http({
+            url: '/api/logout',
+            method: 'GET'
+        }).success(function(data) {
+            $rootScope.me = null
+            $location.path('/')
+        })
+    }
+
     $rootScope.$on('login', function(evt, me) {
         $rootScope.me = me
     })
     $rootScope.$on('reg', function(evt, me) {
         $rootScope.me = me
     })
-    $rootScope.$on('auditlogin', function(evt, me){
+    $rootScope.$on('auditlogin', function(evt, me) {
         $rootScope.me = me
     })
 })

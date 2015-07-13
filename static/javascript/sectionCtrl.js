@@ -252,101 +252,101 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
         //createSection();
 
     var getAllSection = function() {
-        $.ajax({
-                url: '/api/getAllSectionsByID',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    user_Id: '55928482df38c17a66c67f2a',
-                    lecture_Id: '55a2228ffed9f4cd232a823d',
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            });
+            $.ajax({
+                    url: '/api/getAllSectionsByID',
+                    type: 'POST',
+                    dataType: '',
+                    data: {
+                        user_Id: '55928482df38c17a66c67f2a',
+                        lecture_Id: '55a2228ffed9f4cd232a823d',
+                    },
+                })
+                .done(function(data) {
+                    console.log(data)
+                    console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
 
-    }
-    //getAllSection();
-    var deleteSection = function(){
-        $.ajax({
-                url: '/api/deleteSection',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    user_Id: '55928482df38c17a66c67f2a',
-                    lecture_Id: '55a2228ffed9f4cd232a823d',
-                    section_Id:'55a274d18b0cdfe82609e8aa'
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            });
-    }
-    //deleteSection();
+        }
+        //getAllSection();
+    var deleteSection = function() {
+            $.ajax({
+                    url: '/api/deleteSection',
+                    type: 'POST',
+                    dataType: '',
+                    data: {
+                        user_Id: '55928482df38c17a66c67f2a',
+                        lecture_Id: '55a2228ffed9f4cd232a823d',
+                        section_Id: '55a274d18b0cdfe82609e8aa'
+                    },
+                })
+                .done(function(data) {
+                    console.log(data)
+                    console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+        }
+        //deleteSection();
 
-    var closeSection = function(){
-        $.ajax({
-                url: '/api/closeSection',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    user_Id: '55928482df38c17a66c67f2a',
-                    lecture_Id: '55a2228ffed9f4cd232a823d',
-                    section_Id:'55a274d18b0cdfe82609e8aa'
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            });
-    }
-    //closeSection();
+    var closeSection = function() {
+            $.ajax({
+                    url: '/api/closeSection',
+                    type: 'POST',
+                    dataType: '',
+                    data: {
+                        user_Id: '55928482df38c17a66c67f2a',
+                        lecture_Id: '55a2228ffed9f4cd232a823d',
+                        section_Id: '55a274d18b0cdfe82609e8aa'
+                    },
+                })
+                .done(function(data) {
+                    console.log(data)
+                    console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+        }
+        //closeSection();
 
-    var OpenSection = function(){
-        $.ajax({
-                url: '/api/openSection',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    user_Id: '55928482df38c17a66c67f2a',
-                    lecture_Id: '55a2228ffed9f4cd232a823d',
-                    section_Id:'55a274d18b0cdfe82609e8aa'
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            });
-    }
-    //OpenSection();
+    var OpenSection = function() {
+            $.ajax({
+                    url: '/api/openSection',
+                    type: 'POST',
+                    dataType: '',
+                    data: {
+                        user_Id: '55928482df38c17a66c67f2a',
+                        lecture_Id: '55a2228ffed9f4cd232a823d',
+                        section_Id: '55a274d18b0cdfe82609e8aa'
+                    },
+                })
+                .done(function(data) {
+                    console.log(data)
+                    console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+        }
+        //OpenSection();
 
-    var editSection = function(){
+    var editSection = function() {
         $.ajax({
                 url: '/api/editSection',
                 type: 'POST',
@@ -354,8 +354,8 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                 data: {
                     user_Id: '55928482df38c17a66c67f2a',
                     lecture_Id: '55a2228ffed9f4cd232a823d',
-                    section_Id:'55a274d18b0cdfe82609e8aa',
-                    content:'12345'
+                    section_Id: '55a274d18b0cdfe82609e8aa',
+                    content: '12345'
                 },
             })
             .done(function(data) {
@@ -368,7 +368,6 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
             .always(function() {
                 console.log("complete");
             });
-    } 
-
+    }
 
 })

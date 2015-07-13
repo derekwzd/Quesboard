@@ -506,7 +506,8 @@ router.post('/auditlogin', function(req, res) {
 
 router.get('/logout', function(req, res) {
     req.session._userId = null
-    req.json(401)
+    res.json('log out success')
+    // console.log(req.session._userId)
 })
 
 module.exports = router;
