@@ -421,5 +421,6 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
                 console.log("complete");
             })
     }
-    //editLecture();
+    console.log($scope.me._id)
+
 })

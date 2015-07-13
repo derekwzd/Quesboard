@@ -97,13 +97,10 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
     }
 
     $("#customname").val("Visitor " + pickname);
-
-    console.log($("#customname").val())
-
+    
     //buttun hover effect function
     $scope.username = "Visitor " + pickname
-        // console.log(pickname)
-
+    
     var signup = function() {
         $('.choosebtn').css('color', '#fff')
         $('.choosebtn').css('background-color', '#aaa')
