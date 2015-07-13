@@ -1,9 +1,8 @@
-angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeParams, $scope, socket) {
+angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeParams, $scope, socket, $http) {
     var global = {
-        //secid:     55a3cdc3f9738e2c330dde5c
-        //55a39ea4cdd2660d305bfca4
+        //lec: 55a41dff54e9b972372e133b
         user_Id: "55a39ea4cdd2660d305bfca4"
-            //$scope.me._id
+        //$scope.me._id
     }
 
 
@@ -18,6 +17,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
         var totalVote, totalQuestion, totalSection;
         var qrUrl;
         var time;
+
         $.ajax({
                 url: '/api/getLecture',
                 type: 'POST',
@@ -28,7 +28,8 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                 },
             })
             .done(function(data) {
-                console.log(data)
+                //section
+                console.log("11111" + data)
                 lecnametext = data.name;
                 lecdescriptext = data.content;
                 totalVote = data.totalVote;
@@ -36,6 +37,9 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                 totalQuestion = data.totalQuestion;
                 qrUrl = data.qrUrl
                 secCreator = data.creator._id
+                lectureId=data._id
+                //console.log("lectureId is "+lectureId)
+                $(".sec-lecname").attr("title",lectureId)
                 time = data.time.substring(0, 4) + "/" + data.time.substring(5, 7) + "/" + data.time.substring(8, 10);
                 
                 // newsec.last().find(".sec-secname").text(lecnametext);
@@ -124,8 +128,6 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                         }, 100)
 
                     }
-
-
                     $(".sectionlist").append(newsec);
 
                 }
@@ -158,6 +160,25 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
 
     //QR Open Control
     $(".sec-lecqr").bind("click", function() {
+
+        var boardid = $(".sec-lecname").attr("title")
+    
+        console.log("11111" + boardid)
+        $http({
+            url: '/api/showqr',
+            method: 'POST',
+            data: {
+                lectureUrl: "http://www.quesboard.com/lecture/" + boardid,
+            }
+        }).success(function(data) {
+            console.log(data)
+            $(".qrimg").html(data);
+        }).error(function() {
+            console.log('error_showqr')
+        })
+
+
+
         $(".qr-popout").fadeIn(400);
     })
 

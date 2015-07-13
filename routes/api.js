@@ -24,6 +24,7 @@ var qr = require('qr-image');
 
 router.post('/showqr', function(req, res) {
     var url = req.body.lectureUrl
+    //console.log(url)
     var qrImg = qr.image(url, {
         type: 'svg'
     });
@@ -58,11 +59,13 @@ router.post('/getAllLectures', function(req, res) {
 
 router.post('/getLecture', function(req, res) {
     var data = req.body
-    Controllers_lecture.getLecture(data.lecture_Id, function(err, lecture){
-        if(err){
+    console.log(data);
+    Controllers_lecture.getLecture(data.lecture_Id, function(err, lecture) {
+        if (err) {
             console.log(err);
             res.send(err);
-        }else{
+        } else {
+            console.log(lecture)
             res.send(lecture);
         }
     })
@@ -310,6 +313,11 @@ router.post('/createSection', function(req, res) {
                     if (err) {
                         res.send(err)
                     } else {
+                        Controllers_lecture.increaseSection(lecture_Id,function(err,msg){
+                            if (err) {
+                                res.send(err)
+                            }
+                        })
                         res.send(section)
                     }
                 })
@@ -415,6 +423,11 @@ router.post('/deleteSection', function(req, res) {
                 if (err) {
                     res.send(err)
                 } else {
+                    Controllers_lecture.decreaseSection(lecture_Id, function(err,msg){
+                        if(err){
+                            res.send(err)
+                        }
+                    })
                     res.send("delete")
                 }
             })

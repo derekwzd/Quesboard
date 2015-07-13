@@ -37,42 +37,19 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
     })
 
 
+
     //QR Open Control
     $(document).on('click', ".lec-lecqr", function() {
 
-        // $http({
-        //         url: '/api/showqr',
-        //         type: 'POST',
-        //         dataType: '',
-        //         data: {
-        //             lectureUrl: "www.google.com",
-        //         }
-        //     })
-        //     .done(function(data) {
-        //          // console.log(data)
-        //          console.log(data)
-
-        //          // for(var i in data){
-        //          //    console.log(i)
-        //          // }
-        //          // console.log(data('#document'));
-        //          // var qrdata = $(data).html();
-        //         $(".qrimg").append(data);
-        //         // $(".qrimg").html('<img src="data:image/png;,' + data + '" />')
-        //     })
-        //     .fail(function() {
-        //         console.log("qr error");
-        //         alert(failure);
-        //     })
-        //     .always(function() {
-        //         console.log("complete");
-        //     })
+        var clickedlec = $(this).parents(".boardcontainer");
+        //console.log($(this).parents(".boardcontainer"));
+        var boardid = clickedlec.last().find(".lec-idnumber").attr("title")
 
         $http({
             url: '/api/showqr',
             method: 'POST',
             data: {
-                lectureUrl: "http://www.google.com",
+                lectureUrl: "http://www.quesboard.com/lecture/" + boardid,
             }
         }).success(function(data) {
             console.log(data)
