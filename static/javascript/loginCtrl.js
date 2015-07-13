@@ -171,6 +171,7 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
                 $location.url('/lecture', $scope.auditname)
             }
         }).error(function(data) {
+            gentip($("#customname"), data.msg);
             $location.path('/')
         })
     }
@@ -193,6 +194,8 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
                 $location.url('/lecture')
             }
         }).error(function(data) {
+            console.log(data.msg)
+            gentip($("#loginpwd"), data.msg);
             $location.path('/')
         })
 
@@ -217,6 +220,7 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
             }
             // $location.path('/lecture', $scope.signupEmail)
         }).error(function(data) {
+            gentip($("#signuppwd"), data.msg);
             $location.path('/')
         })
     }

@@ -5,6 +5,27 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
         //$scope.me._id
     }
 
+    //jump to section page
+    $(document).on("click",".sectionframe",function(event){
+
+        var boardid = $(".sec-lecname").attr("title")
+        var secid = $(this).attr("title")
+        console.log("boardid is "+boardid+" secid is "+secid);
+
+        var mayedit = $(event.target).parents(".sec-editbtn").andSelf();
+        var mayopencheck = $(event.target).parents(".sec-opencheck").andSelf();
+        var maydelete =$(event.target).parents(".sec-deletebtn").andSelf();
+
+        var editjudge = $(mayedit).hasClass("sec-editbtn");
+        var opencheckjudge  = $(mayopencheck).hasClass("sec-opencheck");
+        var deletejudge  = $(maydelete).hasClass("sec-deletebtn");
+        console.log(editjudge+opencheckjudge+deletejudge)
+
+        if (editjudge === false && opencheckjudge === false && deletejudge === false){
+         window.location.href= "/lecture/" + boardid + "/section/" + secid;
+        }
+    });
+
 
 
 
@@ -143,10 +164,16 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
     getAllSection();
 
 
-    //dropdown menu control
-    $(document).on('click', ".user", function() {
-        console.log("user clicked");
-        $(".user-dropdown").slideToggle(200);
+   //dropdown menu control
+    $(document).on('click',".user",function(event){
+        $(".user-dropdown").show(150);
+        $(document).one('click',function(){
+            $(".user-dropdown").hide(100);
+        });
+        event.stopPropagation();
+        // $(document).on('click',".user",function(event){
+        //  event.stopPropagation();
+        // });
     });
 
     //show hide control

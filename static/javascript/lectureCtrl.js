@@ -4,6 +4,18 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         user_Id: $scope.me._id
     }
 
+    //jump to section page
+    $(document).on("click",".boardcontainer",function(event){
+        var boardid = $(this).find(".lec-idnumber").attr("title")
+        var maytoolbox = $(event.target).parents(".lec-toolbox").andSelf();
+        var mayqr = $(event.target);
+        var toolboxjudge = $(maytoolbox).hasClass("lec-toolbox");
+        var qrjudge  = $(mayqr).hasClass("lec-lecqr");
+        if (toolboxjudge === false && qrjudge === false){
+         window.location.href= "/lecture/" + boardid;
+        }
+    });
+
     //dropdown menu control
     $(document).on('click', ".user", function(event) {
         $(".user-dropdown").show(150);
@@ -15,6 +27,7 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         //  event.stopPropagation();
         // });
     });
+
     // sort dropdown control
     $(document).on('click', ".lec-sorttype", function(event) {
         $(".lec-sortdropdown").show(150);

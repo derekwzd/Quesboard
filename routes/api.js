@@ -124,18 +124,17 @@ router.post('/login', function(req, res) {
     if (email && password) {
         Controllers_user.findByEmail(email, function(err, user) {
             if (err) {
-                req.flash('error', 'the email have not registrated');
                 res.json(401, {
-                    msg: 'the email have not registrated'
+                    msg: ' The email have not registrated! '
                 })
             } else {
                 if (password === user.password) {
                     req.session._userId = user
                     res.json(user)
                 } else {
-                    req.flash('error', 'password incorrect')
+
                     res.json(400, {
-                        msg: 'password incorrect'
+                        msg: ' password incorrect! '
                     })
                 }
             }
@@ -143,7 +142,7 @@ router.post('/login', function(req, res) {
     } else {
         // console.log('response 403')
         res.json(402, {
-            msg: 'password not in'
+            msg: ' lack email or password! '
         })
     }
 })
@@ -166,15 +165,17 @@ router.post('/reg', function(req, res) {
         //Controllers_user.createNewUser(email, password, function(err, user) {
         Controllers_user.findRegEmail(email, function(err, user) {
             if (err) {
-                console.log('the email have registrated please login');
+                //console.log('the email have registrated please login');
                 // req.flash('error', 'the email have registrated please login');
                 res.json(500, {
-                    msg: 'the email have registrated please login'
+                    msg: ' the email have registrated please login! '
                 })
             } else {
                 Controllers_user.createNewUser(email, password, function(err, user) {
                     if (err) {
-                        res.json(500)
+                        res.json(500,{
+                            msg: ' signup failed! '
+                        })
                     } else {
                         console.log('signup success');
                         res.json(user)
@@ -183,8 +184,10 @@ router.post('/reg', function(req, res) {
             }
         })
     } else {
-        console.log('lack email or password')
-        res.json(403)
+        //console.log('lack email or password')
+        res.json(403,{
+            msg: ' lack email or password! '
+        })
     }
 })
 
@@ -547,7 +550,7 @@ router.post('/auditlogin', function(req, res) {
             Controllers_audituser.createNewAudit(name, img, function(err, user) {
                 if (err) {
                     res.json(401, {
-                        msg: err
+                        msg: " createNewAudit error! "
                     })
                 } else {
                     req.session._userId = user;
@@ -556,7 +559,9 @@ router.post('/auditlogin', function(req, res) {
             })
         } else {
             console.log('response 403')
-            res.json(403, null)
+            res.json(403, {
+                msg: "lack auditname! "
+            })
         }
     }
 })
