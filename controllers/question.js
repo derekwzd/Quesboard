@@ -8,6 +8,7 @@ exports.createNewQuestion = function(question, callback){
 	newquestion.sectionId=question.sectionId
 	newquestion.vote=0
 	newquestion.qStatus=1
+	newquestion.flag = false
 	newquestion.save(callback)
 }
 
@@ -77,6 +78,26 @@ exports.unvoteQuestions=function(_questionId,callback){
 	},{
 		$inc:{
 			vote:-1
+		}
+	},callback)
+}
+
+exports.flagQuestions=function(_questionId,callback){
+	db.Question.findOneAndUpdate({
+		_id:_questionId
+	},{
+		$set:{
+			flag:true
+		}
+	},callback)
+}
+
+exports.unflagQuestions=function(_questionId,callback){
+	db.Question.findOneAndUpdate({
+		_id:_questionId
+	},{
+		$set:{
+			flag:false
 		}
 	},callback)
 }

@@ -37,7 +37,7 @@ exports.onLecture = function(_lectureId, callback) {
     db.Lecture.findOneAndUpdate({
         _id: _lectureId
     }, {
-        $set: {
+        $inc: {
             lStatus: 1
         }
     }, callback)
@@ -58,8 +58,18 @@ exports.increaseVote = function(_lectureId, callback) {
     db.Lecture.findOneAndUpdate({
         _id: _lectureId
     }, {
-        $set: {
-            totalVote: +1
+        $inc: {
+            totalVote: 1
+        }
+    }, callback)
+}
+
+exports.decreaseVote = function(_lectureId, callback) {
+    db.Lecture.findOneAndUpdate({
+        _id: _lectureId
+    }, {
+        $inc: {
+            totalVote: -1
         }
     }, callback)
 }
@@ -68,8 +78,18 @@ exports.increaseSection = function(_lectureId, callback) {
     db.Lecture.findOneAndUpdate({
         _id: _lectureId
     }, {
-        $set: {
-            totalSection: +1
+        $inc: {
+            totalSection: 1
+        }
+    }, callback)
+}
+
+exports.decreaseSection = function(_lectureId, callback) {
+    db.Lecture.findOneAndUpdate({
+        _id: _lectureId
+    }, {
+        $inc: {
+            totalSection: -1
         }
     }, callback)
 }
@@ -78,11 +98,22 @@ exports.increaseQuestion = function(_lectureId, callback) {
     db.Lecture.findOneAndUpdate({
         _id: _lectureId
     }, {
-        $set: {
-            totalQuestion: +1
+        $inc: {
+            totalQuestion: 1
         }
     }, callback)
 }
+
+exports.decreaseQuestion = function(_lectureId, callback) {
+    db.Lecture.findOneAndUpdate({
+        _id: _lectureId
+    }, {
+        $inc: {
+            totalQuestion: -1
+        }
+    }, callback)
+}
+
 
 // sort by totalvote
 exports.getAllLectures = function(_userId, callback) {
@@ -101,6 +132,18 @@ exports.getAllLectures = function(_userId, callback) {
         },
         limit: 20
     }, callback)
+}
+
+exports.getLecture = function(_lectureId, callback) {
+    db.Lecture.findOne({
+        _id: _lectureId
+    }, function(err, lecture) {
+        if (err) {
+            callback("err")
+        } else {
+            callback(null, lecture)
+        }
+    })
 }
 
 
@@ -146,7 +189,7 @@ exports.findCreatorById = function(_lectureId, callback) {
         creator: 1
     }, function(err, lecture) {
         if (err) {
-            callback(err)
+            callback("err")
                 // console.log(err)
         } else {
             // console.log('htet'+lecture)

@@ -1,59 +1,60 @@
 angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeParams, $scope, socket) {
     var global = {
-            //secid:     55a3cdc3f9738e2c330dde5c
-            //55a39ea4cdd2660d305bfca4
-            user_Id: "55a39ea4cdd2660d305bfca4"
-                //$scope.me._id
-        }
-        //TODO
-    var getLecture = function() {
-            var lecnametext;
-            var lecdescriptext;
-            var totalVote, totalQuestion, totalSection;
-            var qrUrl;
-            var time;
-            $.ajax({
-                    url: '/api/getLecture',
-                    type: 'POST',
-                    dataType: '',
-                    data: {
-                        user_Id: global.user_Id,
-                        lecture_Id: $routeParams._lecId,
-                    },
-                })
-                .done(function(data) {
-                    console.log(data)
-                    lecnametext = data.name;
-                    lecdescriptext = data.content;
-                    totalVote = data.totalVote;
-                    totalSection = data.totalSection;
-                    totalQuestion = data.totalQuestion;
-                    qrUrl = data.qrUrl
-                    secCreator = data.creator._id
-                    time = data.time.substring(0, 4) + "/" + data.time.substring(5, 7) + "/" + data.time.substring(8, 10);
-                    newlec.last().find(".lec-lecname").text(lecnametext);
-                    $(".sec-lecname").html(lecnametext);
-                    $(".sec-lecdescription").html(lecdescriptext);
-                    $(".sec-count").html(totalSection);
-                    $(".question-count").html(totalQuestion);
-                    $(".vote-count").html(totalVote);
-                    $(".sec-time").html(time);
-                    console.log("success");
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-                .always(function() {
-                    console.log("complete");
-                });
-        }
-        //getLecture();
+        //secid:     55a3cdc3f9738e2c330dde5c
+        //55a39ea4cdd2660d305bfca4
+        user_Id: "55a39ea4cdd2660d305bfca4"
+            //$scope.me._id
+    }
 
 
 
 
     //getAll
     var getAllSection = function() {
+
+        // getLecture first
+        var lecnametext;
+        var lecdescriptext;
+        var totalVote, totalQuestion, totalSection;
+        var qrUrl;
+        var time;
+        $.ajax({
+                url: '/api/getLecture',
+                type: 'POST',
+                dataType: '',
+                data: {
+                    user_Id: global.user_Id,
+                    lecture_Id: $routeParams._lecId,
+                },
+            })
+            .done(function(data) {
+                console.log(data)
+                lecnametext = data.name;
+                lecdescriptext = data.content;
+                totalVote = data.totalVote;
+                totalSection = data.totalSection;
+                totalQuestion = data.totalQuestion;
+                qrUrl = data.qrUrl
+                secCreator = data.creator._id
+                time = data.time.substring(0, 4) + "/" + data.time.substring(5, 7) + "/" + data.time.substring(8, 10);
+                
+                // newsec.last().find(".sec-secname").text(lecnametext);
+                $(".sec-lecname").html(lecnametext);
+                $(".sec-lecdescription").html(lecdescriptext);
+                $(".sec-count").html(totalSection);
+                $(".question-count").html(totalQuestion);
+                $(".vote-count").html(totalVote);
+                $(".sec-time").html(time);
+                console.log("success");
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+
         var seccontent;
         var sectionId;
         var secState;
@@ -80,14 +81,14 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                     newsec.last().find(".sectionname").text(seccontent);
                     var newsecopencheck = newsec.last().find(".sec-opencheck");
                     //JUEDE ISCREATOR
-                    // if(secCreator !== $scope.me._id){
-                    //     newlec.last().find(".sec-editbtn").css("display","none");
-                    //     newlec.last().find(".sec-opencheck").css("display","none");
-                    //     newlec.last().find(".sec-deletebtn").css("display","none");
-                    //     console.log("toolbtn blocked");
-                    // }else{
+                    if(secCreator !== $scope.me._id){
+                        newlec.last().find(".sec-editbtn").css("display","none");
+                        newlec.last().find(".sec-opencheck").css("display","none");
+                        newlec.last().find(".sec-deletebtn").css("display","none");
+                        console.log("toolbtn blocked");
+                    }else{
 
-                    // }
+                    }
 
 
 
@@ -370,7 +371,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
         $(".editing-secname").removeClass("editing-secname");
 
         //clear possible ids
-        $('.newsecname').attr("title","")
+        $('.newsecname').attr("title", "")
     })
 
 
@@ -426,7 +427,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                 })
                 .done(function(data) {
                     console.log("edit success");
-                }) 
+                })
                 .fail(function() {
                     console.log("error");
                     alert("network failure");
@@ -436,7 +437,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                 });
 
             // clear newlecname attr
-            $('.newsecname').attr("title","")
+            $('.newsecname').attr("title", "")
 
         }
         editSection();

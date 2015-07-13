@@ -18,6 +18,9 @@
      	type:Date,
      	default:Date.now
      },
-     voteed:Boolean
+     voteed:Boolean,
+     //false:unflag true:flag
+     flag:Boolean
  });
  module.exports = Question;
+

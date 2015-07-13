@@ -8,6 +8,7 @@ var router = express.Router();
 var qr = require('qr-image');
 
 
+
 // router.post('/getAllVote', function(req, res){
 //     var user_Id = req.body.user_Id;
 //     if(user_Id){
@@ -54,6 +55,19 @@ router.post('/getAllLectures', function(req, res) {
         })
     }
 })
+
+router.post('/getLecture', function(req, res) {
+    var data = req.body
+    Controllers_lecture.getLecture(data.lecture_Id, function(err, lecture){
+        if(err){
+            console.log(err);
+            res.send(err);
+        }else{
+            res.send(lecture);
+        }
+    })
+})
+
 
 router.post('/createQuestion', function(req, res) {
     var name = req.body.name;
