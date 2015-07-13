@@ -24,7 +24,7 @@ var qr = require('qr-image');
 
 router.post('/showqr', function(req, res) {
     var url = req.body.lectureUrl
-    //console.log(url)
+        //console.log(url)
     var qrImg = qr.image(url, {
         type: 'svg'
     });
@@ -173,7 +173,7 @@ router.post('/reg', function(req, res) {
             } else {
                 Controllers_user.createNewUser(email, password, function(err, user) {
                     if (err) {
-                        res.json(500,{
+                        res.json(500, {
                             msg: ' signup failed! '
                         })
                     } else {
@@ -185,7 +185,7 @@ router.post('/reg', function(req, res) {
         })
     } else {
         //console.log('lack email or password')
-        res.json(403,{
+        res.json(403, {
             msg: ' lack email or password! '
         })
     }
@@ -251,27 +251,37 @@ router.post('/creatLecture', function(req, res) {
     creator = req.body.creator;
     name = req.body.name
     content = req.body.content
-    if (name && content) {
-        var newLecture = {
-            boardID: "",
-            name: name,
-            content: content,
-            qrUrl: "999",
-            creator: {
-                _id: creator
-            }
-        }
-        Controllers_lecture.createNewLecture(newLecture, function(err, msg) {
-            if (err) {
-                res.json(err)
+    Controllers_user.findUserById(creator, function(err, user) {
+        console.log(user);
+        if (user.flag === 1) {
+            if (name && content) {
+                var newLecture = {
+                    boardID: "",
+                    name: name,
+                    content: content,
+                    qrUrl: "999",
+                    creator: {
+                        _id: creator
+                    }
+                }
+                Controllers_lecture.createNewLecture(newLecture, function(err, msg) {
+                    if (err) {
+                        res.json(err)
+                    } else {
+                        res.json(msg)
+                    }
+                })
             } else {
-                res.json(msg)
+                console.log('response 403')
+                res.json(403, "lack name or content! ")
             }
-        })
-    } else {
-        console.log('response 403')
-        res.json(403, null)
-    }
+        } else {
+            console.log('response 403')
+            res.json(403, "Permission denied! ")
+        }
+
+    })
+
 })
 
 router.post('/editLecture', function(req, res) {
@@ -316,7 +326,7 @@ router.post('/createSection', function(req, res) {
                     if (err) {
                         res.send(err)
                     } else {
-                        Controllers_lecture.increaseSection(lecture_Id,function(err,msg){
+                        Controllers_lecture.increaseSection(lecture_Id, function(err, msg) {
                             if (err) {
                                 res.send(err)
                             }
@@ -426,8 +436,8 @@ router.post('/deleteSection', function(req, res) {
                 if (err) {
                     res.send(err)
                 } else {
-                    Controllers_lecture.decreaseSection(lecture_Id, function(err,msg){
-                        if(err){
+                    Controllers_lecture.decreaseSection(lecture_Id, function(err, msg) {
+                        if (err) {
                             res.send(err)
                         }
                     })

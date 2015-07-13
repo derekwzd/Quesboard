@@ -1,7 +1,7 @@
 angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeParams, $scope, socket, $http) {
     var global = {
         //lec: 55a41dff54e9b972372e133b
-        user_Id: "55a39ea4cdd2660d305bfca4"
+        user_Id: $scope.me._id
         //$scope.me._id
     }
 
