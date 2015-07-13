@@ -98,8 +98,8 @@ router.post('/login', function(req, res) {
         })
     } else {
         // console.log('response 403')
-        res.json(402,{
-            msg : 'password not in'
+        res.json(402, {
+            msg: 'password not in'
         })
     }
 })
@@ -486,20 +486,24 @@ router.post('/closeQuestion', function(req, res) {
 router.post('/auditlogin', function(req, res) {
     var name = req.body.auditname
     var img = req.body.auditimg
-    if (name) {
-        Controllers_audituser.createNewAudit(name, img, function(err, user) {
-            if (err) {
-                res.json(401, {
-                    msg: err
-                })
-            } else {
-                req.session._userId = user;
-                res.json(user)
-            }
-        })
+    if (req.session._userId) {
+        res.json(req.session._userId)
     } else {
-        console.log('response 403')
-        res.json(403, null)
+        if (name) {
+            Controllers_audituser.createNewAudit(name, img, function(err, user) {
+                if (err) {
+                    res.json(401, {
+                        msg: err
+                    })
+                } else {
+                    req.session._userId = user;
+                    res.json(user)
+                }
+            })
+        } else {
+            console.log('response 403')
+            res.json(403, null)
+        }
     }
 })
 
@@ -507,7 +511,7 @@ router.post('/auditlogin', function(req, res) {
 router.get('/logout', function(req, res) {
     req.session._userId = null
     res.json('log out success')
-    // console.log(req.session._userId)
+        // console.log(req.session._userId)
 })
 
 module.exports = router;
