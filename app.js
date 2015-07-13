@@ -53,38 +53,7 @@ io.sockets.on('connection', function(socket) {
                     if (err) {
                         console.log('getAllQuestions failed')
                     } else {
-                        Controllers_question.getActiveQuestions(section_Id, function(err, msg) {
-                            if (err) {
-                                console.log('getActiveQuestions failed')
-                            } else {
-                                var messages = msg
-                                Controllers_user.getAllVote(user_Id, function(err, votedarray) {
-                                    if (err) {
-                                        console.log('test')
-                                    } else {
-                                        if (votedarray.length !== 0) {
-                                            for (var i = 0; i < votedarray.length; i++) {
-                                                for (var item = 0; item < messages.length; item++) {
-                                                    if (messages[item]._id.toString() === votedarray[i]) {
-                                                        messages[item]['voteed'] = true
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    socket.emit('allMessages', messages)
-                                })
-                            }
-                        })
-                    }
-                })
-            } else {
-                Controllers_question.getActiveQuestions(section_Id, function(err, msg) {
-                    if (err) {
-                        console.log('getActiveQuestions failed')
-                    } else {
-                        var messages = msg
+                        messages = msg
                         Controllers_user.getAllVote(user_Id, function(err, votedarray) {
                             if (err) {
                                 console.log('test')
@@ -100,7 +69,34 @@ io.sockets.on('connection', function(socket) {
                                     }
                                 }
                             }
-                            socket.emit('allMessages', messages)
+                            socket.emit('allMessages', [messages,true]) // 1 stand for craetor
+                            // socket.emit('allMessages', messagess)
+                        })
+                    }
+                })
+            } else {
+                Controllers_question.getActiveQuestions(section_Id, function(err, msg) {
+                    if (err) {
+                        console.log('getActiveQuestions failed')
+                    } else {
+                        messages = msg
+                        Controllers_user.getAllVote(user_Id, function(err, votedarray) {
+                            if (err) {
+                                console.log('test')
+                            } else {
+                                if (votedarray.length !== 0) {
+                                    for (var i = 0; i < votedarray.length; i++) {
+                                        for (var item = 0; item < messages.length; item++) {
+                                            if (messages[item]._id.toString() === votedarray[i]) {
+                                                messages[item]['voteed'] = true
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            socket.emit('allMessages', [messages,false])// 2 stand for audience
+                            // socket.emit('allMessages', messages)
                         })
                     }
                 })
@@ -118,6 +114,7 @@ io.sockets.on('connection', function(socket) {
                 avatarUrl: message.avatarUrl
             }
         }
+        Controllers_lecture.increaseQuestion(message.lecture_Id, function(err, msg){})
         Controllers_question.createNewQuestion(newquestion, function(err, msg) {
             if (err) {
                 res.send(err)
@@ -132,12 +129,21 @@ io.sockets.on('connection', function(socket) {
     socket.on('vote', function(data) {
         Controllers_user.voteQues(data.user_Id, data.ques_Id, function(err, msg) {})
         Controllers_question.voteQuestions(data.ques_Id, function(err, msg) {})
+        Controllers_lecture.increaseVote(data.lecture_Id, function(err, msg){})
         io.sockets.emit('triggervote', data.ques_Id)
     })
     socket.on('unvote', function(data) {
         Controllers_user.unvoteQues(data.user_Id, data.ques_Id, function(err, msg) {})
         Controllers_question.unvoteQuestions(data.ques_Id, function(err, msg) {})
+        Controllers_lecture.decreaseVote(data.lecture_Id, function(err, msg){})
         io.sockets.emit('triggerunvote', data.ques_Id)
     })
+    socket.on('off', function(data){
+        Controllers_question.offQuestion(data.ques_Id, function(err, msg){})
+    })
+    socket.on('on', function(data){
+        Controllers_question.onQuestion(data.ques_Id, function(err, msg){})
+    })
+
 });
 //End of Message Send

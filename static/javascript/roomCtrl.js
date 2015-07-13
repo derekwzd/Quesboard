@@ -49,6 +49,79 @@ angular.module('techNodeApp').controller('MessageCreatorCtrl', function($scope, 
     }
 })
 
+angular.module('techNodeApp').directive('onoff', function(socket) {
+    return function(scope, element, attrs) {
+        // if (scope.$parent.message.qStatus.toString() === '0') {
+        //     $(this).children("#ques-opencheckInput").attr("checked", true);
+        //     $(this).css({
+        //         "background-color": "#979797"
+        //     });
+        //     $(this).children("label").css({
+        //         "left": "32px"
+        //     });
+        //     $(this).children(".checkOn").animate({
+        //         "opacity": "0"
+        //     }, 100)
+        //     $(this).children(".checkOff").animate({
+        //         "opacity": "100"
+        //     }, 100)
+        //     $(this).children('.checkOff')
+        // }
+        element.unbind('click')
+        element.bind('click', function() {
+            if ($(this).children("#ques-opencheckInput").attr("checked") === 'checked') {
+                $(this).children("#ques-opencheckInput").attr("checked", false);
+                $(this).css({
+                    "background-color": "#6ecf68"
+                });
+                $(this).children("label").css({
+                    "left": "2px"
+                });
+                $(this).children(".checkOn").animate({
+                    "opacity": "100"
+                }, 100)
+                $(this).children(".checkOff").animate({
+                    "opacity": "0"
+                }, 100)
+
+                scope.$apply(function() {
+                    scope.onFunc(scope.$parent.message._id)
+                })
+            } else {
+                $(this).children("#ques-opencheckInput").attr("checked", true);
+                $(this).css({
+                    "background-color": "#979797"
+                });
+                $(this).children("label").css({
+                    "left": "32px"
+                });
+                $(this).children(".checkOn").animate({
+                    "opacity": "0"
+                }, 100)
+                $(this).children(".checkOff").animate({
+                    "opacity": "100"
+                }, 100)
+                scope.$apply(function() {
+                    scope.offFunc(scope.$parent.message._id)
+                })
+            }
+        });
+    }
+})
+angular.module('techNodeApp').controller('OnoffControl', function($scope, $routeParams, socket) {
+    $scope.offFunc = function(quesid) {
+        socket.emit('off', {
+            ques_Id: quesid,
+        });
+    }
+    $scope.onFunc = function(quesid) {
+        socket.emit('on', {
+            ques_Id: quesid,
+        })
+    }
+})
+
+
 angular.module('techNodeApp').directive('vote', function(socket) {
     return function(scope, element, attrs) {
         element.unbind('click')
@@ -69,15 +142,17 @@ angular.module('techNodeApp').directive('vote', function(socket) {
     };
 });
 
-angular.module('techNodeApp').controller('VoteControl', function($scope, socket) {
+angular.module('techNodeApp').controller('VoteControl', function($scope, $routeParams, socket) {
     $scope.voteIt = function(quesid) {
         socket.emit('vote', {
+            lecture_Id: $routeParams._lecId,
             ques_Id: quesid,
             user_Id: $scope.me._id
         });
     }
     $scope.unVoteIt = function(quesid) {
         socket.emit('unvote', {
+            lecture_Id: $routeParams._lecId,
             ques_Id: quesid,
             user_Id: $scope.me._id,
         })
@@ -87,7 +162,6 @@ angular.module('techNodeApp').controller('VoteControl', function($scope, socket)
 
 angular.module('techNodeApp').controller('RoomCtrl', function($scope, $routeParams, $scope, socket) {
     $scope.messages = [];
-
     socket.emit('joinRoom', {
         section_Id: $routeParams._secId
     })
@@ -102,35 +176,10 @@ angular.module('techNodeApp').controller('RoomCtrl', function($scope, $routePara
     })
 
     socket.on('allMessages', function(messages) {
-        $scope.messages = messages;
-        // $.ajax({
-        //         url: '/api/getAllVote',
-        //         type: 'POST',
-        //         dataType: '',
-        //         data: {
-        //             user_Id: $scope.me._id
-        //         },
-        //     })
-        //     .done(function(votedarray) {
-        //         if (votedarray.length !== 0) {
-        //             for (var i = 0; i < votedarray.length; i++) {
-        //                 console.log(votedarray[i])
-        //                 for(var item =0; item < messages.length; item++){
-        //                     if(messages[item]._id === votedarray[i]){
-        //                         console.log('once');
-
-
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     })
-        //     .fail(function() {
-        //         console.log("error");
-        //     })
-        //     .always(function() {
-        //         // console.log("complete");
-        //     });
+        $scope.messages = messages[0];
+        $scope.typeId = messages[1];
+        console.log($scope.typeId)
+            // $scope.messages = messages;
     })
 
     socket.on('messageAdded', function(message) {
@@ -162,7 +211,11 @@ angular.module('techNodeApp').controller('RoomCtrl', function($scope, $routePara
         href: "/lecture/" + $routeParams._lecId
     });
 
+
+
+    console.log($('.haha'))
 })
+
 
 angular.module('techNodeApp').directive('autoScrollToBottom', function() {
     return {

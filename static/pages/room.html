@@ -53,10 +53,11 @@
                 <div class="questiontext"><span class="ques-username">Host: </span>We are now openning to new questions.</div>
                 <!-- New Tool Box Part -->
                 <div class="ques-toolbox">
-                    <div class="ques-opencheck">
+                    <div class="ques-opencheck" >
                         <input id="ques-opencheckInput" type="checkbox" value="1" name="" />
                         <label></label>
-                        <span class="checkOff">OFF</span><span class="checkOn">ON</span>
+                        <span class="checkOff" que-="test()" >OFF</span>
+                        <span class="checkOn" >ON</span>
                     </div>
                     <div class="ques-flagbtn"><img src="img/flagimg-empty.png">
                     </div>
@@ -68,13 +69,12 @@
                 </div>
             </div>
             <div class="questionframe" ng-controller="VoteControl" ng-repeat="message in messages | orderBy:'-vote'">
-                
                 <img class="ques-userimg" src="{{message.creator.avatarUrl}}">
-
                 <div class="questiontext"><span class="ques-username"> {{message.creator.name}}: </span>{{message.content}}</div>
                 <!-- New Tool Box Part -->
-                <div class="ques-toolbox">
-                    <div class="ques-opencheck">
+                <div class="ques-toolbox" ng:show="typeId">
+                    <div class="ques-opencheck" onoff ng-controller="OnoffControl" >
+                        <div class='haha'>{{message.qStatus}}</div>
                         <input id="ques-opencheckInput" type="checkbox" value="1" name="" />
                         <label></label>
                         <span class="checkOff">OFF</span><span class="checkOn">ON</span>
@@ -86,7 +86,7 @@
                 <div class="vote">
                     <span class="votenum">{{message.vote}}</span>
                     <button ng:hide="message.voteed" unvote="unVoteIt()" vote="voteIt()" class="votebtn uni-green" href="#">Vote</button>
-                    <button ng:show="message.voteed" unvote="unVoteIt()" vote="voteIt()" class="votebtn uni-green" href="#">Undo</button>
+                    <button ng:show="message.voteed" unvote="unVoteIt()" vote="voteIt()" class="votebtn uni-green uni-greenpressed" href="#">Undo</button>
                 </div>
             </div>
         </div>
