@@ -17,6 +17,7 @@
      time:{
      	type:Date,
      	default:Date.now
-     }
+     },
+     voteed:Boolean
  });
  module.exports = Question;

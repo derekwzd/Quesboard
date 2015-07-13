@@ -83,10 +83,10 @@
                     </div>
                 </div>
                 <!-- End of New Tool Box Part -->
-                <div ng:show="message.voteed" class="vote">
-                <!-- <div class="vote"> -->
+                <div class="vote">
                     <span class="votenum">{{message.vote}}</span>
-                    <button unvote="unVoteIt()" vote="voteIt()" class="votebtn uni-green" href="#">Vote</button>
+                    <button ng:hide="message.voteed" unvote="unVoteIt()" vote="voteIt()" class="votebtn uni-green" href="#">Vote</button>
+                    <button ng:show="message.voteed" unvote="unVoteIt()" vote="voteIt()" class="votebtn uni-green" href="#">Undo</button>
                 </div>
             </div>
         </div>

@@ -53,27 +53,30 @@ io.sockets.on('connection', function(socket) {
                     if (err) {
                         console.log('getAllQuestions failed')
                     } else {
-                        messages = msg
-                        Controllers_user.getAllVote(user_Id, function(err, votedarray) {
+                        Controllers_question.getActiveQuestions(section_Id, function(err, msg) {
                             if (err) {
-                                console.log('test')
+                                console.log('getActiveQuestions failed')
                             } else {
-                                // res.send(votedarray)
-                                console.log(votedarray)
-                                if (votedarray.length !== 0) {
-                                    for (var i = 0; i < votedarray.length; i++) {
-                                        console.log(votedarray[i])
-                                        for (var item = 0; item < messages.length; item++) {
-                                            if (messages[item]._id === votedarray[i]) {
-                                                console.log('once');
+                                var messages = msg
+                                Controllers_user.getAllVote(user_Id, function(err, votedarray) {
+                                    if (err) {
+                                        console.log('test')
+                                    } else {
+                                        if (votedarray.length !== 0) {
+                                            for (var i = 0; i < votedarray.length; i++) {
+                                                for (var item = 0; item < messages.length; item++) {
+                                                    if (messages[item]._id.toString() === votedarray[i]) {
+                                                        messages[item]['voteed'] = true
+                                                        break;
+                                                    }
+                                                }
                                             }
                                         }
                                     }
-                                }
+                                    socket.emit('allMessages', messages)
+                                })
                             }
-                            socket.emit('allMessages', messages)
                         })
-
                     }
                 })
             } else {
@@ -90,17 +93,14 @@ io.sockets.on('connection', function(socket) {
                                     for (var i = 0; i < votedarray.length; i++) {
                                         for (var item = 0; item < messages.length; item++) {
                                             if (messages[item]._id.toString() === votedarray[i]) {
-                                                messages[item]['voteed'] = 5
+                                                messages[item]['voteed'] = true
                                                 break;
                                             }
                                         }
                                     }
                                 }
                             }
-                            console.log('1'+messages[2])
-                            console.log('2'+messages[2].voteed)
                             socket.emit('allMessages', messages)
-                            // console.log(messages)
                         })
                     }
                 })
