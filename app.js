@@ -8,6 +8,7 @@ var Schema = mongoose.Schema
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 
+
 app.use(bodyParser())
 app.use(flash())
 app.use(session({
@@ -19,6 +20,8 @@ app.use(session({
         maxAge: 60 * 1000 * 60 * 24
     }
 }))
+
+
 
 app.use(express.static(__dirname + '/static'));
 var api = require('./routes/api.js')

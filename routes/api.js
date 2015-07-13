@@ -5,9 +5,22 @@ var Controllers_section = require('../controllers/section.js')
 var Controllers_lecture = require('../controllers/lecture.js')
 var Controllers_question = require('../controllers/question.js')
 var router = express.Router();
+var qr = require('qr-image');
+
+
+router.post('/showqr', function(req, res) {
+    var url = req.body.lectureUrl
+    var qrImg = qr.image(url, {
+        type: 'svg'
+    });
+    res.type('svg');
+    qrImg.pipe(res);
+});
+
 
 router.post('/getAllLectures', function(req, res) {
     var data = req.body;
+    console.log(data)
     if (data && data.lecture_Id) {
         Controllers_lecture.getSectionById(data.lecture_Id, function(err, lecture) {
             if (err) {
@@ -19,8 +32,10 @@ router.post('/getAllLectures', function(req, res) {
     } else {
         Controllers_lecture.getAllLectures(data.user_Id, function(err, lectures) {
             if (err) {
+                console.log(err);
                 res.send(err);
             } else {
+                //console.log(lectures);
                 res.send(lectures);
             }
         })

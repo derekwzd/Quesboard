@@ -1,7 +1,7 @@
-angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeParams, $scope) {
-    
+angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeParams, $scope, $http) {
+    $(document).off('click');
     var global = {
-        user_Id: "55928482df38c17a66c67f2a"
+        user_Id: $scope.me._id
     }
 
     //dropdown menu control
@@ -36,10 +36,54 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         $(".lec-toolbox").slideToggle(400);
     })
 
+
     //QR Open Control
-    $(".lec-lecqr").bind("click", function() {
+    $(document).on('click', ".lec-lecqr", function() {
+
+        // $http({
+        //         url: '/api/showqr',
+        //         type: 'POST',
+        //         dataType: '',
+        //         data: {
+        //             lectureUrl: "www.google.com",
+        //         }
+        //     })
+        //     .done(function(data) {
+        //          // console.log(data)
+        //          console.log(data)
+
+        //          // for(var i in data){
+        //          //    console.log(i)
+        //          // }
+        //          // console.log(data('#document'));
+        //          // var qrdata = $(data).html();
+        //         $(".qrimg").append(data);
+        //         // $(".qrimg").html('<img src="data:image/png;,' + data + '" />')
+        //     })
+        //     .fail(function() {
+        //         console.log("qr error");
+        //         alert(failure);
+        //     })
+        //     .always(function() {
+        //         console.log("complete");
+        //     })
+
+        $http({
+            url: '/api/showqr',
+            method: 'POST',
+            data: {
+                lectureUrl: "http://www.google.com",
+            }
+        }).success(function(data) {
+            console.log(data)
+            $(".qrimg").html(data);
+        }).error(function() {
+            console.log('error_showqr')
+        })
+
+
         $(".qr-popout").fadeIn(400);
-    })
+    });
 
     $(".qrclosebtn").bind("click", function() {
         $(".qr-popout").fadeOut(200);
@@ -111,7 +155,7 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
                     "opacity": "0"
                 }, 100)
                 //open Lec
-        
+
             var openLecture = function() {
                 var boardId;
                 $.ajax({
@@ -156,28 +200,28 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
             }, 100)
 
             //close lec
-             var closeLecture = function() {
-            $.ajax({
-                    url: '/api/closeLecture',
-                    type: 'POST',
-                    dataType: '',
-                    data: {
-                        user_Id: global.user_Id,
-                        lecture_Id: boardid
-                    },
-                })
-                .done(function(data) {
-                    //console.log(data)
-                    console.log("success");
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-                .always(function() {
-                    console.log("complete");
-                })
-        }
-        closeLecture();
+            var closeLecture = function() {
+                $.ajax({
+                        url: '/api/closeLecture',
+                        type: 'POST',
+                        dataType: '',
+                        data: {
+                            user_Id: global.user_Id,
+                            lecture_Id: boardid
+                        },
+                    })
+                    .done(function(data) {
+                        //console.log(data)
+                        console.log("success");
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    })
+            }
+            closeLecture();
         }
         return false
     });
@@ -316,7 +360,8 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         console.log("lec-editbtn clicked");
     })
 
-// Lecture edit confirmbtn click
+
+    // Lecture edit confirmbtn click
     $(document).on('click', ".editlec-confirm", function() {
         console.log("editlec-confirm clicked");
         //console.log($('.newlecname').attr("title"));
@@ -387,10 +432,12 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
     })
 
     // newlec confirm click
+    // $(".newlec-confirm").bind('click', function() {
+    // $(document).on('click', ".newlec-confirm", function() {
+    //     //
+    // }
     $(document).on('click', ".newlec-confirm", function() {
         console.log("newlec-confirm clicked");
-
-
         var newlec = $("#defaultlecture").clone().removeAttr("id");
 
         //customize lecture frame
@@ -402,7 +449,7 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
             var lecdescriptext;
             var boardId;
             console.log($(".newlecname").val())
-                        console.log($(".newlecdescrip").val())
+            console.log($(".newlecdescrip").val())
             $.ajax({
                     url: '/api/creatLecture',
                     type: 'POST',
@@ -454,6 +501,7 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
         var totalVote, totalQuestion, totalSection;
         var qrUrl;
         var lecState;
+        var time;
         $.ajax({
                 url: '/api/getAllLectures',
                 type: 'POST',
@@ -476,10 +524,59 @@ angular.module('techNodeApp').controller('LectureCtrl', function($scope, $routeP
                     totalSection = data[i].totalSection;
                     qrUrl = data[i].qrUrl
                     lecState = data[i].lStatus
+                    lecCreator = data[i].creator._id 
+                    time = data[i].time.substring(0, 4) + "/" + data[i].time.substring(5, 7) + "/" + data[i].time.substring(8, 10);
                     newlec.last().find(".lec-lecname").text(lecnametext);
                     newlec.last().find(".lec-lecdescrip").text(lecdescriptext);
                     newlec.last().find(".lec-idnumber").attr("title", boardId);
-                    //newlec.last().find(".sec-count").text();
+                    newlec.last().find(".sec-count").html(totalSection);
+                    newlec.last().find(".question-count").html(totalQuestion);
+                    newlec.last().find(".vote-count").html(totalVote);
+                    newlec.last().find(".lec-time").html(time);
+
+                    //opencheck status set up
+                    var newlecopencheck = newlec.last().find(".lec-opencheck");
+                    //JUEDE ISCREATOR
+                    if(lecCreator !== $scope.me._id){
+                        newlec.last().find(".lec-toolbox").css("display","none");
+                        console.log("toolbox blocked");
+                    }else{
+
+                    }
+                    //ON OR OFF
+                    if (lecState === 1) {
+                        $(newlecopencheck).children("#lec-opencheckInput").removeAttr("checked");
+                        $(newlecopencheck).css({
+                            "background-color": "#6ecf68"
+                        });
+                        $(newlecopencheck).children("label").css({
+                            "left": "2px"
+                        });
+                        $(newlecopencheck).children(".checkOn").animate({
+                            "opacity": "100"
+                        }, 100)
+                        $(newlecopencheck).children(".checkOff").animate({
+                            "opacity": "0"
+                        }, 100)
+
+                    } else {
+                        $(newlecopencheck).children("#lec-opencheckInput").attr("checked", true);
+                        $(newlecopencheck).css({
+                            "background-color": "#979797"
+                        });
+                        $(newlecopencheck).children("label").css({
+                            "left": "32px"
+                        });
+                        $(newlecopencheck).children(".checkOn").animate({
+                            "opacity": "0"
+                        }, 100)
+                        $(newlecopencheck).children(".checkOff").animate({
+                            "opacity": "100"
+                        }, 100)
+
+                    }
+
+
                     $(".lec-board").append(newlec);
                 }
             })

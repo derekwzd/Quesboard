@@ -1,9 +1,9 @@
 var db = require('../models')
 var async = require('async')
+var ObjectID = require('mongodb').ObjectID;
 
 exports.createNewLecture = function(lecture, callback) {
     var newlecture = new db.Lecture()
-    // console.log('test!!')
     newlecture.boardID = lecture.boardID
     newlecture.name = lecture.name
     newlecture.content = lecture.content
@@ -86,6 +86,7 @@ exports.increaseQuestion = function(_lectureId, callback) {
 
 // sort by totalvote
 exports.getAllLectures = function(_userId, callback) {
+    _userId = new ObjectID(_userId);
         db.Lecture.find({
             "$or":[
             {lStatus:1},
