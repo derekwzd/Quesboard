@@ -72,7 +72,7 @@ exports.voteQuestions=function(_questionId,callback){
 }
 
 exports.unvoteQuestions=function(_questionId,callback){
-	db.Question.find({
+	db.Question.findOneAndUpdate({
 		_id:_questionId
 	},{
 		$inc:{
