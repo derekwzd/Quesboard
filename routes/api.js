@@ -296,7 +296,7 @@ router.post('/createSection', function(req, res) {
                     if (err) {
                         res.send(err)
                     } else {
-                        res.send("create Success")
+                        res.send(section)
                     }
                 })
             }
