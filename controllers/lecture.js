@@ -87,20 +87,22 @@ exports.increaseQuestion = function(_lectureId, callback) {
 // sort by totalvote
 exports.getAllLectures = function(_userId, callback) {
     _userId = new ObjectID(_userId);
-        db.Lecture.find({
-            "$or":[
-            {lStatus:1},
-            {creator:{
-                _id:_userId
-            }}
-            ]
-        }, null, {
-            sort: {
-                'time': -1
-            },
-            limit: 20
-        }, callback)
+    db.Lecture.find({
+        "$or": [{
+            lStatus: 1
+        }, {
+            creator: {
+                _id: _userId
+            }
+        }]
+    }, null, {
+        sort: {
+            'time': -1
+        },
+        limit: 20
+    }, callback)
 }
+
 
 //need to be tested
 exports.getSectionById = function(_lectureId, callback) {
@@ -137,17 +139,18 @@ exports.getSectionById = function(_lectureId, callback) {
     })
 }
 
-exports.findCreatorById = function(_lectureId, callback){
+exports.findCreatorById = function(_lectureId, callback) {
     db.Lecture.findOne({
-        _id:_lectureId
-    },{creator:1},function(err, lecture){
+        _id: _lectureId
+    }, {
+        creator: 1
+    }, function(err, lecture) {
         if (err) {
             callback(err)
-            // console.log(err)
-        }else{
+                // console.log(err)
+        } else {
             // console.log('htet'+lecture)
             callback(null, lecture)
         }
     })
 }
-

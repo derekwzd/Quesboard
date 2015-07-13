@@ -6,8 +6,7 @@
      password:String,
      name : String,
      //0:audit,1:signupuser
-     flag:Number
+     flag:Number,
+     voted:Array
  });
  module.exports = User;
-
- 

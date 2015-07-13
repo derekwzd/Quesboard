@@ -62,11 +62,11 @@ exports.getActiveQuestions=function(_sectionId,callback){
 }
 
 exports.voteQuestions=function(_questionId,callback){
-	db.Question.find({
+	db.Question.findOneAndUpdate({
 		_id:_questionId
 	},{
-		$set:{
-			vote:+1
+		$inc:{
+			vote:1
 		}
 	},callback)
 }

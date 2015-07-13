@@ -153,5 +153,26 @@
 // 	console.log("complete");
 // });
 
+// $.ajax({
+// 	url: '/api/voteQues',
+// 	type: 'POST',
+// 	dataType: '',
+// 	data: {
+// 		user_Id : "55a240ba87fea89861faa24b",
+// 		ques_Id : "55a3999ac2b331a09abc0daf"
+// 	},
+// })
+// .done(function(data) {
+// 	console.log(data)
+// })
+// .fail(function() {
+// 	console.log("error");
+// })
+// .always(function() {
+// 	console.log("complete");
+// });
+
+
+
 
 

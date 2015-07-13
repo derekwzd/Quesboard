@@ -9,8 +9,8 @@ var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var Controllers_lecture = require('./controllers/lecture.js')
 var Controllers_question = require('./controllers/question.js')
-
-
+var Controllers_user = require('./controllers/user.js')
+var Controllers_audituser = require('./controllers/audituser.js')
 
 app.use(bodyParser())
 app.use(flash())
@@ -24,8 +24,6 @@ app.use(session({
     }
 }))
 
-
-
 app.use(express.static(__dirname + '/static'));
 var api = require('./routes/api.js')
 app.use('/api', api)
@@ -38,40 +36,14 @@ var io = require('socket.io').listen(app.listen(port));
 
 console.log('quesboard is on port ' + port + '!');
 
-//Message Send
-var orign_messages = [{
-    quesid: 1,
-    content: "Mr. Gates, I wonder why do you choose to hold this lecture in the University of Hong Kong, rather than Hong kong university of science and Technology? Is there any reason behind this? Is it because of HKU's commercial enviornment or is there any other reasons?",
-    img: "img/profile100px/profile8.png",
-    name: "Derek",
-    votenum: 192
-}, {
-    quesid: 2,
-    content: "Mr. Gates, I wonder why do you choose to hold this lecture in the University of Hong Kong, rather than Hong kong university of science and Technology? Is there any reason behind this? Is it because of HKU's commercial enviornment or is there any other reasons? blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah",
-    img: "img/profile100px/profile1.png",
-    name: "007",
-    votenum: 16
-}, {
-    quesid: 3,
-    content: "Mr. Gates, will You Sponser any Hong Kong Students to start a new IT company? Why?",
-    img: "img/profile100px/profile24.png",
-    name: "Popfido",
-    votenum: 8
-}];
-
-var messages = orign_messages.concat()
-
 io.sockets.on('connection', function(socket) {
     socket.emit('connected');
     socket.on('joinRoom', function(join) {
         socket.join(join.section_Id)
-        socket.emit('joinRoom', "you are in: "+join.section_Id)
+        socket.emit('joinRoom', "you are in: " + join.section_Id)
     })
 
     socket.on('getAllMessages', function(data) {
-
-        // socket.join(data.section_Id)
-
         var user_Id = data.user_Id;
         var section_Id = data.section_Id;
         var lecture_Id = data.lecture_Id;
@@ -81,8 +53,27 @@ io.sockets.on('connection', function(socket) {
                     if (err) {
                         console.log('getAllQuestions failed')
                     } else {
-                        // res.send(msg)
-                        socket.emit('allMessages', msg)
+                        messages = msg
+                        Controllers_user.getAllVote(user_Id, function(err, votedarray) {
+                            if (err) {
+                                console.log('test')
+                            } else {
+                                // res.send(votedarray)
+                                console.log(votedarray)
+                                if (votedarray.length !== 0) {
+                                    for (var i = 0; i < votedarray.length; i++) {
+                                        console.log(votedarray[i])
+                                        for (var item = 0; item < messages.length; item++) {
+                                            if (messages[item]._id === votedarray[i]) {
+                                                console.log('once');
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            socket.emit('allMessages', messages)
+                        })
+
                     }
                 })
             } else {
@@ -90,15 +81,32 @@ io.sockets.on('connection', function(socket) {
                     if (err) {
                         console.log('getActiveQuestions failed')
                     } else {
-                        socket.emit('allMessages', msg)
+                        var messages = msg
+                        Controllers_user.getAllVote(user_Id, function(err, votedarray) {
+                            if (err) {
+                                console.log('test')
+                            } else {
+                                if (votedarray.length !== 0) {
+                                    for (var i = 0; i < votedarray.length; i++) {
+                                        for (var item = 0; item < messages.length; item++) {
+                                            if (messages[item]._id.toString() === votedarray[i]) {
+                                                messages[item]['voteed'] = 5
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            console.log('1'+messages[2])
+                            console.log('2'+messages[2].voteed)
+                            socket.emit('allMessages', messages)
+                            // console.log(messages)
+                        })
                     }
                 })
             }
         })
     })
-
-
-
 
     socket.on('createMessage', function(message) {
         var newquestion = {
@@ -114,7 +122,6 @@ io.sockets.on('connection', function(socket) {
             if (err) {
                 res.send(err)
             } else {
-                msg.quesid = messages.length + 1;
                 messages.push(msg);
                 socket.in(message.section_Id).broadcast.emit('messageAdded', msg)
                 socket.emit('messageAdded', msg)
@@ -122,18 +129,15 @@ io.sockets.on('connection', function(socket) {
         })
     })
 
-
-    socket.on('resetMessages', function() {
-        messages = orign_messages.concat()
-        socket.emit('orignMessages', messages)
+    socket.on('vote', function(data) {
+        Controllers_user.voteQues(data.user_Id, data.ques_Id, function(err, msg) {})
+        Controllers_question.voteQuestions(data.ques_Id, function(err, msg) {})
+        io.sockets.emit('triggervote', data.ques_Id)
     })
-    socket.on('vote', function(quesid) {
-        messages[quesid - 1]["votenum"] += 1;
-        io.sockets.emit('triggervote', messages)
-    })
-    socket.on('unvote', function(quesid) {
-        messages[quesid - 1]["votenum"] -= 1;
-        io.sockets.emit('triggervote', messages)
+    socket.on('unvote', function(data) {
+        Controllers_user.unvoteQues(data.user_Id, data.ques_Id, function(err, msg) {})
+        Controllers_question.unvoteQuestions(data.ques_Id, function(err, msg) {})
+        io.sockets.emit('triggerunvote', data.ques_Id)
     })
 });
 //End of Message Send

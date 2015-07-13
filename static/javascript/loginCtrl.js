@@ -186,7 +186,12 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
             }
         }).success(function(user) {
             $scope.$emit('login', user)
-            $location.path('/lecture')
+            var newurl = getUrlParam('target')
+            if(newurl){
+                $location.url(newurl)
+            }else{
+                $location.url('/lecture')
+            }
         }).error(function(data) {
             $location.path('/')
         })
@@ -204,7 +209,13 @@ angular.module('techNodeApp').controller('LoginCtrl', function($scope, $http, $l
             }
         }).success(function(user) {
             $scope.$emit('reg', user)
-            $location.path('/lecture', $scope.signupEmail)
+            var newurl = getUrlParam('target')
+            if(newurl){
+                $location.url(newurl)
+            }else{
+                $location.url('/lecture')
+            }
+            // $location.path('/lecture', $scope.signupEmail)
         }).error(function(data) {
             $location.path('/')
         })

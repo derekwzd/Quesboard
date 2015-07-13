@@ -2,6 +2,43 @@ var db=require('../models')
 var async = require('async')
 var gravatar = require('gravatar')
 
+
+exports.voteQues = function(_userId, quesid, callback){
+	db.User.findOneAndUpdate({
+		_id:_userId
+	},{
+		$push:{
+			voted : quesid
+		}
+	}, callback)
+} 
+
+exports.unvoteQues = function(_userId, quesid, callback){
+	db.User.findOneAndUpdate({
+		_id:_userId
+	},{
+		$pull:{
+			voted : quesid
+		}
+	}, callback)
+}
+
+
+exports.getAllVote = function(_userId, callback) {
+    // _userId = 
+    db.User.findOne({
+        _id: _userId
+    }, function(err, user) {
+        if (err) {
+            callback(err)
+        }else{
+        	callback(null, user.voted)
+        }
+    })
+}
+
+
+
 exports.findUserById = function (_userId, callback){
 	db.User.findOne({
 		_id:_userId
@@ -54,6 +91,8 @@ exports.createNewUser = function(email,password, callback){
 		}
 	})
 }
+
+
 
 
 

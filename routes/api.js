@@ -8,6 +8,19 @@ var router = express.Router();
 var qr = require('qr-image');
 
 
+// router.post('/getAllVote', function(req, res){
+//     var user_Id = req.body.user_Id;
+//     if(user_Id){
+//         Controllers_user.getAllVote(user_Id, function(err, votedarray){
+//             if(err){
+//                 res.send(400)
+//             }else{
+//                 res.send(votedarray)
+//             }
+//         })
+//     }
+// })
+
 router.post('/showqr', function(req, res) {
     var url = req.body.lectureUrl
     var qrImg = qr.image(url, {
