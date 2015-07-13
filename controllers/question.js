@@ -75,7 +75,7 @@ exports.unvoteQuestions=function(_questionId,callback){
 	db.Question.find({
 		_id:_questionId
 	},{
-		$set:{
+		$inc:{
 			vote:-1
 		}
 	},callback)
