@@ -2,27 +2,27 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
     var global = {
         //lec: 55a41dff54e9b972372e133b
         user_Id: $scope.me._id
-        //$scope.me._id
+            //$scope.me._id
     }
 
     //jump to section page
-    $(document).on("click",".sectionframe",function(event){
+    $(document).on("click", ".sectionframe", function(event) {
 
         var boardid = $(".sec-lecname").attr("title")
         var secid = $(this).attr("title")
-        console.log("boardid is "+boardid+" secid is "+secid);
+        console.log("boardid is " + boardid + " secid is " + secid);
 
         var mayedit = $(event.target).parents(".sec-editbtn").andSelf();
         var mayopencheck = $(event.target).parents(".sec-opencheck").andSelf();
-        var maydelete =$(event.target).parents(".sec-deletebtn").andSelf();
+        var maydelete = $(event.target).parents(".sec-deletebtn").andSelf();
 
         var editjudge = $(mayedit).hasClass("sec-editbtn");
-        var opencheckjudge  = $(mayopencheck).hasClass("sec-opencheck");
-        var deletejudge  = $(maydelete).hasClass("sec-deletebtn");
-        console.log(editjudge+opencheckjudge+deletejudge)
+        var opencheckjudge = $(mayopencheck).hasClass("sec-opencheck");
+        var deletejudge = $(maydelete).hasClass("sec-deletebtn");
+        console.log(editjudge + opencheckjudge + deletejudge)
 
-        if (editjudge === false && opencheckjudge === false && deletejudge === false){
-         window.location.href= "/lecture/" + boardid + "/section/" + secid;
+        if (editjudge === false && opencheckjudge === false && deletejudge === false) {
+            window.location.href = "/lecture/" + boardid + "/section/" + secid;
         }
     });
 
@@ -39,6 +39,11 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
         var qrUrl;
         var time;
 
+
+        var seccontent;
+        var sectionId;
+        var secState;
+        var newsec;
         $.ajax({
                 url: '/api/getLecture',
                 type: 'POST',
@@ -58,11 +63,11 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                 totalQuestion = data.totalQuestion;
                 qrUrl = data.qrUrl
                 secCreator = data.creator._id
-                lectureId=data._id
-                //console.log("lectureId is "+lectureId)
-                $(".sec-lecname").attr("title",lectureId)
+                lectureId = data._id
+                    //console.log("lectureId is "+lectureId)
+                $(".sec-lecname").attr("title", lectureId)
                 time = data.time.substring(0, 4) + "/" + data.time.substring(5, 7) + "/" + data.time.substring(8, 10);
-                
+
                 // newsec.last().find(".sec-secname").text(lecnametext);
                 $(".sec-lecname").html(lecnametext);
                 $(".sec-lecdescription").html(lecdescriptext);
@@ -71,6 +76,84 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
                 $(".vote-count").html(totalVote);
                 $(".sec-time").html(time);
                 console.log("success");
+
+
+
+
+                //getAllSectionsByID
+                $.ajax({
+                        url: '/api/getAllSectionsByID',
+                        type: 'POST',
+                        dataType: '',
+                        data: {
+                            user_Id: global.user_Id,
+                            lecture_Id: $routeParams._lecId,
+                        },
+                    })
+                    .done(function(data) {
+                        console.log(data)
+                        console.log("success");
+                        for (var i in data) {
+                            newsec = $("#defaultsection").clone().removeAttr("id");
+                            seccontent = data[i].content;
+                            secState = data[i].sStatus;
+                            sectionId = data[i]._id;
+
+                            newsec.attr("title", sectionId);
+                            newsec.last().find(".sectionname").text(seccontent);
+                            var newsecopencheck = newsec.last().find(".sec-opencheck");
+                            //JUEDE ISCREATOR
+                            if (secCreator !== $scope.me._id) {
+                                newsec.last().find(".sec-editbtn").css("display", "none");
+                                newsec.last().find(".sec-opencheck").css("display", "none");
+                                newsec.last().find(".sec-deletebtn").css("display", "none");
+                                console.log("toolbtn blocked");
+                            } else {
+
+                            }
+
+                            if (secState === 1) {
+                                $(newsecopencheck).children("#sec-opencheckInput").removeAttr("checked");
+                                $(newsecopencheck).css({
+                                    "background-color": "#6ecf68"
+                                });
+                                $(newsecopencheck).children("label").css({
+                                    "left": "2px"
+                                });
+                                $(newsecopencheck).children(".checkOn").animate({
+                                    "opacity": "100"
+                                }, 100)
+                                $(newsecopencheck).children(".checkOff").animate({
+                                    "opacity": "0"
+                                }, 100)
+
+                            } else {
+                                $(newsecopencheck).children("#sec-opencheckInput").attr("checked", true);
+                                $(newsecopencheck).css({
+                                    "background-color": "#979797"
+                                });
+                                $(newsecopencheck).children("label").css({
+                                    "left": "32px"
+                                });
+                                $(newsecopencheck).children(".checkOn").animate({
+                                    "opacity": "0"
+                                }, 100)
+                                $(newsecopencheck).children(".checkOff").animate({
+                                    "opacity": "100"
+                                }, 100)
+
+                            }
+                            $(".sectionlist").append(newsec);
+
+                        }
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+
             })
             .fail(function() {
                 console.log("error");
@@ -80,94 +163,16 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
             });
 
 
-        var seccontent;
-        var sectionId;
-        var secState;
-        var newsec;
-        $.ajax({
-                url: '/api/getAllSectionsByID',
-                type: 'POST',
-                dataType: '',
-                data: {
-                    user_Id: global.user_Id,
-                    lecture_Id: $routeParams._lecId,
-                },
-            })
-            .done(function(data) {
-                console.log(data)
-                console.log("success");
-                for (var i in data) {
-                    newsec = $("#defaultsection").clone().removeAttr("id");
-                    seccontent = data[i].content;
-                    secState = data[i].sStatus;
-                    sectionId = data[i]._id;
 
-                    newsec.attr("title", sectionId);
-                    newsec.last().find(".sectionname").text(seccontent);
-                    var newsecopencheck = newsec.last().find(".sec-opencheck");
-                    //JUEDE ISCREATOR
-                    if(secCreator !== $scope.me._id){
-                        newlec.last().find(".sec-editbtn").css("display","none");
-                        newlec.last().find(".sec-opencheck").css("display","none");
-                        newlec.last().find(".sec-deletebtn").css("display","none");
-                        console.log("toolbtn blocked");
-                    }else{
-
-                    }
-
-
-
-
-                    if (secState === 1) {
-                        $(newsecopencheck).children("#sec-opencheckInput").removeAttr("checked");
-                        $(newsecopencheck).css({
-                            "background-color": "#6ecf68"
-                        });
-                        $(newsecopencheck).children("label").css({
-                            "left": "2px"
-                        });
-                        $(newsecopencheck).children(".checkOn").animate({
-                            "opacity": "100"
-                        }, 100)
-                        $(newsecopencheck).children(".checkOff").animate({
-                            "opacity": "0"
-                        }, 100)
-
-                    } else {
-                        $(newsecopencheck).children("#sec-opencheckInput").attr("checked", true);
-                        $(newsecopencheck).css({
-                            "background-color": "#979797"
-                        });
-                        $(newsecopencheck).children("label").css({
-                            "left": "32px"
-                        });
-                        $(newsecopencheck).children(".checkOn").animate({
-                            "opacity": "0"
-                        }, 100)
-                        $(newsecopencheck).children(".checkOff").animate({
-                            "opacity": "100"
-                        }, 100)
-
-                    }
-                    $(".sectionlist").append(newsec);
-
-                }
-            })
-            .fail(function() {
-                console.log("error");
-            })
-            .always(function() {
-                console.log("complete");
-            });
 
     }
     getAllSection();
 
 
-   //dropdown menu control
-    $(document).on('click',".user",function(event){
+    //dropdown menu control
+    $(document).on('click', ".user", function(event) {
         $(".user-dropdown").show(150);
-        $(document).one('click',function(){
+        $(document).one('click', function() {
             $(".user-dropdown").hide(100);
         });
         event.stopPropagation();
@@ -189,7 +194,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
     $(".sec-lecqr").bind("click", function() {
 
         var boardid = $(".sec-lecname").attr("title")
-    
+
         console.log("11111" + boardid)
         $http({
             url: '/api/showqr',
