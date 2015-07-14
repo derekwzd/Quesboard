@@ -195,7 +195,7 @@ angular.module('techNodeApp').controller('SectionCtrl', function($scope, $routeP
 
         var boardid = $(".sec-lecname").attr("title")
 
-        console.log("11111" + boardid)
+        console.log("http://www.quesboard.com/lecture/" + boardid)
         $http({
             url: '/api/showqr',
             method: 'POST',

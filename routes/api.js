@@ -24,7 +24,7 @@ var qr = require('qr-image');
 
 router.post('/showqr', function(req, res) {
     var url = req.body.lectureUrl
-        //console.log(url)
+        console.log(url)
     var qrImg = qr.image(url, {
         type: 'svg'
     });
